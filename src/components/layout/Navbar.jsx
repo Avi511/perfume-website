@@ -6,6 +6,7 @@ import { useCart } from '../../context/CartContext';
 const Navbar = () => {
     const { cartCount } = useCart();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
         <header className="fixed left-0 right-0 z-50 flex justify-center px-4 top-6">
             <div className="bg-white/70 backdrop-blur-md rounded-full border border-white/50 px-4 sm:px-8 py-3 flex items-center justify-between w-full max-w-7xl shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]">
@@ -57,6 +58,7 @@ const Navbar = () => {
                     </button>
                 </div>
             </div>
+
             {/* Mobile Menu */}
             {mobileMenuOpen && (
                 <div className="absolute z-40 border shadow-lg top-20 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl border-white/50 md:hidden">
