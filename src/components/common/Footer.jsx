@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
@@ -17,10 +18,10 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Company</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">About Us</a></li>
+              <li><Link to="/about" className="hover:text-white transition">About Us</Link></li>
               <li><a href="#" className="hover:text-white transition">Careers</a></li>
-              <li><a href="#" className="hover:text-white transition">Blog</a></li>
-              <li><a href="#" className="hover:text-white transition">Press</a></li>
+              <li><Link to="/blog" className="hover:text-white transition">Blog</Link></li>
+              <li><Link to="/press" className="hover:text-white transition">Press</Link></li>
             </ul>
           </div>
 
@@ -28,10 +29,10 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Shop</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">All Scents</a></li>
-              <li><a href="#" className="hover:text-white transition">Men's Perfumes</a></li>
+              <li><Link to="/shop" className="hover:text-white transition">All Scents</Link></li>
+              <li><Link to="/solutions" className="hover:text-white transition">Our Solutions</Link></li>
               <li><a href="#" className="hover:text-white transition">Women's Perfumes</a></li>
-              <li><a href="#" className="hover:text-white transition">Collections</a></li>
+              <li><Link to="/shop" className="hover:text-white transition">Collections</Link></li>
             </ul>
           </div>
 
@@ -39,10 +40,10 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-semibold mb-4">Support</h4>
             <ul className="space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white transition">Help Center</a></li>
-              <li><a href="#" className="hover:text-white transition">Contact Us</a></li>
+              <li><Link to="/support" className="hover:text-white transition">Help Center</Link></li>
+              <li><Link to="/support" className="hover:text-white transition">Contact Us</Link></li>
               <li><a href="#" className="hover:text-white transition">Returns</a></li>
-              <li><a href="#" className="hover:text-white transition">FAQ</a></li>
+              <li><Link to="/faq" className="hover:text-white transition">FAQ</Link></li>
             </ul>
           </div>
         </div>
