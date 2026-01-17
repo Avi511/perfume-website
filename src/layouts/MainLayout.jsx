@@ -1,13 +1,17 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import Navbar from '../components/common/Navbar';
+import Footer from '../components/common/Footer';
 
 const MainLayout = ({ children }) => {
     return (
-        <div className="bg-gradient-to-br from-white via-blue-50/30 to-[#eef7fb] min-h-screen">
+        <div className="bg-gradient-to-br from-white via-blue-50/30 to-[#eef7fb] min-h-screen flex flex-col">
             <Navbar />
-            <main className="pt-32 pb-16 max-w-[1400px] mx-auto px-4 md:px-8">
+            <main className="pt-32 pb-16 max-w-[1400px] mx-auto px-4 md:px-8 flex-1">
+                <Outlet />
                 {children}
             </main>
+            <Footer />
         </div>
     );
 };

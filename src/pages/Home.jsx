@@ -1,15 +1,16 @@
 import React from 'react';
-import Hero from '../components/sections/Hero';
+import Hero from '../sections/Hero';
+import FeaturedCollection from '../sections/FeaturedCollection';
+import Testimonials from '../sections/Testimonials';
+import Newsletter from '../sections/Newsletter';
 
 const Home = () => {
     return (
-        <div className="space-y-32">
+        <div className="space-y-8">
             <Hero />
-            {/* Placeholder for future sections */}
-            <section className="text-center py-20">
-                <h2 className="text-3xl font-serif text-gray-900 mb-4">Featured Collection</h2>
-                <p className="text-gray-500">Curated scents for every occasion.</p>
-            </section>
+            <FeaturedCollection />
+            <Testimonials />
+            <Newsletter />
         </div>
     );
 };
