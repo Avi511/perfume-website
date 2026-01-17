@@ -26,7 +26,7 @@ const ArrowCircle = () => (
 
 const Hero = () => {
   return (
-    <section className="relative bg-gradient-to-br from-white to-[#eef7fb] overflow-hidden">
+    <section className="relative bg-linear-to-br from-white to-secondary overflow-hidden">
       <div className="px-6 py-12 mx-auto max-w-7xl lg:px-8 lg:py-24">
         <div className="grid items-center grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Left content */}

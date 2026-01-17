@@ -13,7 +13,7 @@ const Newsletter = () => {
 
   return (
     <section className="py-24 px-6">
-      <div className="max-w-2xl mx-auto text-center bg-gradient-to-r from-blue-50 to-cyan-50 rounded-3xl p-12 border border-blue-100">
+      <div className="max-w-2xl mx-auto text-center bg-linear-to-r from-blue-50 to-cyan-50 rounded-3xl p-12 border border-blue-100">
         <Mail size={48} className="mx-auto mb-6 text-blue-600" />
         <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">
           Stay Updated

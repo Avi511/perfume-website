@@ -5,7 +5,7 @@ const About = () => {
   return (
     <div>
       {/* Hero Section */}
-      <div className="py-20 bg-gradient-to-br from-white to-blue-50">
+      <div className="py-20 bg-linear-to-br from-white to-blue-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-serif font-bold text-gray-900 mb-6">Our Story</h1>
           <p className="text-xl text-gray-600 mb-8">
@@ -69,7 +69,7 @@ const About = () => {
               { name: 'Emma Chen', role: 'Head of Operations' }
             ].map((member, i) => (
               <div key={i} className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition">
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full mx-auto mb-4"></div>
+                <div className="w-24 h-24 bg-linear-to-br from-purple-300 to-pink-300 rounded-full mx-auto mb-4"></div>
                 <h3 className="text-xl font-serif font-bold text-gray-900">{member.name}</h3>
                 <p className="text-gray-600">{member.role}</p>
               </div>

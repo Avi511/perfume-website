@@ -26,8 +26,8 @@ const Shop = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
                     {products.map((product) => (
                         <div key={product.id} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
-                            <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 h-64 flex items-center justify-center overflow-hidden">
-                                <div className="w-32 h-32 bg-gradient-to-b from-blue-200 to-purple-200 rounded-full opacity-60"></div>
+                            <div className="relative bg-linear-to-br from-gray-50 to-gray-100 h-64 flex items-center justify-center overflow-hidden">
+                                <div className="w-32 h-32 bg-linear-to-b from-blue-200 to-purple-200 rounded-full opacity-60"></div>
                             </div>
                             <div className="p-4 sm:p-6">
                                 <p className="text-xs sm:text-sm text-gray-500 mb-2 font-medium">{product.category}</p>

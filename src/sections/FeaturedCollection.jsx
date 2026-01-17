@@ -49,7 +49,7 @@ const FeaturedCollection = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {perfumes.map((perfume) => (
           <div key={perfume.id} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
-            <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 h-64 flex items-center justify-center overflow-hidden">
+            <div className="relative bg-linear-to-br from-gray-50 to-gray-100 h-64 flex items-center justify-center overflow-hidden">
               <img
                 src={perfume.image}
                 alt={perfume.name}
