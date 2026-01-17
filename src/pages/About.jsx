@@ -15,7 +15,7 @@ const About = () => {
       </div>
 
       {/* Mission & Values */}
-      <div className="py-20">
+      <div className="py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 mb-16">
             <div>
@@ -33,7 +33,7 @@ const About = () => {
           </div>
 
           {/* Values */}
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
             <div className="text-center">
               <Award size={40} className="mx-auto mb-4 text-black" />
               <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Quality</h3>
@@ -59,7 +59,7 @@ const About = () => {
       </div>
 
       {/* Team */}
-      <div className="py-20 bg-gray-50">
+      <div className="py-12 sm:py-20 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-serif font-bold text-gray-900 mb-12 text-center">Meet Our Team</h2>
           <div className="grid md:grid-cols-3 gap-8">
@@ -68,7 +68,7 @@ const About = () => {
               { name: 'Marcus Williams', role: 'Chief Perfumer' },
               { name: 'Emma Chen', role: 'Head of Operations' }
             ].map((member, i) => (
-              <div key={i} className="bg-white rounded-lg shadow-md p-6 text-center">
+              <div key={i} className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-lg transition">
                 <div className="w-24 h-24 bg-gradient-to-br from-purple-300 to-pink-300 rounded-full mx-auto mb-4"></div>
                 <h3 className="text-xl font-serif font-bold text-gray-900">{member.name}</h3>
                 <p className="text-gray-600">{member.role}</p>
@@ -79,23 +79,23 @@ const About = () => {
       </div>
 
       {/* Stats */}
-      <div className="py-20">
+      <div className="py-12 sm:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
-              <p className="text-4xl font-bold text-black mb-2">25K+</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-2">25K+</p>
               <p className="text-gray-600">Happy Customers</p>
             </div>
             <div>
-              <p className="text-4xl font-bold text-black mb-2">150+</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-2">150+</p>
               <p className="text-gray-600">Fragrances</p>
             </div>
             <div>
-              <p className="text-4xl font-bold text-black mb-2">75</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-2">75</p>
               <p className="text-gray-600">Countries</p>
             </div>
             <div>
-              <p className="text-4xl font-bold text-black mb-2">10 Yrs</p>
+              <p className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-2">10 Yrs</p>
               <p className="text-gray-600">In Business</p>
             </div>
           </div>

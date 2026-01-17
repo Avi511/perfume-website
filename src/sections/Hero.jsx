@@ -35,15 +35,15 @@ const Hero = () => {
               <TrustedBadge />
             </div>
 
-            <h1 className="text-4xl font-semibold leading-tight text-gray-900 sm:text-5xl lg:text-6xl">
-              Discover your best <span className="block font-serif text-5xl italic sm:text-6xl lg:text-7xl">Perfume</span> at today
+            <h1 className="text-3xl font-semibold leading-tight text-gray-900 sm:text-4xl md:text-5xl lg:text-6xl">
+              Discover your best <span className="block font-serif text-4xl italic sm:text-5xl md:text-6xl lg:text-7xl">Perfume</span> today
             </h1>
 
-            <p className="max-w-xl mt-6 text-lg text-gray-600">
+            <p className="max-w-xl mt-6 text-base sm:text-lg text-gray-600">
               Selecting a perfume is a personal journey. Consider your lifestyle, favorite scents, and the impression you want to leave.
             </p>
 
-            <div className="flex items-center gap-4 mt-8">
+            <div className="flex flex-wrap items-center gap-4 mt-8">
               <Button variant="black" ariaLabel="Explore Shop" className="pr-4">
                 Explore Shop
               </Button>
