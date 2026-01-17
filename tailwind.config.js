@@ -2,6 +2,10 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],
+        serif: ['Playfair Display', 'serif'],
+      },
       animation: {
         'puff-slow': 'puff 8s ease-in-out infinite',
         'puff-medium': 'puffSlow 12s ease-in-out infinite',

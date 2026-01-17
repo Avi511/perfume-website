@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import Button from "../components/common/Button";
 
 // Use a public asset path (place your PNG at public/assets/perfumes/hero-perfume.png)
@@ -57,10 +58,12 @@ const Hero = () => {
           <div className="relative lg:col-span-6">
             <div className="relative w-full max-w-md mx-auto lg:mx-0">
               <div className="absolute w-40 h-40 rounded-full pointer-events-none -left-8 -bottom-8 bg-white/40 blur-3xl" />
-              <img
+              <motion.img
                 src={HERO_IMG}
                 alt="Perfume bottle"
-                className="relative z-10 object-contain w-full h-auto -translate-y-4 lg:translate-y-0"
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="relative z-10 object-contain w-full h-auto drop-shadow-2xl"
                 style={{ transformOrigin: "center" }}
               />
               <div className="absolute p-3 text-sm text-gray-700 bg-white shadow-md -right-6 top-6 rounded-xl">
