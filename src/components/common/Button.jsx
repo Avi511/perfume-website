@@ -1,15 +1,24 @@
-import React from "react";
+import React from 'react';
 
-const Button = ({ children, onClick, className = "", variant = "black", ariaLabel }) => {
-  const base = "inline-flex items-center gap-3 rounded-full px-6 py-3 font-medium transition";
-  const styles = variant === "black"
-    ? "bg-black text-white hover:opacity-90"
-    : variant === "outline"
-    ? "bg-transparent border border-gray-300 text-gray-800 hover:bg-gray-50"
-    : "bg-transparent border border-gray-300 text-gray-800 hover:bg-gray-50";
+const Button = ({ 
+  variant = 'default', 
+  children, 
+  className = '', 
+  ...props 
+}) => {
+  const baseStyles = 'px-6 py-3 rounded-full font-semibold transition-all duration-300 inline-flex items-center gap-2';
+  
+  const variantStyles = {
+    black: 'bg-black text-white hover:bg-gray-800',
+    outline: 'border-2 border-black text-black hover:bg-black hover:text-white',
+    default: 'bg-gray-900 text-white hover:bg-gray-800'
+  };
 
   return (
-    <button aria-label={ariaLabel} onClick={onClick} className={`${base} ${styles} ${className}`}>
+    <button 
+      className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      {...props}
+    >
       {children}
     </button>
   );
