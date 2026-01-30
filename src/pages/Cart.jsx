@@ -24,7 +24,7 @@ const Cart = () => {
         {mockItems.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-2xl text-gray-600 mb-8">Your cart is empty</p>
-            <a href="/shop" className="px-8 py-3 bg-black text-white rounded-full hover:opacity-90 transition font-semibold">Continue Shopping</a>
+            <a href="/shop" className="px-8 py-3 bg-[#850E35] text-white rounded-full hover:bg-[#6D0A2A] transition font-semibold">Continue Shopping</a>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
@@ -39,12 +39,12 @@ const Cart = () => {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2 sm:gap-4 w-full sm:w-auto">
-                      <div className="flex items-center border border-gray-300 rounded-lg">
-                        <button className="p-2 hover:bg-gray-100">
+                      <div className="flex items-center border border-accent rounded-lg">
+                        <button className="p-2 hover:bg-secondary">
                           <Minus size={16} />
                         </button>
-                        <span className="px-4 py-2 border-l border-r border-gray-300">{item.quantity}</span>
-                        <button className="p-2 hover:bg-gray-100">
+                        <span className="px-4 py-2 border-l border-r border-accent">{item.quantity}</span>
+                        <button className="p-2 hover:bg-secondary">
                           <Plus size={16} />
                         </button>
                       </div>
@@ -94,13 +94,13 @@ const Cart = () => {
 
                 <div className="flex justify-between mb-8">
                   <span className="text-lg font-serif font-bold text-gray-900">Total</span>
-                  <span className="text-2xl font-serif font-bold text-black">${total.toFixed(2)}</span>
+                  <span className="text-2xl font-serif font-bold text-[#850E35]">${total.toFixed(2)}</span>
                 </div>
 
-                <button className="w-full py-4 bg-black text-white rounded-lg font-semibold hover:opacity-90 transition mb-3">
+                <button className="w-full py-4 bg-primary text-white rounded-lg font-semibold hover:bg-dark transition mb-3">
                   Proceed to Checkout
                 </button>
-                <a href="/shop" className="block text-center py-3 border-2 border-gray-300 rounded-lg font-semibold text-gray-900 hover:bg-gray-50 transition">
+                <a href="/shop" className="block text-center py-3 border-2 border-accent rounded-lg font-semibold text-primary hover:bg-secondary transition">
                   Continue Shopping
                 </a>
 

@@ -2,6 +2,13 @@ export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      colors: {
+        primary: '#850E35',
+        secondary: '#FCF5EE',
+        accent: '#EE6983',
+        light: '#FFC4C4',
+        dark: '#6D0A2A',
+      },
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
         serif: ['Playfair Display', 'serif'],

@@ -2,14 +2,13 @@ import React from 'react';
 import { Calendar, User } from 'lucide-react';
 
 const Blog = () => {
-  const posts = [
-    {
+    {  
       id: 1,
       title: 'The Art of Choosing Your Signature Scent',
       excerpt: 'Discover how to find the perfect fragrance that matches your personality and lifestyle.',
       author: 'Sarah Bennett',
       date: 'Jan 15, 2026',
-      image: 'bg-blue-100'
+      image: 'bg-[#FFC4C4]'
     },
     {
       id: 2,
@@ -17,7 +16,7 @@ const Blog = () => {
       excerpt: 'Explore the best warm and cozy scents perfect for the cold season.',
       author: 'Marcus Winter',
       date: 'Jan 10, 2026',
-      image: 'bg-purple-100'
+      image: 'bg-[#EE6983]'
     },
     {
       id: 3,
@@ -25,7 +24,7 @@ const Blog = () => {
       excerpt: 'Master the art of fragrance layering to create your unique scent profile.',
       author: 'Emma Rose',
       date: 'Jan 5, 2026',
-      image: 'bg-pink-100'
+      image: 'bg-[#FCF5EE]'
     },
     {
       id: 4,
@@ -33,7 +32,7 @@ const Blog = () => {
       excerpt: 'Journey through time with the most memorable perfume bottle designs in history.',
       author: 'David Lewis',
       date: 'Dec 28, 2025',
-      image: 'bg-amber-100'
+      image: 'bg-[#850E35]'
     }
   ];
 
@@ -61,7 +60,7 @@ const Blog = () => {
                   </div>
                 </div>
                 
-                <button className="mt-4 text-black font-semibold hover:underline">Read More →</button>
+                <button className="mt-4 text-[#850E35] font-semibold hover:underline">Read More →</button>
               </div>
             </article>
           ))}

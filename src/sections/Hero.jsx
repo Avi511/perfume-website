@@ -17,7 +17,7 @@ const TrustedBadge = () => (
 );
 
 const ArrowCircle = () => (
-  <div className="flex items-center justify-center w-12 h-12 text-white bg-black rounded-full">
+  <div className="flex items-center justify-center w-12 h-12 text-white bg-primary rounded-full">
     <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 transform -rotate-45" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M17 7l-10 10M7 7h10v10" />
     </svg>
@@ -26,7 +26,7 @@ const ArrowCircle = () => (
 
 const Hero = () => {
   return (
-    <section className="relative bg-linear-to-br from-white to-secondary overflow-hidden">
+    <section className="relative bg-gradient-to-br from-secondary to-light/30 overflow-hidden">
       <div className="px-6 py-12 mx-auto max-w-7xl lg:px-8 lg:py-24">
         <div className="grid items-center grid-cols-1 gap-10 lg:grid-cols-12">
           {/* Left content */}

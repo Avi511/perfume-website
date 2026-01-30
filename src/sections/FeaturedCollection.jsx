@@ -49,14 +49,14 @@ const FeaturedCollection = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {perfumes.map((perfume) => (
           <div key={perfume.id} className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl transition-all duration-300">
-            <div className="relative bg-linear-to-br from-gray-50 to-gray-100 h-64 flex items-center justify-center overflow-hidden">
+            <div className="relative bg-gradient-to-br from-secondary to-light h-64 flex items-center justify-center overflow-hidden">
               <img
                 src={perfume.image}
                 alt={perfume.name}
                 className="h-48 object-contain group-hover:scale-110 transition-transform duration-300"
               />
-              <button className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-red-50 transition">
-                <Heart size={20} className="text-gray-800" />
+              <button className="absolute top-4 right-4 p-2 bg-white rounded-full shadow-md hover:bg-secondary transition">
+                <Heart size={20} className="text-accent" />
               </button>
             </div>
             <div className="p-6">
@@ -78,7 +78,7 @@ const FeaturedCollection = () => {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-2xl font-bold text-gray-900">{perfume.price}</span>
-                <button className="px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition font-medium">
+                <button className="px-4 py-2 bg-primary text-white rounded-full hover:bg-dark transition font-medium">
                   Add to Cart
                 </button>
               </div>
@@ -88,7 +88,7 @@ const FeaturedCollection = () => {
       </div>
 
       <div className="text-center mt-12">
-        <button className="px-8 py-4 border-2 border-black text-black rounded-full font-semibold hover:bg-black hover:text-white transition duration-300">
+        <button className="px-8 py-4 border-2 border-primary text-primary rounded-full font-semibold hover:bg-primary hover:text-white transition duration-300">
           View All Collections
         </button>
       </div>

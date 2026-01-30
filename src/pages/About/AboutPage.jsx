@@ -4,7 +4,7 @@ import { Award, Users, Globe, Heart } from 'lucide-react';
 const AboutPage = () => {
   return (
     <div>
-      <div className="py-20 bg-gradient-to-br from-white to-blue-50">
+      <div className="py-20 bg-linear-to-br from-secondary to-light">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-5xl font-serif font-bold text-gray-900 mb-6">Our Story</h1>
           <p className="text-xl text-gray-600 mb-8">
@@ -32,22 +32,22 @@ const AboutPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <div className="text-center">
-              <Award size={40} className="mx-auto mb-4 text-black" />
+              <Award size={40} className="mx-auto mb-4 text-primary" />
               <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Quality</h3>
               <p className="text-gray-600">Only the finest, authentic fragrances</p>
             </div>
             <div className="text-center">
-              <Users size={40} className="mx-auto mb-4 text-black" />
+              <Users size={40} className="mx-auto mb-4 text-accent" />
               <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Community</h3>
               <p className="text-gray-600">Connecting fragrance lovers worldwide</p>
             </div>
             <div className="text-center">
-              <Globe size={40} className="mx-auto mb-4 text-black" />
+              <Globe size={40} className="mx-auto mb-4 text-primary" />
               <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Global</h3>
               <p className="text-gray-600">Sourced from around the world</p>
             </div>
             <div className="text-center">
-              <Heart size={40} className="mx-auto mb-4 text-black" />
+              <Heart size={40} className="mx-auto mb-4 text-accent" />
               <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Passion</h3>
               <p className="text-gray-600">We love what we do</p>
             </div>

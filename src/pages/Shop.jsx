@@ -50,7 +50,7 @@ const Shop = () => {
                                     <span className="text-xl sm:text-2xl font-bold text-gray-900">${product.price}</span>
                                     <button 
                                         onClick={() => addToCart(product)}
-                                        className="w-full sm:w-auto px-4 py-2 bg-black text-white rounded-full hover:bg-gray-800 transition font-medium text-sm sm:text-base"
+                                        className="w-full sm:w-auto px-4 py-2 bg-[#850E35] text-white rounded-full hover:bg-[#6D0A2A] transition font-medium text-sm sm:text-base"
                                     >
                                         Add to Cart
                                     </button>

@@ -44,7 +44,7 @@ const Profile = () => {
                 <input type="email" placeholder="Email" defaultValue="john@example.com" className="md:col-span-2 px-4 py-2 border border-gray-300 rounded-lg" />
                 <input type="tel" placeholder="Phone" defaultValue="+1 (555) 123-4567" className="md:col-span-2 px-4 py-2 border border-gray-300 rounded-lg" />
               </div>
-              <button className="mt-4 px-6 py-2 bg-black text-white rounded-full hover:opacity-90 transition">Save Changes</button>
+              <button className="mt-4 px-6 py-2 bg-[#850E35] text-white rounded-full hover:bg-[#6D0A2A] transition">Save Changes</button>
             </div>
 
             {/* Order History */}

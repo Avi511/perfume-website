@@ -51,19 +51,19 @@ const Login = () => {
                 <input type="checkbox" className="mr-2" />
                 <span className="text-gray-600">Remember me</span>
               </label>
-              <a href="#" className="text-black hover:underline font-semibold">Forgot Password?</a>
+              <a href="#" className="text-[#850E35] hover:underline font-semibold">Forgot Password?</a>
             </div>
 
             <button
               type="submit"
-              className="w-full py-3 bg-black text-white rounded-lg font-semibold hover:opacity-90 transition"
+              className="w-full py-3 bg-[#850E35] text-white rounded-lg font-semibold hover:bg-[#6D0A2A] transition"
             >
               Sign In
             </button>
           </form>
 
           <p className="text-center mt-6 text-gray-600">
-            Don't have an account? <a href="/register" className="text-black font-semibold hover:underline">Create one</a>
+            Don't have an account? <a href="/register" className="text-[#850E35] font-semibold hover:underline">Create one</a>
           </p>
         </div>
       </div>

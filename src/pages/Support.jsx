@@ -30,21 +30,21 @@ const Support = () => {
         {/* Quick Contact */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <Mail size={32} className="mx-auto mb-4 text-black" />
+            <Mail size={32} className="mx-auto mb-4 text-primary" />
             <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Email</h3>
             <p className="text-gray-600 mb-4">support@luxescents.com</p>
             <p className="text-sm text-gray-500">Response within 24 hours</p>
           </div>
 
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <Phone size={32} className="mx-auto mb-4 text-black" />
+            <Phone size={32} className="mx-auto mb-4 text-[#EE6983]" />
             <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Phone</h3>
             <p className="text-gray-600 mb-4">+1 (555) 123-4567</p>
             <p className="text-sm text-gray-500">Mon - Fri, 9am - 6pm EST</p>
           </div>
 
           <div className="bg-white rounded-lg shadow-md p-8 text-center">
-            <MessageCircle size={32} className="mx-auto mb-4 text-black" />
+            <MessageCircle size={32} className="mx-auto mb-4 text-primary" />
             <h3 className="text-xl font-serif font-bold text-gray-900 mb-2">Chat</h3>
             <p className="text-gray-600 mb-4">Live chat support</p>
             <p className="text-sm text-gray-500">Available 24/7</p>
@@ -93,7 +93,7 @@ const Support = () => {
               ></textarea>
               <button
                 type="submit"
-                className="w-full py-3 bg-black text-white rounded-lg font-semibold hover:opacity-90 transition"
+                className="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-dark transition"
               >
                 Send Message
               </button>

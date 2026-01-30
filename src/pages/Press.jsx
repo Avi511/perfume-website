@@ -13,7 +13,7 @@ const Press = () => {
             <Award size={32} /> Press Kit
           </h2>
           <p className="text-gray-700 mb-6">Download our official press kit with brand assets, company information, and high-resolution logos.</p>
-          <button className="px-8 py-3 bg-black text-white rounded-full hover:opacity-90 transition font-semibold">Download Press Kit</button>
+          <button className="px-8 py-3 bg-[#850E35] text-white rounded-full hover:bg-[#6D0A2A] transition font-semibold">Download Press Kit</button>
         </div>
 
         {/* Latest News */}

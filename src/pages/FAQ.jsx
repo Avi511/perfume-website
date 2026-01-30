@@ -38,19 +38,19 @@ const FAQ = () => {
         
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <div key={index} className="overflow-hidden border border-gray-200 rounded-lg">
+            <div key={index} className="overflow-hidden border border-[#EE6983] rounded-lg">
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="flex items-center justify-between w-full px-6 py-4 transition bg-white hover:bg-gray-50"
+                className="flex items-center justify-between w-full px-6 py-4 transition bg-white hover:bg-[#FCF5EE]"
               >
                 <h3 className="font-semibold text-left text-gray-900">{faq.question}</h3>
                 <ChevronDown 
                   size={20} 
-                  className={`text-gray-600 transition-transform ${openIndex === index ? 'rotate-180' : ''}`}
+                  className={`text-[#EE6983] transition-transform ${openIndex === index ? 'rotate-180' : ''}`}
                 />
               </button>
               {openIndex === index && (
-                <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div className="px-6 py-4 border-t border-[#EE6983] bg-[#FCF5EE]">
                   <p className="text-gray-700">{faq.answer}</p>
                 </div>
               )}
