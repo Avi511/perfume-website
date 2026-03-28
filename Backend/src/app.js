@@ -1,23 +1,38 @@
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import path from "path";
 
-// FIX: Successfully imported the routes!
 import orderRoutes from "./routes/orderRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import reviewRoutes from "./routes/reviewRoutes.js";
+import uploadRoutes from "./routes/uploadRoutes.js";
+
+import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-// Basic route to check if API is running
 app.get("/", (req, res) => {
     res.send("API is running...");
 });
 
-// Mounted the order routes successfully
+app.use("/api/auth", authRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/products", productRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/upload", uploadRoutes);
+
+const __dirname = path.resolve();
+app.use("/src/uploads", express.static(path.join(__dirname, "/src/uploads")));
+
+app.use(notFound);
+app.use(errorHandler);
 
 export default app;
