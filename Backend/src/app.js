@@ -1,6 +1,9 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
+import express from "express";
+import cors from "cors";
+import morgan from "morgan";
+
+// FIX: Successfully imported the routes!
+import orderRoutes from "./routes/orderRoutes.js";
 
 const app = express();
 
@@ -14,4 +17,7 @@ app.get("/", (req, res) => {
     res.send("API is running...");
 });
 
-module.exports = app;
+// Mounted the order routes successfully
+app.use("/api/orders", orderRoutes);
+
+export default app;

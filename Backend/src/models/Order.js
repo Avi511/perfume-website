@@ -8,13 +8,11 @@ const orderSchema = new mongoose.Schema({
     },
     userId: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     phone: {
         type: String,
@@ -22,8 +20,7 @@ const orderSchema = new mongoose.Schema({
     },
     address: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     totalAmount: {
         type: Number,
@@ -33,8 +30,7 @@ const orderSchema = new mongoose.Schema({
         {
             productId: {
                 type: String,
-                required: true,
-                unique: true
+                required: true
             },
             productName: {
                 type: String,
