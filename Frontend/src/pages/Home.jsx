@@ -1,5 +1,7 @@
+import { useState, useEffect } from 'react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
+import Loader from '../components/common/Loader';
 import perfumeImg from '../assets/luxury_perfume.png';
 import perfumeVideo from '../assets/video_02.mp4';
 
@@ -27,13 +29,75 @@ const products = [
     rating: 5,
     category: "Extrait de Parfum",
     image: perfumeImg
+
+  },
+  {
+    id: 4,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
+  },
+  {
+    id: 5,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
+  },
+  {
+    id: 6,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
+  },
+  {
+    id: 7,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
+  },
+  {
+    id: 8,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
+  },
+  {
+    id: 9,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
+  },
+  {
+    id: 10,
+    name: "Velvet Oud",
+    price: 2000,
+    category: "Parfum",
+    image: perfumeImg
   }
 ];
 
 function Home() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <Loader />;
+
   return (
     <div className="bg-white text-gray-900">
       <section className="relative h-[100vh] flex flex-col items-center justify-center bg-black overflow-hidden">
+
         <video
           autoPlay
           loop
@@ -68,11 +132,12 @@ function Home() {
           <Button className="!text-black !glass-button border-black/20 hover:!text-black scale-110">Shop All</Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {products.map(product => (
+        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10">
+          {products.slice(0, 4).map(product => (
             <Card key={product.id} {...product} />
           ))}
         </div>
+
       </section>
     </div>
   );

@@ -5,10 +5,17 @@
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-serif: 'Playfair Display', serif;
   }
-  
+
   @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .animate-fade-in {
@@ -16,8 +23,13 @@
   }
 
   @keyframes shimmer {
-    0% { transform: translateX(-100%) skewX(-30deg); }
-    100% { transform: translateX(200%) skewX(-30deg); }
+    0% {
+      transform: translateX(-100%) skewX(-30deg);
+    }
+
+    100% {
+      transform: translateX(200%) skewX(-30deg);
+    }
   }
 
   .glass-button {
@@ -28,16 +40,42 @@
   }
 
   .liquid-shimmer {
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.1),
-      rgba(255, 255, 255, 0.25),
-      rgba(255, 255, 255, 0.1),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.1),
+        rgba(255, 255, 255, 0.25),
+        rgba(255, 255, 255, 0.1),
+        transparent);
     width: 50%;
     animation: shimmer 3s infinite ease-in-out;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes bloom {
+
+    0%,
+    100% {
+      opacity: 0.3;
+      transform: scale(0.85);
+    }
+
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-spin-slow {
+    animation: spin 3s linear infinite;
+  }
+
+  .animate-bloom {
+    animation: bloom 3s ease-in-out infinite;
   }
 }
 

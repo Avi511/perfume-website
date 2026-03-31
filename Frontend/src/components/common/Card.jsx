@@ -11,10 +11,22 @@ const Card = ({ image, name, price, rating, category }) => {
                 />
                 <div className="absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
-                <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full">
+                <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full z-10">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{category}</span>
                 </div>
+
+                <button className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:text-red-500 hover:bg-white transition-all duration-300 group/heart">
+                    <svg
+                        className="w-5 h-5 transition-transform duration-300 group-hover/heart:scale-110"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </button>
             </div>
+
 
             <div className="p-6 bg-white flex flex-col gap-2">
                 <div className="flex justify-between items-start">
