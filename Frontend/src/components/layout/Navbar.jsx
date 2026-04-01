@@ -1,9 +1,32 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 function Navbar() {
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        // Initial check in case page starts scrolled
+        handleScroll();
+        
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
     return (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] z-50">
-            <nav className="relative overflow-hidden flex items-center justify-between px-6 py-3 rounded-4xl bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl text-white group">
+            <nav className={`relative overflow-hidden flex items-center justify-between px-6 py-3 rounded-4xl transition-all duration-500 linear
+                ${isScrolled 
+                    ? "bg-black/95 backdrop-blur-2xl border-none shadow-[0_4px_30px_rgba(0,0,0,0.5)]" 
+                    : "bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl"
+                } text-white group`}>
 
                 <div className="absolute top-0 -inset-full h-full w-full liquid-shimmer opacity-20 pointer-events-none" />
 
@@ -37,11 +60,11 @@ function Navbar() {
                         </span>
                     </Link>
                 </div>
-
-
             </nav>
         </div>
     );
 }
 
 export default Navbar;
+
+
