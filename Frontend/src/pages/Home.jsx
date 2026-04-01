@@ -168,7 +168,7 @@ function Home() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-6 mt-4">
-              <Button className="!bg-black !text-white !px-10 hover:!bg-amber-700 transition-colors">Read Our Story</Button>
+              <Button to="/about" className="!bg-black !text-white !px-10 hover:!bg-amber-700 transition-colors">Read Our Story </Button>
               <div className="flex items-center gap-4">
                 <div className="w-12 h-px bg-gray-300" />
                 <span className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Est. 2026</span>
@@ -215,16 +215,17 @@ function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 mt-4 pt-12 border-t border-gray-100">
               <div className="flex flex-col gap-2">
                 <h4 className="text-xs font-bold uppercase tracking-widest text-black">Visit Our Showroom</h4>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  123 Fragrance Lane, Luxury District<br />
-                  Paris, France 75001
+                <p className="text-sm text-gray-500 leading-relaxed font-light">
+                  No. 12, Ocean Crest Residences,<br />
+                  Galle Face Terrace, Colombo 03,<br />
+                  Sri Lanka
                 </p>
               </div>
               <div className="flex flex-col gap-2">
                 <h4 className="text-xs font-bold uppercase tracking-widest text-black">Get In Touch</h4>
-                <p className="text-sm text-gray-500">
-                  concierge@elanfragrance.com<br />
-                  +33 1 23 45 67 89
+                <p className="text-sm text-gray-500 font-light">
+                  elanFragrance2026@gmail.com<br />
+                  +94 77 659 9189
                 </p>
               </div>
             </div>

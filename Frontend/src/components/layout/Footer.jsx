@@ -36,7 +36,7 @@ function Footer() {
                         </div>
                     </div>
 
-                    {/* Newsletter */}
+                    {/* Newsletter & Contact */}
                     <div className="flex flex-col gap-6">
                         <h3 className="text-[10px] uppercase tracking-[0.4em] font-bold text-amber-500">Newsletter</h3>
                         <p className="text-gray-400 text-sm">Join our mailing list for exclusive updates.</p>
@@ -47,6 +47,14 @@ function Footer() {
                                 className="bg-transparent border-none outline-none text-xs tracking-widest w-full placeholder:text-gray-600 focus:ring-0"
                             />
                             <button className="text-xs font-bold hover:text-amber-500 transition">JOIN</button>
+                        </div>
+                        <div className="flex flex-col gap-2 mt-4">
+                            <p className="text-[10px] text-gray-500 leading-relaxed uppercase tracking-widest">
+                                No. 12, Ocean Crest Residences, Colombo 03, SL
+                            </p>
+                            <p className="text-[10px] text-amber-600 font-bold tracking-widest">
+                                elanFragrance2026@gmail.com <br /> +94 77 659 9189
+                            </p>
                         </div>
                     </div>
                 </div>
