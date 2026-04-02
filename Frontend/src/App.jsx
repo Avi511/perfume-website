@@ -5,6 +5,7 @@ import AppRoutes from "./router/AppRoutes";
 import ScrollToTop from "./router/ScrollToTop";
 
 import { Toaster } from "react-hot-toast";
+import { AuthProvider } from "./context/AuthContext";
 
 function Layout() {
   const location = useLocation();
@@ -44,7 +45,9 @@ function Layout() {
 function App() {
   return (
     <Router>
-      <Layout />
+      <AuthProvider>
+        <Layout />
+      </AuthProvider>
     </Router>
   );
 }

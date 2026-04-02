@@ -1,8 +1,19 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { HiOutlineUser, HiOutlineLogout } from "react-icons/hi";
+import toast from "react-hot-toast";
 
 function Navbar() {
+    const { user, logout } = useAuth();
+    const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
+
+    const handleLogout = () => {
+        logout();
+        toast.success("Logged out successfully");
+        navigate("/");
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -42,9 +53,30 @@ function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-6">
-                    <Link to="/login" className="text-[10px] uppercase font-bold tracking-widest hover:text-amber-500 transition-colors duration-300">
-                        Log In
-                    </Link>
+                    {!user ? (
+                        <Link to="/login" className="text-[10px] uppercase font-bold tracking-widest hover:text-amber-500 transition-colors duration-300">
+                            Log In
+                        </Link>
+                    ) : (
+                        <div className="flex items-center gap-4">
+                            <Link to="/profile" className="flex items-center gap-2 group/profile transition-all duration-300">
+                                <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover/profile:border-amber-500/50 transition-colors duration-300">
+                                    <HiOutlineUser className="w-4 h-4 group-hover/profile:text-amber-500 transition-colors duration-300" />
+                                </div>
+                                <span className="hidden lg:block text-[10px] uppercase font-bold tracking-widest group-hover/profile:text-amber-500 transition-colors duration-300">
+                                    {user.firstName || "Profile"}
+                                </span>
+                            </Link>
+                            
+                            <button 
+                                onClick={handleLogout}
+                                className="p-2 hover:text-amber-500 transition-colors duration-300 transform active:scale-95"
+                                title="Logout"
+                            >
+                                <HiOutlineLogout className="w-4 h-4" />
+                            </button>
+                        </div>
+                    )}
 
                     <Link to="/cart" className="relative group/cart transition-all duration-300">
                         <svg

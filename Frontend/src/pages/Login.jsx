@@ -4,10 +4,11 @@ import { motion } from "framer-motion";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import Button from "../components/common/Button";
 import loginBg from "../assets/login-bg.png";
-import { loginUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 
 function Login() {
+  const { login } = useAuth();
 
   const navigate = useNavigate();
 
@@ -28,8 +29,7 @@ function Login() {
     setError(null);
     setLoading(true);
     try {
-      const response = await loginUser(formData);
-      console.log(response);
+      const response = await login(formData);
       toast.success(`${response.firstName} Login successful.`);
       navigate("/");
     } catch (error) {
