@@ -80,6 +80,65 @@
     animation: bloom 3s ease-in-out infinite;
   }
 
+  .liquid-glass-toast {
+    background: rgba(255, 255, 255, 0.45) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    box-shadow: 
+      0 10px 40px -10px rgba(0, 0, 0, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.3) !important;
+    border-radius: 24px !important;
+    color: #1a1a1a !important;
+    font-weight: 500 !important;
+    font-size: 0.925rem !important;
+    font-family: var(--font-sans) !important;
+    letter-spacing: -0.01em !important;
+    padding: 14px 24px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    transition: all 0.3s ease !important;
+  }
+
+  .liquid-glass-toast:hover {
+    background: rgba(255, 255, 255, 0.55) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 
+      0 15px 45px -10px rgba(0, 0, 0, 0.15),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.4) !important;
+  }
+
+  .liquid-glass-toast::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 150%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    animation: liquid-shimmer 6s infinite ease-in-out;
+    pointer-events: none;
+  }
+
+  @keyframes liquid-shimmer {
+    0% {
+      left: -150%;
+    }
+    40%, 100% {
+      left: 150%;
+    }
+  }
+
 body {
   font-family: var(--font-sans);
   background-color: #fafafa;

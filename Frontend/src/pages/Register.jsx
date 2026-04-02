@@ -44,7 +44,7 @@ function Register() {
     try {
       const response = await registerUser(formData);
       console.log(response);
-      toast.success("Account created successfully. Welcome to Élan!");
+      toast.success(`${response.firstName} Your account has been created successfully. Welcome to Élan!`);
       navigate("/login");
     } catch (error) {
       const message = error.response?.data?.error || error.response?.data?.message || "Registration failed. Please try again.";

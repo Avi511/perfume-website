@@ -30,7 +30,7 @@ function Login() {
     try {
       const response = await loginUser(formData);
       console.log(response);
-      toast.success("Welcome back to Élan!");
+      toast.success(`${response.firstName} Login successful.`);
       navigate("/");
     } catch (error) {
       const message = error.response?.data?.error || error.response?.data?.message || "Login failed. Please check your credentials.";
@@ -118,7 +118,7 @@ function Login() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              <Button 
+              <Button
                 type="submit"
                 disabled={loading}
                 className="!w-full !bg-black !text-white !py-4 !rounded-2xl hover:!bg-gray-800 active:!scale-[0.98] transition-all duration-300 font-medium flex items-center justify-center gap-2 group">
