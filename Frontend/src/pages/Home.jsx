@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import perfumeImg from '../assets/luxury_perfume.png';
-import perfumeVideo from '../assets/video_02.mp4';
+import perfumeVideo from '../assets/video_01.mp4';
 import aboutImg from '../assets/about_elements.png';
 import contactImg from '../assets/contact_luxury.png';
 

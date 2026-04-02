@@ -1,10 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-serif: 'Playfair Display', serif;
-  }
+@theme {
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Playfair Display', serif;
+  --color-beige-100: #f5f5f0;
+  --color-beige-500: #d4d4cc;
+}
 
   @keyframes fadeIn {
     from {
@@ -77,7 +79,6 @@
   .animate-bloom {
     animation: bloom 3s ease-in-out infinite;
   }
-}
 
 body {
   font-family: var(--font-sans);

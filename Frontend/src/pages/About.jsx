@@ -1,5 +1,5 @@
 import Button from '../components/common/Button';
-import perfumeVideo from '../assets/video_01.mp4';
+import perfumeVideo from '../assets/video_02.mp4';
 import aboutImg from '../assets/philosophy_luxury.png';
 import labImg from '../assets/perfume_lab_luxury.png';
 
