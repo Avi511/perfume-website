@@ -5,6 +5,7 @@ import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import Button from "../components/common/Button";
 import loginBg from "../assets/login-bg.png";
 import { loginUser } from "../services/authService";
+import toast from "react-hot-toast";
 
 function Login() {
 
@@ -29,9 +30,12 @@ function Login() {
     try {
       const response = await loginUser(formData);
       console.log(response);
+      toast.success("Welcome back to Élan!");
       navigate("/");
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      const message = error.response?.data?.error || error.response?.data?.message || "Login failed. Please check your credentials.";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }

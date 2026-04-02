@@ -5,6 +5,8 @@ import { HiOutlineMail, HiOutlineLockClosed, HiOutlineUser, HiOutlinePhone, HiOu
 import Button from "../components/common/Button";
 import loginBg from "../assets/login-bg.png";
 import { registerUser } from "../services/authService";
+import toast from "react-hot-toast";
+
 
 function Register() {
 
@@ -30,13 +32,24 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+
+    if (formData.password !== formData.confirmPassword) {
+      const msg = "Passwords do not match";
+      setError(msg);
+      toast.error(msg);
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await registerUser(formData);
       console.log(response);
+      toast.success("Account created successfully. Welcome to Élan!");
       navigate("/login");
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed");
+      const message = error.response?.data?.error || error.response?.data?.message || "Registration failed. Please try again.";
+      setError(message);
+      toast.error(message);
     } finally {
       setLoading(false);
     }
@@ -73,7 +86,7 @@ function Register() {
       </motion.div>
 
       {/* Right Side: Form */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
@@ -107,13 +120,13 @@ function Register() {
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                     <HiOutlineUser size={18} />
                   </div>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="firstName"
                     value={formData.firstName}
                     onChange={handleChange}
-                    placeholder="John" 
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm" 
+                    placeholder="John"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm"
                   />
                 </div>
               </motion.div>
@@ -128,13 +141,13 @@ function Register() {
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                     <HiOutlineUser size={18} />
                   </div>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     name="lastName"
                     value={formData.lastName}
                     onChange={handleChange}
-                    placeholder="Doe" 
-                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm" 
+                    placeholder="Doe"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm"
                   />
                 </div>
               </motion.div>
@@ -150,13 +163,13 @@ function Register() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                   <HiOutlineMail size={18} />
                 </div>
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="you@example.com" 
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm" 
+                  placeholder="you@example.com"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm"
                 />
               </div>
             </motion.div>
@@ -171,13 +184,13 @@ function Register() {
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                   <HiOutlinePhone size={18} />
                 </div>
-                <input 
-                  type="tel" 
+                <input
+                  type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
-                  placeholder="+94 77 000 0000" 
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm" 
+                  placeholder="+94 77 000 0000"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm"
                 />
               </div>
             </motion.div>
@@ -192,12 +205,12 @@ function Register() {
                 <div className="absolute inset-y-0 left-4 top-3 pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                   <HiOutlineLocationMarker size={18} />
                 </div>
-                <textarea 
+                <textarea
                   name="address"
                   value={formData.address}
                   onChange={handleChange}
-                  placeholder="Residential Address" 
-                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm resize-none h-20" 
+                  placeholder="Residential Address"
+                  className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm resize-none h-20"
                 />
               </div>
             </motion.div>
@@ -214,13 +227,13 @@ function Register() {
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                     <HiOutlineLockClosed size={18} />
                   </div>
-                  <input 
-                    type="password" 
+                  <input
+                    type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    placeholder="••••••••" 
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm" 
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm"
                   />
                 </div>
               </motion.div>
@@ -235,13 +248,13 @@ function Register() {
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
                     <HiOutlineLockClosed size={18} />
                   </div>
-                  <input 
-                    type="password" 
+                  <input
+                    type="password"
                     name="confirmPassword"
                     value={formData.confirmPassword}
                     onChange={handleChange}
-                    placeholder="••••••••" 
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm" 
+                    placeholder="••••••••"
+                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-1 focus:ring-black outline-none transition-all duration-300 font-sans text-sm"
                   />
                 </div>
               </motion.div>
@@ -253,7 +266,7 @@ function Register() {
               transition={{ delay: 0.8, duration: 0.6 }}
               className="pt-2"
             >
-              <Button 
+              <Button
                 type="submit"
                 disabled={loading}
                 className="!w-full !bg-black !text-white !py-3.5 !rounded-2xl hover:!bg-gray-800 active:!scale-[0.98] transition-all duration-300 font-medium flex items-center justify-center gap-2 group">
@@ -262,7 +275,7 @@ function Register() {
             </motion.div>
           </form>
 
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.6 }}
