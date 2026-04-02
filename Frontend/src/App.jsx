@@ -6,6 +6,7 @@ import ScrollToTop from "./router/ScrollToTop";
 
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
+import { CartProvider } from "./context/CartContext";
 
 function Layout() {
   const location = useLocation();
@@ -46,7 +47,9 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <Layout />
+        <CartProvider>
+          <Layout />
+        </CartProvider>
       </AuthProvider>
     </Router>
   );

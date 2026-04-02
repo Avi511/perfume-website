@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { useCart } from "../../context/CartContext";
 import { HiOutlineUser, HiOutlineLogout } from "react-icons/hi";
 import toast from "react-hot-toast";
 
 function Navbar() {
     const { user, logout } = useAuth();
+    const { cartCount } = useCart();
     const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
 
@@ -88,7 +90,7 @@ function Navbar() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                         </svg>
                         <span className="absolute -top-1 -right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-amber-500 text-[7px] font-black text-white shadow-sm transition-transform duration-300 group-hover/cart:scale-110">
-                            0
+                            {cartCount}
                         </span>
                     </Link>
                 </div>
