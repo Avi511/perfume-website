@@ -1,10 +1,41 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import Button from "../components/common/Button";
 import loginBg from "../assets/login-bg.png";
+import { loginUser } from "../services/authService";
 
 function Login() {
+
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+    try {
+      const response = await loginUser(formData);
+      console.log(response);
+      navigate("/");
+    } catch (error) {
+      setError(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="flex min-h-screen bg-white overflow-hidden">
       {/* Left Side: Form */}
@@ -29,12 +60,15 @@ function Login() {
             <p className="text-gray-500 mb-10 font-sans">Please enter your details to sign in to your account.</p>
           </motion.div>
 
-          <form className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
+              {error && (
+                <p className="mb-4 text-red-400 text-sm">{error}</p>
+              )}
               <label className="block text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2 ml-1">Email Address</label>
               <div className="relative group">
                 <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-focus-within:text-black transition-colors">
@@ -42,6 +76,9 @@ function Login() {
                 </div>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="you@example.com"
                   className="w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-black outline-none transition-all duration-300 font-sans"
                 />
@@ -63,6 +100,9 @@ function Login() {
                 </div>
                 <input
                   type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   placeholder="••••••••"
                   className="w-full pl-11 pr-4 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:ring-2 focus:ring-black outline-none transition-all duration-300 font-sans"
                 />
@@ -74,8 +114,11 @@ function Login() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              <Button className="!w-full !bg-black !text-white !py-4 !rounded-2xl hover:!bg-gray-800 active:!scale-[0.98] transition-all duration-300 font-medium flex items-center justify-center gap-2 group">
-                Sign In
+              <Button 
+                type="submit"
+                disabled={loading}
+                className="!w-full !bg-black !text-white !py-4 !rounded-2xl hover:!bg-gray-800 active:!scale-[0.98] transition-all duration-300 font-medium flex items-center justify-center gap-2 group">
+                {loading ? "Signing in..." : "Sign In"}
               </Button>
             </motion.div>
           </form>
