@@ -57,7 +57,7 @@ function Contact() {
                     <span className="w-6 h-px bg-amber-600/30" /> Get In Touch
                   </h4>
                   <p className="text-sm text-gray-500 leading-relaxed font-light">
-                    elanFragrance2026@gmail.com<br />
+                    fragranceelan@gmail.com<br />
                     +94 77 659 9189
                   </p>
                 </div>
@@ -77,7 +77,11 @@ function Contact() {
             </div>
 
             {/* Premium Form */}
-            <form className="flex flex-col gap-10 bg-zinc-50/50 p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-sm relative z-10 group">
+            <form
+              action="https://formsubmit.io/send/fragranceelan@gmail.com"
+              method="POST"
+              className="flex flex-col gap-10 bg-zinc-50/50 p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-sm relative z-10 group"
+            >
               <div className="space-y-2">
                 <h3 className="text-3xl font-serif">Compose a Message</h3>
                 <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Expected response: 24h</p>
@@ -88,6 +92,8 @@ function Contact() {
                   <label className="text-[10px] uppercase tracking-widest font-black text-gray-400 group-focus-within/field:text-amber-600 transition-colors">FULL NAME</label>
                   <input
                     type="text"
+                    name="name"
+                    required
                     placeholder="E.g. Gabriel Blanc"
                     className="bg-transparent border-b border-zinc-200 py-3 outline-none text-sm placeholder:text-zinc-300 focus:border-amber-600 transition-all font-light"
                   />
@@ -96,6 +102,8 @@ function Contact() {
                   <label className="text-[10px] uppercase tracking-widest font-black text-gray-400 group-focus-within/field:text-amber-600 transition-colors">EMAIL ADDRESS</label>
                   <input
                     type="email"
+                    name="email"
+                    required
                     placeholder="hello@example.com"
                     className="bg-transparent border-b border-zinc-200 py-3 outline-none text-sm placeholder:text-zinc-300 focus:border-amber-600 transition-all font-light"
                   />
@@ -105,6 +113,8 @@ function Contact() {
               <div className="flex flex-col gap-3 group/field">
                 <label className="text-[10px] uppercase tracking-widest font-black text-gray-400 group-focus-within/field:text-amber-600 transition-colors">YOUR INQUIRY</label>
                 <textarea
+                  name="message"
+                  required
                   placeholder="How can we assist you today?"
                   rows="4"
                   className="bg-transparent border-b border-zinc-200 py-3 outline-none text-sm placeholder:text-zinc-300 focus:border-amber-600 transition-all resize-none font-light"
@@ -112,7 +122,7 @@ function Contact() {
               </div>
 
               <div className="pt-4 overflow-hidden rounded-full self-start group/btn">
-                <Button className="!bg-black !text-white !px-16 py-5 !rounded-full relative overflow-hidden">
+                <Button type="submit" className="!bg-black !text-white !px-16 py-5 !rounded-full relative overflow-hidden">
                   Send Message
                 </Button>
               </div>

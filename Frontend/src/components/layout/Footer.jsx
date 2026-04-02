@@ -53,7 +53,7 @@ function Footer() {
                                 No. 12, Ocean Crest Residences, Colombo 03, SL
                             </p>
                             <p className="text-[10px] text-amber-600 font-bold tracking-widest">
-                                elanFragrance2026@gmail.com <br /> +94 77 659 9189
+                                fragranceelan@gmail.com <br /> +94 77 659 9189
                             </p>
                         </div>
                     </div>
