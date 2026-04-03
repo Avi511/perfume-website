@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import perfumeImg from '../assets/luxury_perfume.png';
@@ -118,7 +117,7 @@ function Home() {
               Explore our masterfully crafted scents, each designed to evoke a unique memory and leave a lasting impression.
             </p>
           </div>
-          <Button className="!text-black !glass-button border-black/20 hover:!text-black scale-110">Shop All</Button>
+          <Button to="/products" className="!text-black !glass-button border-black/20 hover:!text-black scale-110">Shop All</Button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10">

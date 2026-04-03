@@ -1,15 +1,17 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Card = ({ image, name, price, rating, category }) => {
+const Card = ({ image, name, price, rating, category, id }) => {
     return (
         <div className="group relative w-full rounded-xl overflow-hidden bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
             <div className="relative h-96 w-full overflow-hidden">
-                <img
-                    src={image}
-                    alt={name}
-                    className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <Link to={`/products/${id}`}>
+                    <img
+                        src={image}
+                        alt={name}
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 cursor-pointer"
+                    />
+                </Link>
+                <div className="absolute inset-0 bg-black/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
 
                 <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md px-3 py-1 rounded-full z-10">
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{category}</span>
@@ -30,9 +32,11 @@ const Card = ({ image, name, price, rating, category }) => {
 
             <div className="p-6 bg-white flex flex-col gap-2">
                 <div className="flex justify-between items-start">
-                    <h3 className="text-xl font-medium tracking-tight text-gray-900 transition-colors duration-300 group-hover:text-amber-700">
-                        {name}
-                    </h3>
+                    <Link to={`/products/${id}`}>
+                        <h3 className="text-xl font-medium tracking-tight text-gray-900 transition-colors duration-300 group-hover:text-amber-700 cursor-pointer">
+                            {name}
+                        </h3>
+                    </Link>
                     <p className="text-lg font-semibold text-gray-900">${price}</p>
                 </div>
 
@@ -52,9 +56,11 @@ const Card = ({ image, name, price, rating, category }) => {
                     </div>
 
                     <div className="relative overflow-hidden group/btn translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
-                        <button className="text-xs font-semibold uppercase tracking-widest text-black border-b border-black/20 hover:border-amber-700 hover:text-amber-700 transition-all duration-300 pb-0.5 cursor-pointer">
-                            View Details
-                        </button>
+                        <Link to={`/products/${id}`}>
+                            <button className="text-xs font-semibold uppercase tracking-widest text-black border-b border-black/20 hover:border-amber-700 hover:text-amber-700 transition-all duration-300 pb-0.5 cursor-pointer">
+                                View Details
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>
