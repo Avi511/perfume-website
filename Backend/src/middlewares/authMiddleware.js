@@ -8,7 +8,7 @@ export const authMiddleware = async (req, res, next) => {
         try {
             token = req.headers.authorization.split(" ")[1];
 
-            const decoded = jwt.verify(token, process.env.JWT_SECRET || "fallback_secret");
+            const decoded = jwt.verify(token, process.env.JWT_SECRET || "superdeepsecretkey");
             const queryId = decoded.userId || decoded.id || decoded._id;
 
             if (queryId) {
