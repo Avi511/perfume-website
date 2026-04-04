@@ -39,6 +39,7 @@ export const registerUserService = async (userData) => {
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        isAdmin: user.isAdmin,
         token: generateToken(user._id),
     };
 };
@@ -53,6 +54,7 @@ export const loginUserService = async (email, password) => {
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
+            isAdmin: user.isAdmin,
             token: generateToken(user._id),
         };
     } else {

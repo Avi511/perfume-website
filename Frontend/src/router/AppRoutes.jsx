@@ -8,6 +8,8 @@ import Cart from "../pages/Cart";
 import Products from "../pages/Products";
 import ProductDetails from "../pages/ProductDetails";
 import NotFound from "../pages/NotFound";
+import AdminDashboard from "../pages/Admin/AdminDashboard";
+import AdminRoute from "../pages/Admin/AdminRoute";
 
 function AppRoutes() {
   return (
@@ -20,6 +22,17 @@ function AppRoutes() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
+      
+      {/* Admin Protected Routes */}
+      <Route 
+        path="/admin/dashboard" 
+        element={
+          <AdminRoute>
+            <AdminDashboard />
+          </AdminRoute>
+        } 
+      />
+      
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

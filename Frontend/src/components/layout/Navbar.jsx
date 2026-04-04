@@ -52,6 +52,9 @@ function Navbar() {
                     <Link to="/about" className="hover:text-amber-500 transition-colors duration-300">About</Link>
                     <Link to="/contact" className="hover:text-amber-500 transition-colors duration-300">Contact</Link>
                     <Link to="/products" className="hover:text-amber-500 transition-colors duration-300">Products</Link>
+                    {user?.isAdmin && (
+                        <Link to="/admin/dashboard" className="text-amber-500 font-bold border-b border-amber-500/30 pb-0.5 hover:text-white hover:border-white transition-all duration-300">Admin Panel</Link>
+                    )}
                 </div>
 
                 <div className="flex items-center gap-6">
