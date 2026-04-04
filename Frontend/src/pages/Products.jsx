@@ -13,7 +13,6 @@ function Products() {
       try {
         setLoading(true);
         const { data } = await api.get("/products");
-        // Map backend fields to frontend fields if necessary
         const mappedProducts = data.map(p => ({
           id: p._id,
           name: p.productName || p.name,
@@ -36,15 +35,14 @@ function Products() {
 
   return (
     <div className="bg-black min-h-screen text-white">
-      {/* Header Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-        <img 
-          src={Heroimage} 
-          alt="Luxury Collection" 
+        <img
+          src={Heroimage}
+          alt="Luxury Collection"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/40 to-black" />
-        
+
         <div className="max-w-7xl mx-auto text-center relative z-10 px-4">
           <motion.span
             initial={{ opacity: 0, y: 10 }}
@@ -73,7 +71,7 @@ function Products() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-24 px-4 max-w-7xl mx-auto">
+      <section className="py-24 px-4 max-w-7xl mx-auto bg-black">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div className="w-12 h-12 border-4 border-amber-600 border-t-transparent rounded-full animate-spin"></div>
@@ -115,7 +113,7 @@ function Products() {
       </section>
 
       {/* Decorative Newsletter/Footer Accent */}
-      <section className="py-24 bg-zinc-50 overflow-hidden relative">
+      <section className="py-24 bg-zinc-900 overflow-hidden relative">
         <div className="max-w-7xl mx-auto text-center px-4 relative z-10">
           <h2 className="text-4xl font-serif mb-6">Experience the Essence</h2>
           <p className="text-gray-500 mb-10 max-w-lg mx-auto">Join our inner circle for exclusive access to private collections and olfactory masterclasses.</p>

@@ -57,7 +57,6 @@ function Register() {
 
   return (
     <div className="flex min-h-screen bg-white overflow-hidden py-12 lg:py-0">
-      {/* Left Side: Image/Branding (Swapped for variety) */}
       <motion.div
         initial={{ opacity: 0, scale: 1.05 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -71,7 +70,6 @@ function Register() {
           className="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-[10s] hover:scale-110"
         />
 
-        {/* Quote Overlay */}
         <div className="absolute inset-0 z-20 flex flex-col justify-end p-20 text-white">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -85,7 +83,6 @@ function Register() {
         </div>
       </motion.div>
 
-      {/* Right Side: Form */}
       <motion.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
@@ -108,7 +105,6 @@ function Register() {
           </motion.div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Names Row */}
             <div className="grid grid-cols-2 gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
@@ -215,7 +211,6 @@ function Register() {
               </div>
             </motion.div>
 
-            {/* Password Row */}
             <div className="grid grid-cols-2 gap-4">
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
@@ -285,7 +280,6 @@ function Register() {
           </motion.p>
         </div>
 
-        {/* Subtle Decorative Elements */}
         <div className="absolute top-10 right-10 w-24 h-24 bg-beige-100/30 rounded-full blur-3xl -z-10"></div>
         <div className="absolute bottom-10 left-10 w-32 h-32 bg-gray-100/50 rounded-full blur-3xl -z-10"></div>
       </motion.div>

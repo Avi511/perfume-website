@@ -20,7 +20,6 @@ function ProductDetails() {
       try {
         setLoading(true);
         const { data } = await api.get(`/products/${id}`);
-        // Map backend fields to frontend fields
         const mappedProduct = {
           ...data,
           name: data.productName || data.name,
@@ -65,7 +64,6 @@ function ProductDetails() {
 
   return (
     <section className="min-h-screen bg-black text-white relative">
-      {/* Cinematic Hero Backdrop */}
       <div className="absolute top-0 left-0 w-full h-[60vh] overflow-hidden">
         <img
           src={Heroimage}
@@ -76,7 +74,6 @@ function ProductDetails() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 py-32 grid grid-cols-1 md:grid-cols-2 gap-16 items-start relative z-10">
-        {/* Cinematic Product Image */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
@@ -92,7 +89,6 @@ function ProductDetails() {
           />
         </motion.div>
 
-        {/* Elegant Details Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
