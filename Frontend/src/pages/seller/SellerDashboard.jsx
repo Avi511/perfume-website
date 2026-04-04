@@ -9,6 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import toast from "react-hot-toast";
+import AddProductModal from "./AddProductModal";
 
 const SellerDashboard = () => {
     const { user, logout } = useAuth();
@@ -20,26 +21,30 @@ const SellerDashboard = () => {
         totalRevenue: 0
     });
     const [loading, setLoading] = useState(true);
+    const [showAddModal, setShowAddModal] = useState(false);
+
+    const fetchSellerData = async () => {
+        try {
+            setLoading(true);
+            const { data } = await api.get(`/products?seller=${user._id}`);
+            setStatsData({
+                totalProducts: data.length || 0,
+                pendingOrders: 0,
+                totalRevenue: 0
+            });
+        } catch (error) {
+            console.error("Failed to fetch seller context:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchSellerData = async () => {
-            try {
-                setLoading(true);
-                const { data } = await api.get("/products");
-                setStatsData({
-                    totalProducts: data.length || 0,
-                    pendingOrders: 0,
-                    totalRevenue: 0
-                });
-            } catch (error) {
-                console.error("Failed to fetch seller context:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        if (user?._id) {
+            fetchSellerData();
+        }
+    }, [user?._id]);
 
-        fetchSellerData();
-    }, []);
 
     const stats = [
         {
@@ -138,6 +143,7 @@ const SellerDashboard = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <motion.div
                                 whileHover={{ y: -5 }}
+                                onClick={() => setShowAddModal(true)}
                                 className="bg-zinc-950 border border-zinc-900 p-10 rounded-[40px] group relative overflow-hidden cursor-pointer"
                             >
                                 <PlusCircle size={32} className="text-amber-500/30 group-hover:text-amber-500 mb-8 transition-all" />
@@ -162,6 +168,7 @@ const SellerDashboard = () => {
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/[0.02] rounded-full blur-3xl"></div>
                             </motion.div>
                         </div>
+
 
                         {/* Recent Orders Placeholder */}
                         <div className="bg-zinc-950/40 border border-dashed border-zinc-900 p-16 rounded-[40px] text-center">
@@ -220,6 +227,12 @@ const SellerDashboard = () => {
             <div className="py-12 border-t border-zinc-900 mt-24 text-center">
                 <p className="text-zinc-800 text-[10px] font-bold uppercase tracking-[0.5em]">&copy; Élan Partner Protocol &middot; Secure Handshake 1.0.4</p>
             </div>
+
+            <AddProductModal 
+                isOpen={showAddModal} 
+                onClose={() => setShowAddModal(false)}
+                onSuccess={fetchSellerData}
+            />
         </div>
     );
 };

@@ -18,8 +18,12 @@ export const getProductByIdService = async (id) => {
     return product;
 };
 
-export const createProductService = async (productData) => {
-    const { name, description, price, image, quantity } = productData;
+export const createProductService = async (productData, user) => {
+    const { 
+        productName, productImage, productPrice, productQuantity, 
+        gender, fragranceFamily, occasion, season, priceRange, longevity,
+        isNewArrival, isBestSeller, isTrending
+    } = productData;
 
     let newProductId = "P0001";
     const lastProduct = await Product.findOne().sort({ createdAt: -1 });
@@ -32,29 +36,53 @@ export const createProductService = async (productData) => {
 
     const product = new Product({
         productId: newProductId,
-        productName: name || "Sample name",
-        productImage: image || "/images/sample.jpg",
-        productPrice: price || 0,
-        productQuantity: quantity || 0,
-        productTotal: (price || 0) * (quantity || 0),
+        productName: productName || "Sample name",
+        productImage: productImage || "/images/sample.jpg",
+        productPrice: productPrice || 0,
+        productQuantity: productQuantity || 0,
+        productTotal: (productPrice || 0) * (productQuantity || 0),
+        gender,
+        fragranceFamily,
+        occasion,
+        season,
+        priceRange,
+        longevity,
+        isNewArrival,
+        isBestSeller,
+        isTrending,
+        seller: user._id
     });
 
     const createdProduct = await product.save();
     return createdProduct;
 };
 
-export const updateProductService = async (id, updatedData) => {
-    const { name, description, price, image, quantity } = updatedData;
+export const updateProductService = async (id, updatedData, user) => {
     const product = await Product.findOne({
         $or: [{ productId: id }, { _id: id }]
     }).catch(() => null);
 
     if (product) {
-        product.productName = name || product.productName;
-        product.productPrice = price || product.productPrice;
-        product.productImage = image || product.productImage;
-        product.productQuantity = quantity || product.productQuantity;
-        product.productTotal = product.productPrice * product.productQuantity;
+        // Only seller or admin can update
+        if (product.seller.toString() !== user._id.toString() && !user.isAdmin) {
+            throw new Error('Not authorized to update this product');
+        }
+
+        const fieldsToUpdate = [
+            'productName', 'productImage', 'productPrice', 'productQuantity',
+            'gender', 'fragranceFamily', 'occasion', 'season', 'priceRange', 'longevity',
+            'isNewArrival', 'isBestSeller', 'isTrending'
+        ];
+
+        fieldsToUpdate.forEach(field => {
+            if (updatedData[field] !== undefined) {
+                product[field] = updatedData[field];
+            }
+        });
+
+        if (updatedData.productPrice !== undefined || updatedData.productQuantity !== undefined) {
+            product.productTotal = product.productPrice * product.productQuantity;
+        }
 
         const updatedProduct = await product.save();
         return updatedProduct;
@@ -63,15 +91,20 @@ export const updateProductService = async (id, updatedData) => {
     }
 };
 
-export const deleteProductService = async (id) => {
+export const deleteProductService = async (id, user) => {
     const product = await Product.findOne({
         $or: [{ productId: id }, { _id: id }]
     }).catch(() => null);
 
     if (product) {
+        // Only seller or admin can delete
+        if (product.seller.toString() !== user._id.toString() && !user.isAdmin) {
+            throw new Error('Not authorized to delete this product');
+        }
         await product.deleteOne();
         return { message: "Product removed" };
     } else {
         throw new Error('Product not found');
     }
 };
+
