@@ -22,17 +22,16 @@ function AppRoutes() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
-      
-      {/* Admin Protected Routes */}
-      <Route 
-        path="/admin/dashboard" 
+
+      <Route
+        path="/admin/dashboard"
         element={
           <AdminRoute>
             <AdminDashboard />
           </AdminRoute>
-        } 
+        }
       />
-      
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

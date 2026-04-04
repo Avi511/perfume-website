@@ -1,11 +1,43 @@
 import { motion } from "framer-motion";
-import { Package, Users, ShoppingBag, PlusCircle, ArrowUpRight, LayoutDashboard, Search, LogOut } from "lucide-react";
+import {
+    Package, Users, ShoppingBag, PlusCircle,
+    ArrowUpRight, LayoutDashboard, Search, LogOut,
+    DollarSign, Activity, TrendingUp
+} from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import api from "../../services/api";
 
 const AdminDashboard = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [statsData, setStatsData] = useState({
+        totalProducts: 0,
+        totalUsers: 0,
+        pendingOrders: 0,
+        totalOrders: 0,
+        totalRevenue: 0
+    });
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                setLoading(true);
+                const { data } = await api.get("/admin/stats");
+                if (data.success) {
+                    setStatsData(data.stats);
+                }
+            } catch (error) {
+                console.error("Failed to fetch admin stats:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchStats();
+    }, []);
 
     const handleLogout = () => {
         logout();
@@ -13,9 +45,20 @@ const AdminDashboard = () => {
     };
 
     const stats = [
-        { label: "Total Products", value: "128", icon: Package, color: "text-amber-500", bg: "bg-amber-500/10" },
-        { label: "Active Users", value: "2,450", icon: Users, color: "text-blue-500", bg: "bg-blue-500/10" },
-        { label: "Pending Orders", value: "48", icon: ShoppingBag, color: "text-emerald-500", bg: "bg-emerald-500/10" },
+        {
+            label: "Total Products",
+            value: statsData.totalProducts,
+            icon: Package,
+            color: "text-amber-500",
+            bg: "bg-amber-500/10",
+        },
+        {
+            label: "Total Users",
+            value: statsData.totalUsers,
+            icon: Users,
+            color: "text-blue-500",
+            bg: "bg-blue-500/10",
+        },
     ];
 
     const actions = [
@@ -46,26 +89,37 @@ const AdminDashboard = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
                 {stats.map((stat, idx) => (
                     <motion.div
                         key={idx}
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: idx * 0.1 }}
-                        className="bg-zinc-900/30 border border-zinc-800 p-8 rounded-3xl group hover:border-zinc-700 transition-all duration-300"
+                        className="bg-zinc-950 border border-zinc-900 p-8 rounded-[32px] group hover:border-zinc-700/50 transition-all duration-500 relative overflow-hidden shadow-2xl"
                     >
-                        <div className="flex items-start justify-between mb-4">
-                            <div className={`${stat.bg} ${stat.color} p-4 rounded-2xl group-hover:scale-110 transition-transform`}>
-                                <stat.icon className="w-6 h-6" />
+                        <div className="relative z-10">
+                            <div className="flex items-start justify-between mb-8">
+                                <div className={`${stat.bg} ${stat.color} p-4 rounded-2xl group-hover:scale-110 transition-transform duration-500`}>
+                                    <stat.icon className="w-6 h-6" />
+                                </div>
+                                {stat.trend && (
+                                    <div className="flex items-center gap-1.5 text-emerald-500 bg-emerald-500/10 px-3 py-1.5 rounded-full text-[10px] font-bold tracking-tight">
+                                        <ArrowUpRight className="w-3 h-3" />
+                                        {stat.trend}
+                                    </div>
+                                )}
                             </div>
-                            <div className="flex items-center gap-1 text-emerald-500 bg-emerald-500/10 px-2 py-1 rounded-full text-[10px] font-bold">
-                                <ArrowUpRight className="w-3 h-3" />
-                                12.5%
-                            </div>
+                            <p className="text-zinc-600 text-[10px] font-black uppercase tracking-[0.2em] mb-2">{stat.label}</p>
+                            <h3 className="text-4xl font-serif text-white tracking-tight">
+                                {loading ? (
+                                    <span className="w-24 h-8 bg-zinc-900 animate-pulse block rounded"></span>
+                                ) : (
+                                    stat.value
+                                )}
+                            </h3>
                         </div>
-                        <p className="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-1">{stat.label}</p>
-                        <h3 className="text-3xl font-serif">{stat.value}</h3>
+                        <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-white/[0.02] rounded-full blur-2xl group-hover:bg-white/[0.04] transition-all duration-700"></div>
                     </motion.div>
                 ))}
             </div>

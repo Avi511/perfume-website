@@ -17,8 +17,6 @@ export const AuthProvider = ({ children }) => {
   const login = async (credentials) => {
     try {
       const data = await loginService(credentials);
-      // Assuming backends returns { user, token } or something similar
-      // Need to confirm the structure but let's store it.
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
       if (data.token) {

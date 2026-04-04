@@ -9,6 +9,7 @@ import authRoutes from "./routes/authRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
@@ -32,6 +33,7 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/reviews", reviewRoutes);
+app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 
 const __dirname = path.resolve();
