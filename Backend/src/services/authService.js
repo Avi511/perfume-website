@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken.js';
 import bcrypt from 'bcryptjs';
 
 export const registerUserService = async (userData) => {
-    const { firstName, lastName, email, password, phone, address, isAdmin } = userData;
+    const { firstName, lastName, email, password, phone, address, isAdmin, isSeller } = userData;
 
     const userExists = await User.findOne({ email });
     if (userExists) {
@@ -31,6 +31,7 @@ export const registerUserService = async (userData) => {
         phone: phone || "0000000000",
         address: address || "No address provided",
         isAdmin: isAdmin || false,
+        isSeller: isSeller || false,
     });
 
     return {
@@ -40,6 +41,7 @@ export const registerUserService = async (userData) => {
         lastName: user.lastName,
         email: user.email,
         isAdmin: user.isAdmin,
+        isSeller: user.isSeller,
         token: generateToken(user._id),
     };
 };

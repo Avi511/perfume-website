@@ -10,6 +10,7 @@ import ProductDetails from "../pages/ProductDetails";
 import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AdminRoute from "../pages/Admin/AdminRoute";
+import Profile from "../pages/Profile";
 
 function AppRoutes() {
   return (
@@ -22,6 +23,7 @@ function AppRoutes() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
+      <Route path="/profile" element={<Profile />} />
 
       <Route
         path="/admin/dashboard"

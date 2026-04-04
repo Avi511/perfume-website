@@ -37,7 +37,7 @@ const Card = ({ image, name, price, rating, category, id }) => {
                             {name}
                         </h3>
                     </Link>
-                    <p className="text-lg font-semibold text-gray-900">${price}</p>
+                    <p className="text-lg font-semibold text-gray-900">Rs. {price}</p>
                 </div>
 
                 <div className="flex items-center justify-between mt-2 overflow-hidden">
