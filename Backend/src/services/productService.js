@@ -11,7 +11,7 @@ export const getProductByIdService = async (id) => {
     const product = await Product.findOne({
         $or: [{ productId: id }, { _id: id }]
     }).catch(() => null);
-    
+
     if (!product) {
         throw new Error('Product not found');
     }
@@ -19,11 +19,7 @@ export const getProductByIdService = async (id) => {
 };
 
 export const createProductService = async (productData) => {
-    const { 
-        name, description, price, image, quantity,
-        gender, fragranceFamily, occasion, season, 
-        priceRange, longevity, isNewArrival, isBestSeller, isTrending 
-    } = productData;
+    const { name, description, price, image, quantity } = productData;
 
     let newProductId = "P0001";
     const lastProduct = await Product.findOne().sort({ createdAt: -1 });
@@ -41,15 +37,6 @@ export const createProductService = async (productData) => {
         productPrice: price || 0,
         productQuantity: quantity || 0,
         productTotal: (price || 0) * (quantity || 0),
-        gender,
-        fragranceFamily,
-        occasion,
-        season,
-        priceRange,
-        longevity,
-        isNewArrival,
-        isBestSeller,
-        isTrending
     });
 
     const createdProduct = await product.save();
@@ -57,11 +44,7 @@ export const createProductService = async (productData) => {
 };
 
 export const updateProductService = async (id, updatedData) => {
-    const { 
-        name, description, price, image, quantity,
-        gender, fragranceFamily, occasion, season, 
-        priceRange, longevity, isNewArrival, isBestSeller, isTrending 
-    } = updatedData;
+    const { name, description, price, image, quantity } = updatedData;
     const product = await Product.findOne({
         $or: [{ productId: id }, { _id: id }]
     }).catch(() => null);
@@ -72,16 +55,6 @@ export const updateProductService = async (id, updatedData) => {
         product.productImage = image || product.productImage;
         product.productQuantity = quantity || product.productQuantity;
         product.productTotal = product.productPrice * product.productQuantity;
-        
-        if (gender !== undefined) product.gender = gender;
-        if (fragranceFamily !== undefined) product.fragranceFamily = fragranceFamily;
-        if (occasion !== undefined) product.occasion = occasion;
-        if (season !== undefined) product.season = season;
-        if (priceRange !== undefined) product.priceRange = priceRange;
-        if (longevity !== undefined) product.longevity = longevity;
-        if (isNewArrival !== undefined) product.isNewArrival = isNewArrival;
-        if (isBestSeller !== undefined) product.isBestSeller = isBestSeller;
-        if (isTrending !== undefined) product.isTrending = isTrending;
 
         const updatedProduct = await product.save();
         return updatedProduct;

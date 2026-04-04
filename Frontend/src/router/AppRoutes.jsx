@@ -11,6 +11,7 @@ import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AdminRoute from "../pages/Admin/AdminRoute";
 import Profile from "../pages/Profile";
+import SellerRouter from "../pages/seller/SellerRouter";
 
 function AppRoutes() {
   return (
@@ -24,6 +25,7 @@ function AppRoutes() {
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/seller/*" element={<SellerRouter />} />
 
       <Route
         path="/admin/dashboard"

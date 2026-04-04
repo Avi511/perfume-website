@@ -31,7 +31,14 @@ function Login() {
     try {
       const response = await login(formData);
       toast.success(`${response.firstName} Login successful.`);
-      navigate("/");
+
+      if (response.isAdmin) {
+        navigate("/admin/dashboard");
+      } else if (response.isSeller) {
+        navigate("/seller/dashboard");
+      } else {
+        navigate("/");
+      }
     } catch (error) {
       const message = error.response?.data?.error || error.response?.data?.message || "Login failed. Please check your credentials.";
       setError(message);
