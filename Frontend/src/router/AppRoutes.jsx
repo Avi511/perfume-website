@@ -9,6 +9,8 @@ import Products from "../pages/Products";
 import ProductDetails from "../pages/ProductDetails";
 import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
+import AdminProducts from "../pages/Admin/AdminProducts";
+import AdminUsers from "../pages/Admin/AdminUsers";
 import AdminRoute from "../pages/Admin/AdminRoute";
 import Profile from "../pages/Profile";
 import SellerRouter from "../pages/seller/SellerRouter";
@@ -32,6 +34,22 @@ function AppRoutes() {
         element={
           <AdminRoute>
             <AdminDashboard />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/products"
+        element={
+          <AdminRoute>
+            <AdminProducts />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/users"
+        element={
+          <AdminRoute>
+            <AdminUsers />
           </AdminRoute>
         }
       />

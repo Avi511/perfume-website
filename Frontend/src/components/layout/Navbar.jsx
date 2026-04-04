@@ -29,15 +29,15 @@ function Navbar() {
         window.addEventListener("scroll", handleScroll);
         // Initial check in case page starts scrolled
         handleScroll();
-        
+
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     return (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 w-[90%] z-50">
             <nav className={`relative overflow-hidden flex items-center justify-between px-6 py-3 rounded-4xl transition-all duration-500 linear
-                ${isScrolled 
-                    ? "bg-black/95 backdrop-blur-2xl border-none shadow-[0_4px_30px_rgba(0,0,0,0.5)]" 
+                ${isScrolled
+                    ? "bg-black/95 backdrop-blur-2xl border-none shadow-[0_4px_30px_rgba(0,0,0,0.5)]"
                     : "bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl"
                 } text-white group`}>
 
@@ -54,6 +54,9 @@ function Navbar() {
                     <Link to="/products" className="hover:text-amber-500 transition-colors duration-300">Products</Link>
                     {user?.isAdmin && (
                         <Link to="/admin/dashboard" className="text-amber-500 font-bold border-b border-amber-500/30 pb-0.5 hover:text-white hover:border-white transition-all duration-300">Admin Panel</Link>
+                    )}
+                    {user?.isSeller && (
+                        <Link to="/seller/dashboard" className="text-amber-500 font-bold border-b border-amber-500/30 pb-0.5 hover:text-white hover:border-white transition-all duration-300">Seller Panel</Link>
                     )}
                 </div>
 
@@ -72,8 +75,8 @@ function Navbar() {
                                     {user.firstName || "Profile"}
                                 </span>
                             </Link>
-                            
-                            <button 
+
+                            <button
                                 onClick={handleLogout}
                                 className="p-2 hover:text-amber-500 transition-colors duration-300 transform active:scale-95"
                                 title="Logout"
