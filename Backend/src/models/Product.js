@@ -26,6 +26,36 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    gender: {
+        type: String, // Men, Women, Unisex
+    },
+    fragranceFamily: {
+        type: String, // Floral, Woody, Fresh / Citrus, Oriental / Spicy, Gourmand
+    },
+    occasion: {
+        type: String, // Everyday / Office, Date Night, Party / Night Out, Formal / Luxury, Sport / Fresh wear
+    },
+    season: {
+        type: String, // Summer / Fresh, Winter / Warm & Spicy, All-season
+    },
+    priceRange: {
+        type: String, // Budget, Mid-range, Premium / Luxury
+    },
+    longevity: {
+        type: String, // Light & Fresh, Moderate, Long-lasting / Strong
+    },
+    isNewArrival: {
+        type: Boolean,
+        default: false,
+    },
+    isBestSeller: {
+        type: Boolean,
+        default: false,
+    },
+    isTrending: {
+        type: Boolean,
+        default: false,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
