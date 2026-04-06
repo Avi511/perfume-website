@@ -7,10 +7,10 @@ class APIFeatures {
   search() {
     const keyword = this.queryString.keyword
       ? {
-          name: {
-            $regex: this.queryString.keyword,
-            $options: 'i',
-          },
+        productName: {
+          $regex: this.queryString.keyword,
+          $options: 'i',
+        },
         }
       : {};
 
@@ -33,7 +33,7 @@ class APIFeatures {
 
   paginate() {
     const page = parseInt(this.queryString.page, 10) || 1;
-    const limit = parseInt(this.queryString.limit, 10) || 10;
+    const limit = parseInt(this.queryString.limit, 10) || 100;
     const skip = (page - 1) * limit;
 
     this.query = this.query.skip(skip).limit(limit);

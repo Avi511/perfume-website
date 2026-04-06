@@ -165,54 +165,7 @@ const SellerDashboard = () => {
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/[0.02] rounded-full blur-3xl"></div>
                             </motion.div>
                         </div>
-
-                        <div className="bg-zinc-950/40 border border-dashed border-zinc-900 p-16 rounded-[40px] text-center">
-                            <div className="w-16 h-16 bg-zinc-900 rounded-2xl flex items-center justify-center mx-auto mb-6 text-zinc-700">
-                                <ShoppingBag size={28} />
-                            </div>
-                            <h3 className="text-lg font-serif text-white/50 mb-2">Order Archive</h3>
-                            <p className="text-zinc-500 text-sm max-w-xs mx-auto italic">Your fulfillment records will manifest here once your masterworks are acquired.</p>
-                        </div>
                     </div>
-
-                    <aside className="space-y-8">
-                        <div className="bg-gradient-to-br from-zinc-900/50 to-black border border-zinc-900 p-10 rounded-[48px] relative overflow-hidden shadow-2xl">
-                            <div className="flex items-center justify-between mb-10">
-                                <h3 className="text-lg font-serif">Status</h3>
-                                <div className="flex items-center gap-2">
-                                    <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
-                                    <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500">Partner Active</span>
-                                </div>
-                            </div>
-
-                            <div className="space-y-8 mb-12">
-                                {[
-                                    { label: "Commission Rating", value: "Level 1" },
-                                    { label: "Scent Fulfillment", value: "98% Score" },
-                                    { label: "Partner Tenure", value: "Verified Jun '26" }
-                                ].map((item, i) => (
-                                    <div key={i} className="flex justify-between items-end pb-4 border-b border-zinc-900/50">
-                                        <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest">{item.label}</p>
-                                        <p className="text-sm font-medium text-white/80">{item.value}</p>
-                                    </div>
-                                ))}
-                            </div>
-
-                            <button className="w-full py-5 bg-white/5 border border-white/10 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all">
-                                Protocol Documentation
-                            </button>
-                        </div>
-
-                        <div className="p-8 bg-zinc-950 border border-zinc-900 rounded-[40px] flex items-center gap-6 group hover:border-amber-500/20 transition-all cursor-pointer">
-                            <div className="w-14 h-14 bg-zinc-900 rounded-2xl flex items-center justify-center text-amber-500 shadow-xl border border-white/5 group-hover:scale-110 transition-transform">
-                                <Mail size={20} />
-                            </div>
-                            <div>
-                                <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-500 mb-1">Support</h4>
-                                <p className="text-sm font-serif">Concierge Contact</p>
-                            </div>
-                        </div>
-                    </aside>
                 </div>
 
             </div>

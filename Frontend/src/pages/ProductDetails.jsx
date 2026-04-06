@@ -157,7 +157,7 @@ function ProductDetails() {
                     onClick={() => addToCart(product, qty)}
                     className="flex-1 px-8 py-5 rounded-full bg-white text-black font-bold uppercase tracking-widest text-[11px] hover:bg-amber-600 hover:text-white transform active:scale-95 transition-all shadow-xl shadow-black/20"
                   >
-                    Add to Cart — ${(product.price * qty).toLocaleString()}
+                    Add to Cart — Rs. {(product.price * qty).toLocaleString()}
                   </button>
                   <button
                     onClick={() => navigate('/cart')}
