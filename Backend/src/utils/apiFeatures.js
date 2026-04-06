@@ -11,7 +11,7 @@ class APIFeatures {
           $regex: this.queryString.keyword,
           $options: 'i',
         },
-        }
+      }
       : {};
 
     this.query = this.query.find({ ...keyword });

@@ -1,90 +1,44 @@
+import { useState, useEffect } from 'react';
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
-import perfumeImg from '../assets/luxury_perfume.png';
 import perfumeVideo from '../assets/video_01.mp4';
 import aboutImg from '../assets/about_elements.png';
 import contactImg from '../assets/contact_luxury.png';
-
-const products = [
-  {
-    id: 1,
-    name: "Midnight Silk",
-    price: 120,
-    rating: 5,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 2,
-    name: "Amber Glow",
-    price: 95,
-    rating: 4,
-    category: "Eau de Toilette",
-    image: perfumeImg
-  },
-  {
-    id: 3,
-    name: "Velvet Oud",
-    price: 180,
-    rating: 5,
-    category: "Extrait de Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 4,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 5,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 6,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 7,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 8,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 9,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  },
-  {
-    id: 10,
-    name: "Velvet Oud",
-    price: 2000,
-    category: "Parfum",
-    image: perfumeImg
-  }
-];
+import api from '../services/api';
 
 function Home() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        setLoading(true);
+        const { data } = await api.get('/products?limit=8');
+        const mappedProducts = data.map(p => ({
+          id: p._id,
+          productId: p.productId,
+          name: p.productName || p.name,
+          price: p.productPrice || p.price,
+          image: p.productImage || p.image,
+          category: p.category || "Luxury Collection",
+          rating: p.rating || 5,
+        }));
+        setProducts(mappedProducts);
+      } catch (err) {
+        console.error("Failed to fetch featured products:", err);
+        setError("Unable to load collection.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
   return (
     <div className="bg-white text-gray-900">
-      {/* Hero Section */}
       <section className="relative h-[100vh] flex flex-col items-center justify-center bg-black overflow-hidden">
         <video
           autoPlay
@@ -104,11 +58,10 @@ function Home() {
               The Essence of Timeless Luxury
             </p>
           </div>
-          <Button className="mt-4 scale-120">Explore the Scents</Button>
+          <Button to="/products" className="mt-4 scale-120">Explore the Scents</Button>
         </div>
       </section>
 
-      {/* Featured Collection Section */}
       <section className="py-24 px-4 max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
           <div className="max-w-xl">
@@ -120,11 +73,27 @@ function Home() {
           <Button to="/products" className="!text-black !glass-button border-black/20 hover:!text-black scale-110">Shop All</Button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-10">
-          {products.slice(0, 4).map(product => (
-            <Card key={product.id} {...product} />
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center py-24">
+            <div className="w-12 h-12 border-4 border-amber-600/20 border-t-amber-600 rounded-full animate-spin"></div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-24 text-gray-400 italic">
+            {error}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+            {products.map(product => (
+              <Card
+                key={product.id}
+                {...product}
+                image={product.image && (product.image.startsWith('http') || product.image.startsWith('data:'))
+                  ? product.image
+                  : (product.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${product.image}` : "/images/sample.jpg")}
+              />
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Premium About Section */}

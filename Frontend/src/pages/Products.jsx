@@ -31,6 +31,7 @@ function Products() {
       const { data } = await api.get(`/products?${params.toString()}`);
       const mappedProducts = data.map(p => ({
         id: p._id,
+        productId: p.productId,
         name: p.productName || p.name,
         price: p.productPrice || p.price,
         image: p.productImage || p.image,
