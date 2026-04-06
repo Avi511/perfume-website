@@ -73,7 +73,6 @@ const SellerDashboard = () => {
     return (
         <div className="min-h-screen bg-black text-white pt-24 pb-24 px-4 sm:px-8 lg:px-12">
 
-            {/* Header */}
             <div className="max-w-7xl mx-auto mb-12 flex flex-col md:flex-row md:items-center justify-between gap-12">
                 <div>
                     <motion.span
@@ -105,7 +104,6 @@ const SellerDashboard = () => {
 
             <div className="max-w-7xl mx-auto space-y-12">
 
-                {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {stats.map((stat, idx) => (
                         <motion.div
@@ -132,7 +130,6 @@ const SellerDashboard = () => {
                     ))}
                 </div>
 
-                {/* Main Workflow Area */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2 space-y-8">
                         <h2 className="text-xl font-serif text-white/90 flex items-center gap-3">
@@ -169,8 +166,6 @@ const SellerDashboard = () => {
                             </motion.div>
                         </div>
 
-
-                        {/* Recent Orders Placeholder */}
                         <div className="bg-zinc-950/40 border border-dashed border-zinc-900 p-16 rounded-[40px] text-center">
                             <div className="w-16 h-16 bg-zinc-900 rounded-2xl flex items-center justify-center mx-auto mb-6 text-zinc-700">
                                 <ShoppingBag size={28} />
@@ -180,7 +175,6 @@ const SellerDashboard = () => {
                         </div>
                     </div>
 
-                    {/* Sidebar Performance */}
                     <aside className="space-y-8">
                         <div className="bg-gradient-to-br from-zinc-900/50 to-black border border-zinc-900 p-10 rounded-[48px] relative overflow-hidden shadow-2xl">
                             <div className="flex items-center justify-between mb-10">
@@ -228,8 +222,8 @@ const SellerDashboard = () => {
                 <p className="text-zinc-800 text-[10px] font-bold uppercase tracking-[0.5em]">&copy; Élan Partner Protocol &middot; Secure Handshake 1.0.4</p>
             </div>
 
-            <AddProductModal 
-                isOpen={showAddModal} 
+            <AddProductModal
+                isOpen={showAddModal}
                 onClose={() => setShowAddModal(false)}
                 onSuccess={fetchSellerData}
             />

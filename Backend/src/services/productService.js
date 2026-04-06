@@ -1,10 +1,25 @@
 import Product from '../models/Product.js';
 import APIFeatures from '../utils/apiFeatures.js';
 
+const transformProduct = (product) => {
+    if (!product) return null;
+
+    const transformed = product.toObject ? product.toObject() : { ...product };
+
+    if (product.productImage && product.productImage.data) {
+        const base64 = product.productImage.data.toString('base64');
+        transformed.productImage = `data:${product.productImage.contentType};base64,${base64}`;
+    } else {
+        transformed.productImage = product.productImage || "/images/sample.jpg";
+    }
+
+    return transformed;
+};
+
 export const getAllProductsService = async (queryString) => {
     const features = new APIFeatures(Product.find(), queryString).search().filter().paginate();
     const products = await features.query;
-    return products;
+    return products.map(transformProduct);
 };
 
 export const getProductByIdService = async (id) => {
@@ -15,12 +30,12 @@ export const getProductByIdService = async (id) => {
     if (!product) {
         throw new Error('Product not found');
     }
-    return product;
+    return transformProduct(product);
 };
 
-export const createProductService = async (productData, user) => {
-    const { 
-        productName, productImage, productPrice, productQuantity, 
+export const createProductService = async (productData, user, file) => {
+    const {
+        productName, productPrice, productQuantity,
         gender, fragranceFamily, occasion, season, priceRange, longevity,
         isNewArrival, isBestSeller, isTrending
     } = productData;
@@ -34,61 +49,80 @@ export const createProductService = async (productData, user) => {
         }
     }
 
-    const product = new Product({
+    const productContent = {
         productId: newProductId,
         productName: productName || "Sample name",
-        productImage: productImage || "/images/sample.jpg",
-        productPrice: productPrice || 0,
-        productQuantity: productQuantity || 0,
-        productTotal: (productPrice || 0) * (productQuantity || 0),
+        productPrice: Number(productPrice) || 0,
+        productQuantity: Number(productQuantity) || 0,
+        productTotal: (Number(productPrice) || 0) * (Number(productQuantity) || 0),
         gender,
         fragranceFamily,
         occasion,
         season,
         priceRange,
         longevity,
-        isNewArrival,
-        isBestSeller,
-        isTrending,
+        isNewArrival: isNewArrival === 'true' || isNewArrival === true,
+        isBestSeller: isBestSeller === 'true' || isBestSeller === true,
+        isTrending: isTrending === 'true' || isTrending === true,
         seller: user._id
-    });
+    };
 
+    if (file) {
+        productContent.productImage = {
+            data: file.buffer,
+            contentType: file.mimetype
+        };
+    }
+
+    const product = new Product(productContent);
     const createdProduct = await product.save();
-    return createdProduct;
+    return transformProduct(createdProduct);
 };
 
-export const updateProductService = async (id, updatedData, user) => {
+export const updateProductService = async (id, updatedData, user, file) => {
     const product = await Product.findOne({
         $or: [{ productId: id }, { _id: id }]
     }).catch(() => null);
 
-    if (product) {
-        // Only seller or admin can update
-        if (product.seller.toString() !== user._id.toString() && !user.isAdmin) {
-            throw new Error('Not authorized to update this product');
-        }
-
-        const fieldsToUpdate = [
-            'productName', 'productImage', 'productPrice', 'productQuantity',
-            'gender', 'fragranceFamily', 'occasion', 'season', 'priceRange', 'longevity',
-            'isNewArrival', 'isBestSeller', 'isTrending'
-        ];
-
-        fieldsToUpdate.forEach(field => {
-            if (updatedData[field] !== undefined) {
-                product[field] = updatedData[field];
-            }
-        });
-
-        if (updatedData.productPrice !== undefined || updatedData.productQuantity !== undefined) {
-            product.productTotal = product.productPrice * product.productQuantity;
-        }
-
-        const updatedProduct = await product.save();
-        return updatedProduct;
-    } else {
+    if (!product) {
         throw new Error('Product not found');
     }
+
+    if (product.seller.toString() !== user._id.toString() && !user.isAdmin) {
+        throw new Error('Not authorized to update this product');
+    }
+
+    const fieldsToUpdate = [
+        'productName', 'productPrice', 'productQuantity',
+        'gender', 'fragranceFamily', 'occasion', 'season', 'priceRange', 'longevity',
+        'isNewArrival', 'isBestSeller', 'isTrending'
+    ];
+
+    fieldsToUpdate.forEach(field => {
+        if (updatedData[field] !== undefined) {
+            if (field === 'productPrice' || field === 'productQuantity') {
+                product[field] = Number(updatedData[field]);
+            } else if (['isNewArrival', 'isBestSeller', 'isTrending'].includes(field)) {
+                product[field] = updatedData[field] === 'true' || updatedData[field] === true;
+            } else {
+                product[field] = updatedData[field];
+            }
+        }
+    });
+
+    if (file) {
+        product.productImage = {
+            data: file.buffer,
+            contentType: file.mimetype
+        };
+    } else if (updatedData.productImage) {
+        product.productImage = updatedData.productImage;
+    }
+
+    product.productTotal = (product.productPrice || 0) * (product.productQuantity || 0);
+
+    const updatedProduct = await product.save();
+    return transformProduct(updatedProduct);
 };
 
 export const deleteProductService = async (id, user) => {
@@ -96,15 +130,15 @@ export const deleteProductService = async (id, user) => {
         $or: [{ productId: id }, { _id: id }]
     }).catch(() => null);
 
-    if (product) {
-        // Only seller or admin can delete
-        if (product.seller.toString() !== user._id.toString() && !user.isAdmin) {
-            throw new Error('Not authorized to delete this product');
-        }
-        await product.deleteOne();
-        return { message: "Product removed" };
-    } else {
+    if (!product) {
         throw new Error('Product not found');
     }
+
+    if (product.seller.toString() !== user._id.toString() && !user.isAdmin) {
+        throw new Error('Not authorized to delete this product');
+    }
+
+    await product.deleteOne();
+    return { message: "Product removed" };
 };
 

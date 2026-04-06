@@ -82,7 +82,7 @@ function ProductDetails() {
         >
           <img
             src={product.image
-              ? (product.image.startsWith('http') ? product.image : `${import.meta.env.VITE_API_URL.replace('/api', '')}${product.image}`)
+              ? (product.image.startsWith('http') || product.image.startsWith('data:') ? product.image : `${import.meta.env.VITE_API_URL.replace('/api', '')}${product.image}`)
               : "https://via.placeholder.com/600x700?text=Perfume"}
             alt={product.name}
             className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-[3s] ease-out"

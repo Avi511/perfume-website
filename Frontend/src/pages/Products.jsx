@@ -16,15 +16,14 @@ function Products() {
   const fetchProducts = useCallback(async () => {
     try {
       setLoading(true);
-      
-      // Construct query parameters
+
       const params = new URLSearchParams();
       Object.entries(activeFilters).forEach(([key, value]) => {
         if (value) {
           if (key === 'isNewArrival' || key === 'isBestSeller' || key === 'isTrending') {
-             params.append(key, 'true');
+            params.append(key, 'true');
           } else {
-             params.append(key, value);
+            params.append(key, value);
           }
         }
       });
@@ -56,8 +55,7 @@ function Products() {
   const handleFilterChange = (sectionId, value) => {
     setActiveFilters(prev => {
       const next = { ...prev };
-      
-      // Special handling for Trending section (which are booleans)
+
       if (sectionId === 'trending') {
         if (next[value] === 'true') {
           delete next[value];
@@ -65,7 +63,6 @@ function Products() {
           next[value] = 'true';
         }
       } else {
-        // Toggle behavior for other sections
         if (next[sectionId] === value) {
           delete next[sectionId];
         } else {
@@ -100,7 +97,7 @@ function Products() {
             <span className="text-amber-500 font-bold uppercase tracking-[0.5em] text-[10px] mb-4 block">
               The Collection
             </span>
-            <h1 className="text-5xl md:text-8xl font-serif text-white mb-6 uppercase tracking-tighter">
+            <h1 className="text-5xl md:text-8xl font-serif text-white mb-6">
               Our Masterpieces
             </h1>
             <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed font-light italic">
@@ -112,38 +109,35 @@ function Products() {
 
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 py-12 md:py-24">
         <div className="flex flex-col lg:flex-row gap-12">
-          
-          {/* Mobile Filter Toggle */}
+
           <div className="lg:hidden flex items-center justify-between mb-8 border-b border-zinc-900 pb-4">
-             <button 
-               onClick={() => setIsFilterOpen(true)}
-               className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors"
-             >
-               <SlidersHorizontal className="w-4 h-4" />
-               Filters
-               {Object.keys(activeFilters).length > 0 && (
-                 <span className="w-2 h-2 bg-amber-500 rounded-full" />
-               )}
-             </button>
-             <span className="text-[10px] text-zinc-500 uppercase tracking-widest">
-               {products.length} Products Found
-             </span>
+            <button
+              onClick={() => setIsFilterOpen(true)}
+              className="flex items-center gap-3 text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white transition-colors"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              Filters
+              {Object.keys(activeFilters).length > 0 && (
+                <span className="w-2 h-2 bg-amber-500 rounded-full" />
+              )}
+            </button>
+            <span className="text-[10px] text-zinc-500 uppercase tracking-widest">
+              {products.length} Products Found
+            </span>
           </div>
 
-          {/* Sidebar Filters (Desktop) */}
           <aside className="hidden lg:block w-72 flex-shrink-0">
-            <ProductFilters 
+            <ProductFilters
               activeFilters={activeFilters}
               onFilterChange={handleFilterChange}
               onClearFilters={handleClearFilters}
             />
           </aside>
 
-          {/* Mobile Filter Drawer */}
           <AnimatePresence>
             {isFilterOpen && (
-              <ProductFilters 
-                isMobile 
+              <ProductFilters
+                isMobile
                 activeFilters={activeFilters}
                 onFilterChange={handleFilterChange}
                 onClearFilters={handleClearFilters}
@@ -152,25 +146,24 @@ function Products() {
             )}
           </AnimatePresence>
 
-          {/* Product Grid */}
           <main className="flex-1">
             <div className="hidden lg:flex items-center justify-between mb-8 pb-4 border-b border-zinc-900">
-               <div className="flex items-center gap-4">
-                 <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500">The Vault</h2>
-                 <span className="w-px h-4 bg-zinc-800" />
-                 <span className="text-[10px] text-zinc-600 uppercase tracking-widest italic">{products.length} pieces of art</span>
-               </div>
-               
-               <div className="flex items-center gap-3">
-                 {Object.keys(activeFilters).length > 0 && (
-                   <button 
-                     onClick={handleClearFilters}
-                     className="text-[9px] uppercase tracking-widest text-amber-500/60 hover:text-amber-500 underline underline-offset-4"
-                   >
-                     Clear Applied Filters
-                   </button>
-                 )}
-               </div>
+              <div className="flex items-center gap-4">
+                <h2 className="text-sm font-bold uppercase tracking-widest text-zinc-500">The Vault</h2>
+                <span className="w-px h-4 bg-zinc-800" />
+                <span className="text-[10px] text-zinc-600 uppercase tracking-widest italic">{products.length} pieces of art</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                {Object.keys(activeFilters).length > 0 && (
+                  <button
+                    onClick={handleClearFilters}
+                    className="text-[9px] uppercase tracking-widest text-amber-500/60 hover:text-amber-500 underline underline-offset-4"
+                  >
+                    Clear Applied Filters
+                  </button>
+                )}
+              </div>
             </div>
 
             {loading ? (
@@ -186,14 +179,14 @@ function Products() {
                 <p className="text-rose-400 text-sm font-light uppercase tracking-widest italic">{error}</p>
               </div>
             ) : products.length === 0 ? (
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="text-center py-32 bg-zinc-950/50 rounded-3xl border border-zinc-900/50"
               >
                 <h3 className="text-2xl font-serif text-white mb-4 uppercase tracking-widest">No scents matched your selection.</h3>
                 <p className="text-zinc-500 font-light max-w-sm mx-auto mb-8 tracking-wide">Our master perfumers are currently crafting new masterpieces. Try refining your filters or reset to explore our full collection.</p>
-                <button 
+                <button
                   onClick={handleClearFilters}
                   className="px-8 py-3 bg-amber-600 hover:bg-amber-700 text-black font-bold text-[10px] uppercase tracking-[0.3em] transition-all rounded-full shadow-lg shadow-amber-900/20"
                 >
@@ -227,7 +220,6 @@ function Products() {
         </div>
       </div>
 
-      {/* Decorative Newsletter/Footer Accent */}
       <section className="py-24 bg-zinc-900/30 overflow-hidden relative border-t border-zinc-900">
         <div className="max-w-7xl mx-auto text-center px-4 relative z-10">
           <h2 className="text-4xl font-serif mb-6 uppercase tracking-widest text-white/90">Experience the Essence</h2>

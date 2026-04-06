@@ -11,8 +11,8 @@ const productSchema = new mongoose.Schema({
         required: true,
     },
     productImage: {
-        type: String,
-        required: true,
+        data: Buffer,
+        contentType: String,
     },
     productPrice: {
         type: Number,
@@ -61,16 +61,9 @@ const productSchema = new mongoose.Schema({
         ref: "User",
         required: true,
     },
-    createdAt: {
-
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
-})
+}, { 
+    timestamps: true 
+});
 
 const Product = mongoose.model("Product", productSchema);
 export default Product;

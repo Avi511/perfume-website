@@ -76,16 +76,18 @@ const FilterSection = ({ section, activeFilters, onFilterChange, isOpen, toggleO
     <div className="border-b border-zinc-800 py-4">
       <button
         onClick={() => toggleOpen(section.id)}
-        className="flex items-center justify-between w-full text-left group"
+        className="flex items-center justify-between w-full text-left py-2 group"
       >
-        <span className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-400 group-hover:text-amber-500 transition-colors">
+        <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-zinc-100 group-hover:text-amber-500 transition-all duration-300">
           {section.label}
         </span>
-        {isOpen ? (
-          <ChevronUp className="w-4 h-4 text-zinc-500 group-hover:text-amber-500" />
-        ) : (
-          <ChevronDown className="w-4 h-4 text-zinc-500 group-hover:text-amber-500" />
-        )}
+        <div className="p-1 rounded-full group-hover:bg-zinc-800/50 transition-colors">
+          {isOpen ? (
+            <ChevronUp className="w-3.5 h-3.5 text-zinc-400 group-hover:text-amber-500" />
+          ) : (
+            <ChevronDown className="w-3.5 h-3.5 text-zinc-400 group-hover:text-amber-500" />
+          )}
+        </div>
       </button>
 
       <AnimatePresence>
@@ -96,7 +98,7 @@ const FilterSection = ({ section, activeFilters, onFilterChange, isOpen, toggleO
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="pt-4 space-y-3">
+            <div className="pt-2 pb-4 space-y-4">
               {section.options.map((option) => {
                 const isActive = activeFilters[section.id] === option.value ||
                   (section.id === 'trending' && activeFilters[option.value] === 'true');
@@ -104,24 +106,36 @@ const FilterSection = ({ section, activeFilters, onFilterChange, isOpen, toggleO
                 return (
                   <label
                     key={option.value}
-                    className="flex items-center gap-3 cursor-pointer group"
+                    className="flex items-center gap-4 cursor-pointer group/item select-none"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      onFilterChange(section.id, option.value);
+                    }}
                   >
                     <div
-                      className={`w-4 h-4 rounded-sm border transition-all duration-300 flex items-center justify-center
+                      className={`w-5 h-5 rounded-md border transition-all duration-500 flex items-center justify-center relative overflow-hidden
                         ${isActive
-                          ? 'border-amber-500 bg-amber-500/10'
-                          : 'border-zinc-700 bg-transparent group-hover:border-zinc-500'}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        onFilterChange(section.id, option.value);
-                      }}
+                          ? 'border-amber-500 bg-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)]'
+                          : 'border-zinc-700 bg-zinc-900/50 group-hover/item:border-zinc-500 group-hover/item:bg-zinc-800/50'}`}
                     >
-                      {isActive && <div className="w-1.5 h-1.5 bg-amber-500 rounded-[1px]" />}
+                      {isActive && (
+                        <motion.div
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          className="w-2 h-2 bg-amber-500 rounded-[2px] shadow-[0_0_8px_rgba(245,158,11,0.6)]"
+                        />
+                      )}
+
+                      {/* Subtle hover pulse */}
+                      {!isActive && (
+                        <div className="absolute inset-0 bg-white/5 opacity-0 group-hover/item:opacity-100 transition-opacity" />
+                      )}
                     </div>
                     <span
-                      className={`text-sm transition-colors duration-300
-                        ${isActive ? 'text-white font-medium' : 'text-zinc-500 group-hover:text-zinc-300'}`}
-                      onClick={() => onFilterChange(section.id, option.value)}
+                      className={`text-[13px] tracking-wide transition-all duration-300
+                        ${isActive
+                          ? 'text-white font-medium transform translate-x-1'
+                          : 'text-zinc-400 group-hover/item:text-zinc-200'}`}
                     >
                       {option.label}
                     </span>
@@ -147,36 +161,44 @@ const ProductFilters = ({ activeFilters, onFilterChange, onClearFilters, isMobil
   };
 
   const content = (
-    <div className={`flex flex-col h-full ${isMobile ? 'bg-zinc-950 p-6' : 'pr-8 sticky top-32'}`}>
-      <div className="flex items-center justify-between mb-8">
-        <h3 className="text-xl font-serif text-white uppercase tracking-widest">Filters</h3>
-        {isMobile && (
-          <button onClick={() => setIsOpen(false)} className="text-zinc-400 hover:text-white">
-            <X className="w-6 h-6" />
+    <div className={`flex flex-col h-full ${isMobile ? 'bg-zinc-950 p-8' : 'pr-6 sticky top-32'}`}>
+      <div className={`flex flex-col ${!isMobile && 'bg-zinc-900/20 rounded-2xl border border-zinc-800/30 p-8 shadow-2xl backdrop-blur-sm'}`}>
+        <div className="flex items-center justify-between mb-10">
+          <div className="space-y-1">
+            <h3 className="text-2xl font-serif text-white uppercase tracking-[0.1em]">Filters</h3>
+            <div className="h-px w-8 bg-amber-500/50" />
+          </div>
+          {isMobile && (
+            <button
+              onClick={() => setIsOpen(false)}
+              className="p-2 -mr-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-full transition-all"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          )}
+        </div>
+
+        <div className="flex-1 overflow-y-auto custom-scrollbar no-scrollbar pr-4 space-y-2">
+          {filterData.map((section) => (
+            <FilterSection
+              key={section.id}
+              section={section}
+              activeFilters={activeFilters}
+              onFilterChange={onFilterChange}
+              isOpen={openSections[section.id]}
+              toggleOpen={toggleSection}
+            />
+          ))}
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-zinc-900">
+          <button
+            onClick={onClearFilters}
+            className="w-full py-4 text-[11px] uppercase tracking-[0.25em] font-extrabold text-zinc-300 border border-zinc-800 hover:border-amber-500/50 hover:text-amber-500 hover:bg-amber-500/5 transition-all duration-500 rounded-xl bg-zinc-900/50"
+          >
+            Reset All Filters
           </button>
-        )}
-      </div>
-
-      <div className="flex-1 overflow-y-auto custom-scrollbar no-scrollbar pr-2">
-        {filterData.map((section) => (
-          <FilterSection
-            key={section.id}
-            section={section}
-            activeFilters={activeFilters}
-            onFilterChange={onFilterChange}
-            isOpen={openSections[section.id]}
-            toggleOpen={toggleSection}
-          />
-        ))}
-      </div>
-
-      <div className="mt-8 pt-6 border-t border-zinc-800">
-        <button
-          onClick={onClearFilters}
-          className="text-[10px] uppercase tracking-[0.3em] font-bold text-amber-500 hover:text-white transition-colors"
-        >
-          Reset All Filters
-        </button>
+        </div>
       </div>
     </div>
   );

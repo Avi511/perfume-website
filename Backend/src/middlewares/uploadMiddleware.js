@@ -1,18 +1,11 @@
 import multer from "multer";
-import path from "path";
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, "src/uploads/");
-    },
-    filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-    }
-});
 function checkFileType(file, cb) {
     const filetypes = /jpeg|jpg|png|webp|gif/;
 
-    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const extname = filetypes.test(
+        file.originalname.toLowerCase().split(".").pop()
+    );
     const mimetype = filetypes.test(file.mimetype);
 
     if (mimetype && extname) {
@@ -22,10 +15,12 @@ function checkFileType(file, cb) {
     }
 }
 
+const storage = multer.memoryStorage();
+
 export const upload = multer({
-    storage: storage,
+    storage,
     limits: { fileSize: 5 * 1024 * 1024 },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
-    }
+    },
 });

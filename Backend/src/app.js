@@ -36,8 +36,8 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 
-const __dirname = path.resolve();
-app.use("/src/uploads", express.static(path.join(__dirname, "/src/uploads")));
+const dirname = path.resolve();
+app.use("/src/uploads", express.static(path.join(dirname, "/src/uploads")));
 
 app.use(notFound);
 app.use(errorHandler);
