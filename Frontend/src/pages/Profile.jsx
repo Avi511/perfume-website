@@ -226,7 +226,13 @@ function Profile() {
                                                     <div className="flex flex-col md:flex-row justify-between gap-8">
                                                         <div className="flex gap-8">
                                                             <div className="w-20 h-20 bg-zinc-900 rounded-2xl overflow-hidden flex-shrink-0 border border-white/5">
-                                                                <img src={order.product[0]?.productImage} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                                                <img 
+                                                                    src={order.product[0]?.productImage && (order.product[0].productImage.startsWith('http') || order.product[0].productImage.startsWith('data:'))
+                                                                        ? order.product[0].productImage
+                                                                        : (order.product[0]?.productImage ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${order.product[0].productImage}` : "/images/sample.jpg")} 
+                                                                    alt="" 
+                                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                                                />
                                                             </div>
                                                             <div>
                                                                 <div className="flex items-center gap-3 mb-3">

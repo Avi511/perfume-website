@@ -1,5 +1,6 @@
 import Order from "../models/Order.js";
 import Product from "../models/Product.js";
+import { transformProduct } from "../services/productService.js";
 
 export const createOrder = async (req, res) => {
     try {
@@ -31,22 +32,34 @@ export const createOrder = async (req, res) => {
 
         for (const item of reqProducts) {
             const qty = parseInt(item.quantity, 10);
-            if (!qty || qty <= 0) {
-                return res.status(400).json({ error: "Quantity must be greater than zero" });
-            }
-
             const productDoc = await Product.findOne({ productId: item.productId });
+
             if (!productDoc) {
                 return res.status(404).json({ error: `Product with ID ${item.productId} not found` });
             }
+
+            if (productDoc.productQuantity < qty) {
+                return res.status(400).json({
+                    error: `Insufficient stock for ${productDoc.productName}. Available: ${productDoc.productQuantity}`
+                });
+            }
+        }
+
+        for (const item of reqProducts) {
+            const qty = parseInt(item.quantity, 10);
+            const productDoc = await Product.findOne({ productId: item.productId });
+            productDoc.productQuantity -= qty;
+            await productDoc.save();
+
+            const transformedProduct = transformProduct(productDoc);
             const productTotal = productDoc.productPrice * qty;
             totalAmount += productTotal;
 
             fullyPopulatedProducts.push({
-                productId: productDoc.productId,
-                productName: productDoc.productName,
-                productImage: productDoc.productImage,
-                productPrice: productDoc.productPrice,
+                productId: transformedProduct.productId,
+                productName: transformedProduct.productName,
+                productImage: transformedProduct.productImage,
+                productPrice: transformedProduct.productPrice,
                 productQuantity: qty,
                 productTotal: productTotal
             });

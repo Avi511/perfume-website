@@ -1,18 +1,26 @@
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { Trash2, ShoppingBag, ArrowRight, Minus, Plus, ChevronLeft } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import { Trash2, ShoppingBag, ArrowRight, Minus, Plus, ChevronLeft, LogIn, X } from "lucide-react";
 
 function Cart() {
   const { cartItems, removeFromCart, updateQty, cartTotal } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const shippingPrice = cartTotal > 5000 ? 0 : 500;
   const tax = cartTotal * 0.15;
   const finalTotal = cartTotal + shippingPrice + tax;
 
   const handleCheckout = () => {
-    navigate("/checkout");
+    if (!user) {
+      setShowLoginModal(true);
+    } else {
+      navigate("/checkout");
+    }
   };
 
   return (
@@ -81,7 +89,9 @@ function Cart() {
                         <div className="col-span-12 md:col-span-6 flex items-center gap-8">
                           <div className="w-24 h-32 md:w-28 md:h-36 rounded-2xl overflow-hidden bg-zinc-900 flex-shrink-0 border border-white/5">
                             <img 
-                              src={item.image.startsWith('http') ? item.image : `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.image}`}
+                              src={item.image && (item.image.startsWith('http') || item.image.startsWith('data:'))
+                                ? item.image
+                                : (item.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.image}` : "/images/sample.jpg")}
                               alt={item.name} 
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                             />
@@ -188,6 +198,65 @@ function Cart() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Login Prompt Modal */}
+      <AnimatePresence>
+        {showLoginModal && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowLoginModal(false)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              className="relative bg-zinc-950 border border-zinc-900 w-full max-w-sm p-10 rounded-[40px] shadow-2xl text-center overflow-hidden"
+            >
+              {/* Decorative detail */}
+              <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+              
+              <button 
+                onClick={() => setShowLoginModal(false)}
+                className="absolute top-6 right-6 text-zinc-700 hover:text-white transition-colors"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mx-auto mb-8 border border-zinc-800">
+                <LogIn className="text-amber-500" size={24} />
+              </div>
+              
+              <h3 className="text-2xl font-serif mb-4">Authentication Required</h3>
+              <p className="text-zinc-500 text-[11px] font-bold uppercase tracking-[0.2em] mb-10 leading-relaxed">
+                To finalize your luxury curation, we require you to authorize your identity.
+              </p>
+
+              <div className="flex flex-col gap-3">
+                <button 
+                  onClick={() => navigate("/login")}
+                  className="w-full py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-amber-600 hover:text-white transition-all transform active:scale-95 shadow-xl"
+                >
+                  Yes, Authorize Login
+                </button>
+                <button 
+                  onClick={() => setShowLoginModal(false)}
+                  className="w-full py-4 bg-zinc-900 text-zinc-400 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-zinc-800 hover:text-white transition-all transform active:scale-95"
+                >
+                  No, Continue Browsing
+                </button>
+              </div>
+
+              <p className="mt-8 text-[8px] text-zinc-700 font-bold uppercase tracking-widest italic leading-relaxed">
+                Security secured by Élan Encryption &middot; Your data remains confidential
+              </p>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import Product from "../models/Product.js";
 import User from "../models/User.js";
 import Order from "../models/Order.js";
 import { registerUserService } from "../services/authService.js";
+import { transformProduct } from "../services/productService.js";
 
 export const getDashboardStats = async (req, res) => {
     try {
@@ -70,7 +71,7 @@ export const getAllUsers = async (req, res) => {
 export const getAllProducts = async (req, res) => {
     try {
         const products = await Product.find().sort({ createdAt: -1 });
-        res.json(products);
+        res.json(products.map(transformProduct));
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

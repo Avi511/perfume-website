@@ -1,7 +1,7 @@
 import Product from '../models/Product.js';
 import APIFeatures from '../utils/apiFeatures.js';
 
-const transformProduct = (product) => {
+export const transformProduct = (product) => {
     if (!product) return null;
 
     const transformed = product.toObject ? product.toObject() : { ...product };

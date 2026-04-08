@@ -127,7 +127,13 @@ const AdminProducts = () => {
                                             <td className="px-10 py-6">
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 bg-zinc-900 rounded-xl overflow-hidden border border-white/5">
-                                                        <img src={p.productImage} alt="" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                                                        <img 
+                                                            src={p.productImage && (p.productImage.startsWith('http') || p.productImage.startsWith('data:'))
+                                                                ? p.productImage
+                                                                : (p.productImage ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${p.productImage}` : "/images/sample.jpg")} 
+                                                            alt="" 
+                                                            className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" 
+                                                        />
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-medium text-white/90">{p.productName}</p>
