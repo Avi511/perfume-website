@@ -237,7 +237,7 @@ function Cart() {
 
               <div className="flex flex-col gap-3">
                 <button 
-                  onClick={() => navigate("/login")}
+                  onClick={() => navigate("/login", { state: { from: "/cart" } })}
                   className="w-full py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-amber-600 hover:text-white transition-all transform active:scale-95 shadow-xl"
                 >
                   Yes, Authorize Login

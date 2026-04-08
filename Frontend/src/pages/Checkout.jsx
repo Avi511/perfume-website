@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useCart } from "../context/CartContext";
 import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
@@ -15,7 +15,9 @@ import {
   MapPin,
   Phone,
   Mail,
-  Lock
+  Lock,
+  Wallet,
+  CheckCircle
 } from "lucide-react";
 
 function Checkout() {
@@ -46,6 +48,92 @@ function Checkout() {
   });
 
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState("COD"); // COD, PayHere
+  const [cardDetails, setCardDetails] = useState({
+    number: "",
+    expiry: "",
+    cvv: "",
+    name: ""
+  });
+
+  const handlePayHerePayment = async () => {
+    try {
+      setLoading(true);
+      const orderId = `ORDER_${Date.now()}`;
+
+      // 1. Create the order in your backend first if needed, 
+      // or just start the payment and create order on notify/success.
+      // Usually better to create a 'Pending' order first.
+
+      const response = await api.post("/payhere/start", {
+        order_id: orderId,
+        amount: cartTotal,
+        currency: "LKR",
+        items: `Perfume Order (${cartItems.length} items)`,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        address: formData.address,
+        city: "Colombo",
+        country: "Sri Lanka",
+      });
+
+      const payment = response.data.payment;
+
+      window.payhere.onCompleted = async function onCompleted(orderId) {
+        console.log("Payment completed. OrderID:", orderId);
+
+        // Create the actual order in our system after successful payment
+        try {
+          const orderData = {
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            totalAmount: cartTotal,
+            paymentMethod: "PayHere",
+            orderId: orderId, // Store the PayHere order ID
+            product: cartItems.map((item) => ({
+              productId: item.productId || item.id || item._id,
+              productName: item.name,
+              productImage: item.image,
+              productPrice: item.price,
+              quantity: item.qty,
+              productTotal: item.price * item.qty,
+            })),
+          };
+          await api.post("/orders", orderData);
+
+          toast.success("Payment completed successfully.", {
+            icon: '✅',
+            style: { borderRadius: '20px', background: '#000', color: '#d4af37' }
+          });
+          clearCart();
+          navigate("/profile");
+        } catch (err) {
+          console.error("Failed to save order after payment:", err);
+          toast.error("Payment successful but order recording failed. Please contact support.");
+        }
+      };
+
+      window.payhere.onDismissed = function onDismissed() {
+        toast("Payment cancelled.", { icon: '❌' });
+        setLoading(false);
+      };
+
+      window.payhere.onError = function onError(error) {
+        console.error("PayHere error:", error);
+        toast.error("Digital transaction failed standard protocol.");
+        setLoading(false);
+      };
+
+      window.payhere.startPayment(payment);
+    } catch (error) {
+      console.error(error);
+      toast.error("Unable to initialize PayHere secure matrix.");
+    } finally {
+    }
+  };
 
   if (cartItems.length === 0) {
     return (
@@ -94,6 +182,7 @@ function Checkout() {
         phone: formData.phone,
         address: formData.address,
         totalAmount: cartTotal,
+        paymentMethod: paymentMethod,
         product: cartItems.map((item) => ({
           productId: item.productId || item.id || item._id,
           productName: item.name,
@@ -255,33 +344,90 @@ function Checkout() {
               <section className="space-y-8">
                 <div className="flex items-center gap-3 border-b border-zinc-900 pb-4">
                   <div className="w-10 h-10 bg-zinc-900 rounded-full flex items-center justify-center border border-zinc-800">
-                    <CreditCard className="w-5 h-5 text-amber-500" />
+                    <Wallet className="w-5 h-5 text-amber-500" />
                   </div>
-                  <h2 className="text-xl font-serif">Payment Method</h2>
+                  <h2 className="text-xl font-serif">Select Payment Method</h2>
                 </div>
 
-                <div className="bg-zinc-950 border border-zinc-900 rounded-[40px] p-8 space-y-6 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-all duration-700"></div>
-                  <div className="flex items-start justify-between relative z-10">
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium text-white italic">
-                        Cash on Delivery
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[
+                    { id: "COD", label: "Cash on Delivery", icon: Truck, desc: "Pay at your door" },
+                    { id: "PayHere", label: "PayHere", icon: CheckCircle, desc: "LKR Gateway" }
+                  ].map((method) => (
+                    <button
+                      key={method.id}
+                      type="button"
+                      onClick={() => setPaymentMethod(method.id)}
+                      className={`relative p-6 rounded-3xl border text-left transition-all duration-300 group ${paymentMethod === method.id
+                        ? "bg-amber-600/10 border-amber-600/50 shadow-[0_0_20px_rgba(212,175,55,0.05)]"
+                        : "bg-zinc-950 border-zinc-900 hover:border-zinc-700"
+                        }`}
+                    >
+                      {paymentMethod === method.id && (
+                        <CheckCircle size={14} className="absolute top-4 right-4 text-amber-500" />
+                      )}
+                      <method.icon
+                        size={20}
+                        className={`mb-4 transition-colors ${paymentMethod === method.id ? "text-amber-500" : "text-zinc-600 group-hover:text-zinc-400"}`}
+                      />
+                      <p className={`text-[10px] font-black uppercase tracking-widest mb-1 ${paymentMethod === method.id ? "text-white" : "text-zinc-500"}`}>
+                        {method.label}
                       </p>
-                      <p className="text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed">
-                        Pay when you receive your order.
-                        <br />
-                        Safe, secure, and private.
-                      </p>
-                    </div>
-                    <div className="w-6 h-6 border-2 border-amber-600 rounded-full flex items-center justify-center flex-shrink-0">
-                      <div className="w-2.5 h-2.5 bg-amber-600 rounded-full"></div>
-                    </div>
-                  </div>
+                      <p className="text-[9px] text-zinc-600 uppercase tracking-tight">{method.desc}</p>
+                    </button>
+                  ))}
                 </div>
+
+                <AnimatePresence mode="wait">
+
+                  {paymentMethod === "PayHere" && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="bg-amber-600/5 border border-amber-600/20 rounded-[32px] p-8 text-center">
+                        <p className="text-[10px] text-amber-500 font-bold uppercase tracking-widest mb-2">PayHere Secure Matrix</p>
+                        <p className="text-[11px] text-zinc-500 max-w-xs mx-auto">
+                          You will interact with the PayHere secure payment interface to finalize this acquisition in LKR.
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {paymentMethod === "COD" && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="bg-zinc-950 border border-zinc-900 rounded-[32px] p-8 relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl group-hover:bg-amber-500/10 transition-all duration-700 pointer-events-none"></div>
+                        <div className="flex items-start justify-between relative z-10">
+                          <div className="space-y-1">
+                            <p className="text-sm font-medium text-white italic">Cash on Delivery Authorization</p>
+                            <p className="text-[10px] text-zinc-500 uppercase tracking-widest leading-relaxed">
+                              Authorize payment upon physical possession of artifacts. Secure and personal.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </section>
 
               <button
-                type="submit"
+                type="button"
+                onClick={(e) => {
+                  if (paymentMethod === "PayHere") {
+                    handlePayHerePayment();
+                  } else {
+                    handleCheckout(e);
+                  }
+                }}
                 disabled={loading}
                 className="w-full bg-amber-600 hover:bg-amber-500 text-black font-black uppercase text-[11px] tracking-[0.4em] py-6 rounded-2xl transition-all shadow-2xl shadow-amber-900/10 flex items-center justify-center gap-4 group disabled:opacity-50 disabled:cursor-not-allowed"
               >

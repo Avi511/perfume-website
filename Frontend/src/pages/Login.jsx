@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { HiOutlineMail, HiOutlineLockClosed } from "react-icons/hi";
 import Button from "../components/common/Button";
@@ -11,6 +11,7 @@ function Login() {
   const { login } = useAuth();
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -37,7 +38,8 @@ function Login() {
       } else if (response.isSeller) {
         navigate("/seller/dashboard");
       } else {
-        navigate("/");
+        const from = location.state?.from || "/";
+        navigate(from);
       }
     } catch (error) {
       const message = error.response?.data?.error || error.response?.data?.message || "Login failed. Please check your credentials.";

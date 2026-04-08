@@ -18,10 +18,11 @@ function Footer() {
                     <div className="flex flex-col gap-6">
                         <h3 className="text-[10px] uppercase tracking-[0.4em] font-bold text-amber-500">Shop</h3>
                         <div className="flex flex-col gap-4 text-sm text-gray-300">
-                            <Link to="/products" className="hover:text-white transition">All Collection</Link>
-                            <Link to="/products?category=parfum" className="hover:text-white transition">Parfums</Link>
-                            <Link to="/products?category=eau" className="hover:text-white transition">Eau de Toilette</Link>
-                            <Link to="/gift-sets" className="hover:text-white transition">Gift Sets</Link>
+                            <Link to="/" className="hover:text-white transition">Home</Link>
+                            <Link to="/about" className="hover:text-white transition">About</Link>
+                            <Link to="/contact" className="hover:text-white transition">Contact</Link>
+                            <Link to="/products" className="hover:text-white transition">Products</Link>
+                            <Link to="/reviews" className="hover:text-white transition">Reviews</Link>
                         </div>
                     </div>
 
@@ -29,10 +30,11 @@ function Footer() {
                     <div className="flex flex-col gap-6">
                         <h3 className="text-[10px] uppercase tracking-[0.4em] font-bold text-amber-500">Support</h3>
                         <div className="flex flex-col gap-4 text-sm text-gray-300">
-                            <Link to="/about" className="hover:text-white transition">Our Story</Link>
-                            <Link to="/contact" className="hover:text-white transition">Contact Us</Link>
-                            <Link to="/shipping" className="hover:text-white transition">Shipping & Returns</Link>
+                            <Link to="/shipping" className="hover:text-white transition">Shipping Policy</Link>
                             <Link to="/privacy" className="hover:text-white transition">Privacy Policy</Link>
+                            <Link to="/terms" className="hover:text-white transition">Terms of Service</Link>
+                            <Link to="/refund" className="hover:text-white transition">Refund Policy</Link>
+                            <Link to="/faq" className="hover:text-white transition">FAQ</Link>
                         </div>
                     </div>
 

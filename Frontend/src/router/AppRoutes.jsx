@@ -15,6 +15,13 @@ import AdminUsers from "../pages/Admin/AdminUsers";
 import AdminRoute from "../pages/Admin/AdminRoute";
 import Profile from "../pages/Profile";
 import SellerRouter from "../pages/seller/SellerRouter";
+import Review from "../pages/Review";
+import LegalPrivacy from "../pages/LegalPrivacy";
+import ShippingPolicy from "../pages/ShippingPolicy";
+import RefundPolicy from "../pages/RefundPolicy";
+import TermsOfService from "../pages/TermsOfService";
+import FAQ from "../pages/FAQ";
+
 
 function AppRoutes() {
   return (
@@ -29,7 +36,13 @@ function AppRoutes() {
       <Route path="/products" element={<Products />} />
       <Route path="/products/:id" element={<ProductDetails />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/shipping" element={<ShippingPolicy />} />
+      <Route path="/privacy" element={<LegalPrivacy />} />
+      <Route path="/terms" element={<TermsOfService />} />
+      <Route path="/refund" element={<RefundPolicy />} />
+      <Route path="/faq" element={<FAQ />} />
       <Route path="/seller/*" element={<SellerRouter />} />
+      <Route path="/reviews" element={<Review />} />
 
       <Route
         path="/admin/dashboard"
