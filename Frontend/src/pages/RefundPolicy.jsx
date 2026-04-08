@@ -1,86 +1,126 @@
 import { motion } from "framer-motion";
-import { RotateCcw, PackageCheck, AlertTriangle, CheckCircle2 } from "lucide-react";
+import { RotateCcw, PackageCheck, AlertTriangle, CheckCircle2, ShoppingCart, RefreshCcw } from "lucide-react";
+import refundHero from "../assets/refund_hero.png";
 
 function RefundPolicy() {
   return (
-    <div className="min-h-screen bg-black text-white pt-32 pb-24 px-4 sm:px-8 lg:px-12 font-sans selection:bg-amber-500/30">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-20 text-center">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-amber-500/30">
+      {/* SECTION 1: DARK HERO */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <motion.div 
+          initial={{ scale: 1.2, opacity: 0 }}
+          animate={{ scale: 1, opacity: 0.5 }}
+          transition={{ duration: 2, ease: "easeOut" }}
+          className="absolute inset-0 z-0"
+        >
+          <img src={refundHero} className="w-full h-full object-cover" alt="Refunds" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        </motion.div>
+
+        <div className="relative z-10 text-center px-4">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-4"
+            transition={{ duration: 1, delay: 0.5 }}
+            className="space-y-6"
           >
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-500">Exchanges & Resolves</span>
-            <h1 className="text-5xl md:text-7xl font-serif leading-tight">Refund Policy</h1>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto mt-8"></div>
+            <span className="text-[10px] font-black uppercase tracking-[0.6em] text-amber-500">Exchanges & Resolves</span>
+            <h1 className="text-6xl md:text-8xl font-serif leading-none tracking-tighter">
+              Graceful <br /> <span className="italic font-light">Returns</span>
+            </h1>
+            <div className="w-12 h-px bg-amber-500/50 mx-auto"></div>
           </motion.div>
-        </header>
-
-        <div className="space-y-20 relative">
-          {/* Decorative Corner */}
-          <div className="absolute top-0 right-0 w-80 h-80 bg-rose-500/[0.02] rounded-full blur-[100px] pointer-events-none"></div>
-
-          <section className="bg-zinc-950/40 border border-zinc-900 rounded-[40px] p-10 md:p-16 space-y-12">
-             <div className="flex flex-col md:flex-row gap-12 items-start">
-               <div className="w-16 h-16 bg-zinc-900 rounded-2xl flex items-center justify-center flex-shrink-0 border border-zinc-800">
-                 <RotateCcw className="text-amber-500" size={28} strokeWidth={1} />
-               </div>
-               <div className="space-y-6">
-                 <h2 className="text-2xl font-serif">Returns Protocol</h2>
-                 <p className="text-zinc-500 leading-relaxed font-light">
-                   Due to the intimate and artisanal nature of fragrance formulations, we can only accept returns of items that remain in their **original, unopened, and sealed box-wrap**. Once the protective cellophane or seal is compromised, the scent is considered "acquired" and cannot be returned for hygiene and oxidation reasons.
-                 </p>
-               </div>
-             </div>
-          </section>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-zinc-900/40 border border-zinc-800 p-10 rounded-[32px] space-y-6">
-              <div className="flex items-center gap-3 text-amber-500">
-                <CheckCircle2 size={20} strokeWidth={1.5} />
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em]">Eligible for Return</h3>
-              </div>
-              <ul className="text-xs text-zinc-500 space-y-4 font-light leading-relaxed">
-                <li className="flex gap-3"><span>&middot;</span> Unopened masterwork with intact seal.</li>
-                <li className="flex gap-3"><span>&middot;</span> Requests made within 14 days of delivery.</li>
-                <li className="flex gap-3"><span>&middot;</span> Original receipt or digital confirmation.</li>
-              </ul>
-            </div>
-            <div className="bg-zinc-900/40 border border-zinc-800 p-10 rounded-[32px] space-y-6">
-              <div className="flex items-center gap-3 text-rose-500">
-                <AlertTriangle size={20} strokeWidth={1.5} />
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em]">Ineligible</h3>
-              </div>
-              <ul className="text-xs text-zinc-500 space-y-4 font-light leading-relaxed">
-                <li className="flex gap-3"><span>&middot;</span> Samples or individual testing vials.</li>
-                <li className="flex gap-3"><span>&middot;</span> Items with compromised exterior sealant.</li>
-                <li className="flex gap-3"><span>&middot;</span> "Final Batch" or bespoke formulations.</li>
-              </ul>
-            </div>
-          </div>
-
-          <section className="space-y-10">
-            <div className="flex items-center gap-6 border-b border-zinc-900 pb-6">
-               <PackageCheck size={28} strokeWidth={1} className="text-amber-500" />
-               <h2 className="text-3xl font-serif">Refund Process</h2>
-            </div>
-            <div className="prose prose-invert max-w-none text-zinc-500 font-light space-y-6">
-              <p>Once your return is received and inspected at our boutique center, we will notify you of the approval or rejection of your refund. Should it be approved, a credit will be applied to your original method of payment within 5-10 business days.</p>
-              <div className="bg-amber-600/5 border border-amber-600/10 p-6 rounded-2xl italic text-[11px] leading-relaxed">
-                Note: Initial shipping costs are non-reversible and will be deducted from your final refund amount.
-              </div>
-            </div>
-          </section>
-
-          <footer className="pt-20 text-center">
-             <button className="px-12 py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-amber-600 hover:text-white transition-all shadow-xl shadow-white/5">
-                Initiate a Resolve
-             </button>
-          </footer>
         </div>
-      </div>
+
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span className="text-[8px] uppercase tracking-[0.4em] font-bold">Refund Policy</span>
+          <ShoppingCart size={16} className="animate-pulse" />
+        </motion.div>
+      </section>
+
+      {/* SECTION 2: WHITE BACKGROUND */}
+      <section className="bg-white text-zinc-900 py-32 px-4 sm:px-8 lg:px-12">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+          <div className="space-y-8">
+             <div className="flex items-center gap-4 text-amber-600">
+                <RotateCcw size={24} strokeWidth={1} />
+                <h2 className="text-xs font-bold uppercase tracking-[0.4em]">Protocol</h2>
+             </div>
+             <h3 className="text-4xl md:text-6xl font-serif text-black leading-tight">Artisanal <br /> Reciprocity</h3>
+             <p className="text-zinc-600 font-light leading-relaxed text-lg">
+               Due to the intimate and artisanal nature of fragrance formulations, we can only accept returns of items that remain in their **original, unopened, and sealed box-wrap**. Once the protective cellophane or seal is compromised, the scent is considered "acquired" and cannot be returned for hygiene and oxidation reasons.
+             </p>
+          </div>
+          
+          <div className="space-y-6 bg-zinc-50 p-12 rounded-[60px] border border-zinc-100">
+             <div className="flex items-center gap-4 text-emerald-600">
+                <CheckCircle2 size={24} strokeWidth={1} />
+                <h4 className="text-xs font-bold uppercase tracking-widest">Eligible Criteria</h4>
+             </div>
+             <ul className="space-y-6">
+                {[
+                  "Unopened masterwork with intact seal",
+                  "Requests within 14 days of delivery",
+                  "Original receipt or digital confirmation"
+                ].map((item, i) => (
+                  <li key={i} className="flex gap-4 items-center text-xs font-bold uppercase tracking-widest text-zinc-500">
+                    <div className="w-1 h-1 bg-emerald-500 rounded-full"></div>
+                    {item}
+                  </li>
+                ))}
+             </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION 3: DARK BACKGROUND (PROCESS) */}
+      <section className="bg-black text-white py-32 px-4 sm:px-8 lg:px-12 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto space-y-20">
+           <div className="flex flex-col items-center text-center space-y-6">
+              <PackageCheck size={48} strokeWidth={1} className="text-amber-500" />
+              <h2 className="text-4xl font-serif">Refund Process</h2>
+           </div>
+           
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+              <div className="group p-10 bg-zinc-950 border border-zinc-900 rounded-[40px] hover:border-amber-500/30 transition-all duration-700">
+                 <RefreshCcw className="text-zinc-700 mb-6 group-hover:rotate-180 transition-transform duration-1000" size={32} strokeWidth={1} />
+                 <h4 className="text-lg font-serif mb-4">Inspection</h4>
+                 <p className="text-zinc-500 text-sm leading-relaxed font-light font-sans">
+                   Once your return is received at our boutique center, we will notify you of the approval or rejection of your refund within 5 business days.
+                 </p>
+              </div>
+              <div className="group p-10 bg-zinc-950 border border-zinc-900 rounded-[40px] hover:border-amber-500/30 transition-all duration-700">
+                 <div className="w-8 h-8 rounded-full border border-zinc-700 mb-6 group-hover:border-amber-500 transition-colors flex items-center justify-center">
+                    <span className="text-[10px] font-bold">10</span>
+                 </div>
+                 <h4 className="text-lg font-serif mb-4">Resolution</h4>
+                 <p className="text-zinc-500 text-sm leading-relaxed font-light font-sans">
+                    A credit will be applied to your original method of payment within 5-10 business days. Note: Initial shipping costs are non-reversible.
+                 </p>
+              </div>
+           </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: WHITE BACKGROUND (WARNING) */}
+      <section className="bg-white py-32 px-4">
+         <div className="max-w-2xl mx-auto bg-amber-50/50 border border-amber-100/50 p-12 rounded-[48px] text-center space-y-6">
+            <AlertTriangle className="mx-auto text-amber-600" size={32} strokeWidth={1} />
+            <h3 className="text-xl font-serif text-black italic">Ineligible Items</h3>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest leading-relaxed">
+               Samples or individual testing vials | Items with compromised sealant | Bespoke formulations
+            </p>
+         </div>
+      </section>
+
+      <footer className="footer bg-black py-20 text-center border-t border-zinc-900">
+         <p className="text-zinc-700 text-[10px] font-black uppercase tracking-[0.4em]">Graceful Exchanges</p>
+      </footer>
     </div>
   );
 }

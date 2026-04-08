@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { HelpCircle, Plus, Minus, Search } from "lucide-react";
+import { HelpCircle, Plus, Minus, Search, Sparkles, MessageCircle } from "lucide-react";
+import faqHero from "../assets/faq_hero.png";
 
 function FAQ() {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -29,92 +30,144 @@ function FAQ() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white pt-32 pb-24 px-4 sm:px-8 lg:px-12 font-sans selection:bg-amber-500/30">
-      <div className="max-w-3xl mx-auto">
-        <header className="mb-20 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-4"
-          >
-            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-amber-500">Inquiry & Knowledge</span>
-            <h1 className="text-5xl md:text-7xl font-serif leading-tight">FAQ</h1>
-            <div className="w-24 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mx-auto mt-8"></div>
-          </motion.div>
-        </header>
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-amber-500/30">
+      {/* SECTION 1: DARK HERO */}
+      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{ duration: 2 }}
+          className="absolute inset-0 z-0"
+        >
+          <img src={faqHero} className="w-full h-full object-cover" alt="FAQ" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+        </motion.div>
 
-        <section className="relative mb-20">
-           <div className="relative">
-             <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-600" />
+        <div className="relative z-10 text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="space-y-6"
+          >
+            <span className="text-[10px] font-black uppercase tracking-[0.6em] text-amber-500 italic">Inquiry & Knowledge</span>
+            <h1 className="text-6xl md:text-8xl font-serif leading-none tracking-tighter text-white">
+              Curated <br /> <span className="italic font-light">Dialogue</span>
+            </h1>
+            <div className="w-12 h-px bg-amber-500/50 mx-auto"></div>
+          </motion.div>
+        </div>
+
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.3 }}
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+        >
+          <span className="text-[8px] uppercase tracking-[0.4em] font-bold">The Knowledge Archive</span>
+          <Sparkles size={16} className="animate-pulse" />
+        </motion.div>
+      </section>
+
+      {/* SECTION 2: WHITE BACKGROUND (ARCHIVE) */}
+      <section className="bg-white text-zinc-900 py-32 px-4 sm:px-8 lg:px-12">
+        <div className="max-w-4xl mx-auto space-y-20">
+          <div className="text-center space-y-6">
+             <h2 className="text-5xl md:text-7xl font-serif text-black leading-tight italic">Common Narratives</h2>
+             <p className="text-zinc-500 text-sm uppercase tracking-widest font-bold">Insights into the atelier</p>
+          </div>
+
+          <div className="relative mb-20 group max-w-2xl mx-auto">
+             <Search size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-zinc-400 group-hover:text-amber-500 transition-colors" />
              <input 
                type="text" 
                placeholder="Search the archive..." 
-               className="w-full bg-zinc-950 border border-zinc-900 rounded-full pl-16 pr-8 py-5 text-sm focus:border-amber-500/50 outline-none transition-all placeholder:text-zinc-800"
+               className="w-full bg-zinc-50 border border-zinc-100 rounded-full pl-16 pr-8 py-6 text-sm focus:border-amber-500/50 outline-none transition-all placeholder:text-zinc-400 shadow-sm"
              />
-           </div>
-        </section>
+          </div>
 
-        <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <div 
-              key={index} 
-              className={`border rounded-[32px] transition-all duration-500 overflow-hidden ${
-                activeIndex === index ? "bg-zinc-900/40 border-amber-500/30 shadow-2xl" : "bg-zinc-950/20 border-zinc-900 hover:border-zinc-800"
-              }`}
-            >
-              <button 
-                onClick={() => setActiveIndex(activeIndex === index ? null : index)}
-                className="w-full px-8 py-8 flex items-center justify-between text-left group"
+          <div className="space-y-6">
+            {faqs.map((faq, index) => (
+              <div 
+                key={index} 
+                className={`group border rounded-[32px] transition-all duration-700 overflow-hidden ${
+                  activeIndex === index ? "bg-black text-white border-black shadow-2xl scale-[1.02]" : "bg-zinc-50 border-zinc-100 hover:bg-white hover:border-zinc-200"
+                }`}
               >
-                <div className="flex items-center gap-6">
-                  <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${activeIndex === index ? "text-amber-500" : "text-zinc-700"}`}>
-                    0{index + 1}
-                  </span>
-                  <h3 className={`text-lg font-serif transition-colors ${activeIndex === index ? "text-white" : "text-zinc-400 group-hover:text-zinc-300"}`}>
-                    {faq.question}
-                  </h3>
-                </div>
-                <div className={`transition-transform duration-500 ${activeIndex === index ? "rotate-180 text-amber-500" : "text-zinc-700"}`}>
-                  {activeIndex === index ? <Minus size={18} /> : <Plus size={18} />}
-                </div>
-              </button>
+                <button 
+                  onClick={() => setActiveIndex(activeIndex === index ? null : index)}
+                  className="w-full px-10 py-10 flex items-center justify-between text-left"
+                >
+                  <div className="flex items-center gap-6">
+                    <span className={`text-[10px] font-black uppercase tracking-widest transition-colors ${activeIndex === index ? "text-amber-500 font-serif text-lg lowercase italic" : "text-zinc-300"}`}>
+                      {activeIndex === index ? "q" : index + 1}
+                    </span>
+                    <h3 className={`text-xl font-serif transition-colors ${activeIndex === index ? "text-white" : "text-zinc-900 group-hover:text-black"}`}>
+                      {faq.question}
+                    </h3>
+                  </div>
+                  <div className={`transition-all duration-500 ${activeIndex === index ? "rotate-180 text-amber-500" : "text-zinc-300"}`}>
+                    <ChevronDown size={20} strokeWidth={1} />
+                  </div>
+                </button>
 
-              <AnimatePresence>
-                {activeIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.4, ease: "easeInOut" }}
-                  >
-                    <div className="px-8 pb-10 pl-24 text-zinc-500 font-light leading-relaxed text-sm">
-                      <div className="max-w-xl">
-                        {faq.answer}
+                <AnimatePresence>
+                  {activeIndex === index && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.5, ease: [0.19, 1, 0.22, 1] }}
+                    >
+                      <div className="px-10 pb-12 pl-28 text-zinc-400 font-light leading-relaxed text-lg">
+                        <div className="max-w-xl">
+                          {faq.answer}
+                        </div>
                       </div>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ))}
+          </div>
         </div>
+      </section>
 
-        <section className="mt-32 bg-zinc-950/50 border border-zinc-900 rounded-[40px] p-12 flex flex-col items-center gap-8 text-center">
-           <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center border border-zinc-800">
-             <HelpCircle className="text-amber-500" size={24} strokeWidth={1.5} />
+      {/* SECTION 3: DARK BACKGROUND (CONTACT) */}
+      <section className="bg-black text-white py-40 px-4 mt-20 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent"></div>
+        <div className="max-w-2xl mx-auto rounded-[60px] p-16 flex flex-col items-center gap-10 text-center border border-zinc-900 bg-zinc-950">
+           <div className="w-20 h-20 bg-zinc-900 rounded-full flex items-center justify-center border border-zinc-800 relative group">
+             <motion.div 
+               animate={{ scale: [1, 1.2, 1] }}
+               transition={{ duration: 4, repeat: Infinity }}
+               className="absolute inset-0 bg-amber-500/5 rounded-full blur-xl"
+             ></motion.div>
+             <MessageCircle className="text-amber-500 relative z-10" size={32} strokeWidth={1} />
            </div>
-           <div className="space-y-3">
-             <h3 className="text-xl font-serif">Still curious?</h3>
-             <p className="text-xs text-zinc-600 font-light uppercase tracking-widest leading-relaxed">Our concierge is available for unique olfactory inquiries.</p>
+           
+           <div className="space-y-4">
+             <h3 className="text-3xl font-serif">Still curious?</h3>
+             <p className="text-xs text-zinc-500 font-light uppercase tracking-widest leading-relaxed">Our concierge is available for unique olfactory inquiries.</p>
            </div>
-           <button className="px-10 py-4 bg-amber-600 text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-white transition-all">
-             Speak with a Specialist
+           
+           <button className="relative px-12 py-5 bg-amber-600 text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-white transition-all overflow-hidden group">
+             <span className="relative z-10 transition-colors duration-500 group-hover:text-black">Speak with a Specialist</span>
            </button>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <footer className="bg-black py-20 text-center text-zinc-800 text-[10px] uppercase font-bold tracking-widest border-t border-zinc-900">
+         Archive 2026
+      </footer>
     </div>
   );
 }
+
+const ChevronDown = ({ size, strokeWidth, className }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <path d="m6 9 6 6 6-6"/>
+  </svg>
+);
 
 export default FAQ;
