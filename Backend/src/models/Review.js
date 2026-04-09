@@ -9,7 +9,7 @@ export const reviewSchema = new mongoose.Schema({
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
-        required: true
+        required: false
     },
     rating: {
         type: Number,
@@ -21,7 +21,7 @@ export const reviewSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    image: {
+    name: {
         type: String,
         required: false
     }

@@ -18,7 +18,8 @@ function Profile() {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
-    const [activeTab, setActiveTab] = useState("history"); // history, security
+    const [activeTab, setActiveTab] = useState("history");
+    const [expandedOrder, setExpandedOrder] = useState(null);
 
     const [editForm, setEditForm] = useState({
         firstName: "",
@@ -113,6 +114,10 @@ function Profile() {
         Shipped: "text-purple-500 bg-purple-500/10",
         Delivered: "text-emerald-500 bg-emerald-500/10",
         Cancelled: "text-rose-500 bg-rose-500/10"
+    };
+
+    const toggleOrder = (orderId) => {
+        setExpandedOrder(expandedOrder === orderId ? null : orderId);
     };
 
     if (loading && !user) {
@@ -226,12 +231,12 @@ function Profile() {
                                                     <div className="flex flex-col md:flex-row justify-between gap-8">
                                                         <div className="flex gap-8">
                                                             <div className="w-20 h-20 bg-zinc-900 rounded-2xl overflow-hidden flex-shrink-0 border border-white/5">
-                                                                <img 
+                                                                <img
                                                                     src={order.product[0]?.productImage && (order.product[0].productImage.startsWith('http') || order.product[0].productImage.startsWith('data:'))
                                                                         ? order.product[0].productImage
-                                                                        : (order.product[0]?.productImage ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${order.product[0].productImage}` : "/images/sample.jpg")} 
-                                                                    alt="" 
-                                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                                                                        : (order.product[0]?.productImage ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${order.product[0].productImage}` : "/images/sample.jpg")}
+                                                                    alt=""
+                                                                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                                                 />
                                                             </div>
                                                             <div>
@@ -244,16 +249,93 @@ function Profile() {
                                                                 </h4>
                                                                 <div className="flex items-center gap-6 text-[10px] text-zinc-600 font-bold uppercase tracking-widest">
                                                                     <span className="flex items-center gap-2"><Calendar size={12} /> {new Date(order.createdAt).toLocaleDateString()}</span>
-                                                                    <span className="flex items-center gap-2"><CreditCard size={12} /> ${order.totalAmount.toLocaleString()}</span>
+                                                                    <span className="flex items-center gap-2"><CreditCard size={12} /> Rs.{order.totalAmount.toLocaleString()}</span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className="flex items-center justify-end">
-                                                            <button className="w-14 h-14 rounded-full bg-zinc-900 flex items-center justify-center hover:bg-amber-500 hover:text-black transition-all">
+                                                            <button
+                                                                onClick={() => toggleOrder(order.orderId)}
+                                                                className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${expandedOrder === order.orderId ? 'bg-amber-500 text-black rotate-90' : 'bg-zinc-900 hover:bg-zinc-800 text-white'}`}
+                                                            >
                                                                 <ChevronRight size={20} />
                                                             </button>
                                                         </div>
                                                     </div>
+
+                                                    <AnimatePresence>
+                                                        {expandedOrder === order.orderId && (
+                                                            <motion.div
+                                                                initial={{ height: 0, opacity: 0 }}
+                                                                animate={{ height: "auto", opacity: 1 }}
+                                                                exit={{ height: 0, opacity: 0 }}
+                                                                className="overflow-hidden border-t border-zinc-900 mt-8 pt-8"
+                                                            >
+                                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                                                                    {/* Product List */}
+                                                                    <div className="space-y-6">
+                                                                        <h5 className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-4">Items Breakdown</h5>
+                                                                        <div className="space-y-4">
+                                                                            {order.product.map((item, idx) => (
+                                                                                <div key={idx} className="flex items-center gap-4 group/item">
+                                                                                    <div className="w-12 h-12 bg-zinc-900 rounded-xl overflow-hidden flex-shrink-0 border border-white/5">
+                                                                                        <img
+                                                                                            src={item.productImage && (item.productImage.startsWith('http') || item.productImage.startsWith('data:'))
+                                                                                                ? item.productImage
+                                                                                                : (item.productImage ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.productImage}` : "/images/sample.jpg")}
+                                                                                            alt={item.productName}
+                                                                                            className="w-full h-full object-cover grayscale group-hover/item:grayscale-0 transition-all duration-500"
+                                                                                        />
+                                                                                    </div>
+                                                                                    <div className="flex-1 min-w-0">
+                                                                                        <p className="text-xs text-white/90 truncate font-medium">{item.productName}</p>
+                                                                                        <p className="text-[9px] text-zinc-600 uppercase tracking-widest font-bold">Qty: {item.quantity} · Rs. {item.productPrice?.toLocaleString()}</p>
+                                                                                    </div>
+                                                                                    <p className="text-xs font-serif text-amber-500">Rs. {item.productTotal?.toLocaleString()}</p>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+
+                                                                    {/* Order Info */}
+                                                                    <div className="space-y-6">
+                                                                        <h5 className="text-[10px] font-black uppercase tracking-widest text-zinc-500 mb-4">Destination Details</h5>
+                                                                        <div className="space-y-6">
+                                                                            <div className="flex gap-4">
+                                                                                <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                                                                                    <MapPin size={12} className="text-zinc-500" />
+                                                                                </div>
+                                                                                <div className="space-y-1">
+                                                                                    <p className="text-[8px] font-black uppercase tracking-[0.2em] text-zinc-700">Shipping Address</p>
+                                                                                    <p className="text-xs text-zinc-400 leading-relaxed font-light">{order.address}</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="grid grid-cols-2 gap-4">
+                                                                                <div className="flex gap-4">
+                                                                                    <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                                                                                        <Phone size={12} className="text-zinc-500" />
+                                                                                    </div>
+                                                                                    <div className="space-y-1">
+                                                                                        <p className="text-[8px] font-black uppercase tracking-[0.2em] text-zinc-700">Contact</p>
+                                                                                        <p className="text-xs text-zinc-400 font-light">{order.phone || user?.phone}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div className="flex gap-4">
+                                                                                    <div className="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                                                                                        <ShieldCheck size={12} className="text-zinc-500" />
+                                                                                    </div>
+                                                                                    <div className="space-y-1">
+                                                                                        <p className="text-[8px] font-black uppercase tracking-[0.2em] text-zinc-700">Security</p>
+                                                                                        <p className="text-xs text-zinc-400 font-light uppercase tracking-widest">{order.paymentMethod || "COD"}</p>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </motion.div>
+                                                        )}
+                                                    </AnimatePresence>
                                                 </div>
                                             ))}
                                         </div>
