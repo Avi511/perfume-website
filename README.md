@@ -2,7 +2,6 @@
 
 Élan is a premium, cinematic e-commerce platform dedicated to the world of fine fragrances. Built with a focus on luxury aesthetics and seamless user experience, it offers a sophisticated interface for browsing, discovering, and purchasing high-end perfumes.
 
-![Élan Preview](https://via.placeholder.com/1200x600?text=%C3%89lan+Luxury+Perfumes)
 
 ## 🌟 Key Features
 
