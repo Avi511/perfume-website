@@ -49,6 +49,18 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    cart: [
+        {
+            productId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "Product",
+            },
+            qty: {
+                type: Number,
+                default: 1,
+            },
+        },
+    ],
 })
 
 const User = mongoose.model("User", userSchema);

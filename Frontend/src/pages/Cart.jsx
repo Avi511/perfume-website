@@ -89,9 +89,9 @@ function Cart() {
                         <div className="col-span-12 md:col-span-6 flex items-center gap-8">
                           <div className="w-24 h-32 md:w-28 md:h-36 rounded-2xl overflow-hidden bg-zinc-900 flex-shrink-0 border border-white/5">
                             <img 
-                              src={item.image && (item.image.startsWith('http') || item.image.startsWith('data:'))
+                              src={typeof item.image === 'string' && (item.image.startsWith('http') || item.image.startsWith('data:'))
                                 ? item.image
-                                : (item.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.image}` : "/images/sample.jpg")}
+                                : (typeof item.image === 'string' && item.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.image}` : "/images/sample.jpg")}
                               alt={item.name} 
                               className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
                             />
@@ -127,8 +127,8 @@ function Cart() {
                         </div>
 
                         <div className="col-span-12 md:col-span-3 text-right">
-                          <p className="text-xl font-serif">Rs. {(item.price * item.qty).toLocaleString()}</p>
-                          <p className="text-[10px] text-zinc-600 mt-1">Rs. {item.price.toLocaleString()} per unit</p>
+                          <p className="text-xl font-serif">Rs. {( (item.price || 0) * item.qty).toLocaleString()}</p>
+                          <p className="text-[10px] text-zinc-600 mt-1">Rs. {(item.price || 0).toLocaleString()} per unit</p>
                         </div>
                       </div>
                     </motion.div>

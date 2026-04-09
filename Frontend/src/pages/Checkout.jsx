@@ -61,10 +61,6 @@ function Checkout() {
       setLoading(true);
       const orderId = `ORDER_${Date.now()}`;
 
-      // 1. Create the order in your backend first if needed, 
-      // or just start the payment and create order on notify/success.
-      // Usually better to create a 'Pending' order first.
-
       const response = await api.post("/payhere/start", {
         order_id: orderId,
         amount: cartTotal,
@@ -84,7 +80,6 @@ function Checkout() {
       window.payhere.onCompleted = async function onCompleted(orderId) {
         console.log("Payment completed. OrderID:", orderId);
 
-        // Create the actual order in our system after successful payment
         try {
           const orderData = {
             email: formData.email,

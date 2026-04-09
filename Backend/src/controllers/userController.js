@@ -1,15 +1,14 @@
 import User from "../models/User.js";
+import { transformProduct } from "../services/productService.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
-// Helper function to generate JWT Token
 const generateToken = (id) => {
     return jwt.sign({ id, userId: id }, process.env.JWT_SECRET || "fallback_secret", {
         expiresIn: "30d",
     });
 };
 
-// @desc    Get user profile
 export const getUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id).select("-password");
@@ -23,7 +22,6 @@ export const getUserProfile = async (req, res) => {
     }
 };
 
-// @desc    Update user profile
 export const updateUserProfile = async (req, res) => {
     try {
         const user = await User.findById(req.user._id);
@@ -58,31 +56,75 @@ export const updateUserProfile = async (req, res) => {
     }
 };
 
-// @desc    Delete user profile
 export const deleteUserProfile = async (req, res) => {
     try {
-        // If an ID is passed in the URL parameters (e.g. admin deleting someone else), target that user.
-        // Otherwise, target the currently logged-in user.
         const targetUserId = req.params.id || req.user._id;
-
-        // VERIFY AUTHORIZATION: Only the user themselves OR an Admin can proceed
-        // NOTE: You will need to add an `isAdmin: { type: Boolean, default: false }` or `role: { type: String }` field to your User.js schema for the admin check to work!
         const isSelf = targetUserId.toString() === req.user._id.toString();
-        const isAdmin = req.user.isAdmin === true || req.user.role === "admin";
+        const isAdmin = req.user.isAdmin === true;
 
         if (!isSelf && !isAdmin) {
-            return res.status(403).json({ error: "Not authorized! Only admins or the account owner can perform this action." });
+            return res.status(403).json({ error: "Not authorized!" });
         }
 
         const user = await User.findById(targetUserId);
-
         if (user) {
             await user.deleteOne();
-            res.json({ message: "Account deleted successfully" });
+            res.json({ message: "User removed successfully" });
         } else {
             res.status(404).json({ error: "User not found" });
         }
     } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const syncCart = async (req, res) => {
+    try {
+        const { cartItems } = req.body;
+        const user = await User.findById(req.user._id);
+
+        if (user) {
+            user.cart = (cartItems || [])
+                .filter(item => item && (item._id || item.id))
+                .map(item => ({
+                    productId: item._id || item.id,
+                    qty: item.qty || 1
+                }));
+
+            await user.save();
+            res.json({ message: "Cart synced successfully" });
+        } else {
+            res.status(404).json({ error: "User not found" });
+        }
+    } catch (error) {
+        console.error("Sync Cart Error:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+export const getCart = async (req, res) => {
+    try {
+        const user = await User.findById(req.user._id).populate("cart.productId");
+        if (user) {
+            const cartData = user.cart
+                .filter(item => item.productId)
+                .map(item => {
+                    const transformed = transformProduct(item.productId);
+                    return {
+                        ...transformed,
+                        _id: transformed._id,
+                        name: transformed.productName,
+                        price: transformed.productPrice,
+                        image: transformed.productImage,
+                        qty: item.qty
+                    };
+                });
+            res.json(cartData);
+        } else {
+            res.status(404).json({ error: "User not found" });
+        }
+    } catch (error) {
+        console.error("Get Cart Error:", error);
         res.status(500).json({ error: error.message });
     }
 };
