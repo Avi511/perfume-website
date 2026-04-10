@@ -6,13 +6,7 @@ export const transformProduct = (product) => {
 
     const transformed = product.toObject ? product.toObject() : { ...product };
 
-    if (product.productImage && product.productImage.data) {
-        const base64 = product.productImage.data.toString('base64');
-        transformed.productImage = `data:${product.productImage.contentType};base64,${base64}`;
-    } else {
-        transformed.productImage = product.productImage || "/images/sample.jpg";
-    }
-
+    transformed.productImage = product.productImage || "/images/sample.jpg";
     return transformed;
 };
 
@@ -68,10 +62,7 @@ export const createProductService = async (productData, user, file) => {
     };
 
     if (file) {
-        productContent.productImage = {
-            data: file.buffer,
-            contentType: file.mimetype
-        };
+        productContent.productImage = file.path; // Cloudinary URL
     }
 
     const product = new Product(productContent);
@@ -111,10 +102,7 @@ export const updateProductService = async (id, updatedData, user, file) => {
     });
 
     if (file) {
-        product.productImage = {
-            data: file.buffer,
-            contentType: file.mimetype
-        };
+        product.productImage = file.path; // Cloudinary URL
     } else if (updatedData.productImage) {
         product.productImage = updatedData.productImage;
     }

@@ -1,26 +1,16 @@
 import multer from "multer";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import cloudinary from "../config/cloudinary.js";
 
-function checkFileType(file, cb) {
-    const filetypes = /jpeg|jpg|png|webp|gif/;
-
-    const extname = filetypes.test(
-        file.originalname.toLowerCase().split(".").pop()
-    );
-    const mimetype = filetypes.test(file.mimetype);
-
-    if (mimetype && extname) {
-        return cb(null, true);
-    } else {
-        cb(new Error("Validation Error: You can only upload image files!"));
-    }
-}
-
-const storage = multer.memoryStorage();
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: "perfume-website",
+        allowed_formats: ["jpg", "jpeg", "png", "webp", "gif"],
+    },
+});
 
 export const upload = multer({
     storage,
     limits: { fileSize: 5 * 1024 * 1024 },
-    fileFilter: function (req, file, cb) {
-        checkFileType(file, cb);
-    },
 });

@@ -7,7 +7,7 @@ router.post("/", upload.single("image"), (req, res) => {
     if (req.file) {
         res.status(200).json({
             message: "Image uploaded successfully!",
-            imagePath: `/${req.file.path.replace(/\\/g, "/")}`
+            imagePath: req.file.path
         });
     } else {
         res.status(400).json({ error: "No image file provided" });

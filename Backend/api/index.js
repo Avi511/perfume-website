@@ -1,7 +1,15 @@
+import mongoose from 'mongoose';
 import app from '../src/app.js';
 import connectDB from '../src/config/db.js';
 
-// Connect to the database
-connectDB();
+let isConnected = false;
 
-export default app;
+const handler = async (req, res) => {
+  if (!isConnected) {
+    await connectDB();
+    isConnected = true;
+  }
+  return app(req, res);
+};
+
+export default handler;
