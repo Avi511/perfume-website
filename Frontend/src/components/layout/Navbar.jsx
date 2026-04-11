@@ -43,9 +43,9 @@ function Navbar() {
 
                 <div className="absolute top-0 -inset-full h-full w-full liquid-shimmer opacity-20 pointer-events-none" />
 
-                <h1 className="text-xl font-serif tracking-widest">
+                <Link to="/" className="text-xl font-serif tracking-widest">
                     Élan Fragrance
-                </h1>
+                </Link>
 
                 <div className="hidden md:flex gap-8 text-[11px] uppercase tracking-[0.2em] font-medium">
                     <Link to="/" className="hover:text-amber-500 transition-colors duration-300">Home</Link>
