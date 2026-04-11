@@ -149,7 +149,6 @@ function Contact() {
               <p className="text-gray-400 text-sm font-light leading-relaxed">
                 Book a personalized session with our master perfumers to discover a scent profile uniquely tailored to your personality.
               </p>
-              <Button className="!glass-button !border-white/20 !text-white !w-full">Book Experience</Button>
             </div>
           </div>
         </div>
@@ -164,7 +163,6 @@ function Contact() {
               <h2 className="text-5xl font-serif leading-tight">Visit the Heart of Élan</h2>
               <p className="text-gray-500 text-lg font-light">Explore our Colombo showroom, where every scent is housed in hand-blown glass and vintage surroundings.</p>
             </div>
-            <Button className="!bg-white !text-black !border-black/10 shadow-lg px-12">View Virtual Tour</Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 h-[600px]">

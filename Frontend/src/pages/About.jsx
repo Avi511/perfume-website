@@ -69,7 +69,7 @@ function About() {
             </div>
 
             <div className="pt-4">
-              <Button className="!bg-black !text-white !px-12 py-4 hover:!bg-amber-800 transition-all duration-300">
+              <Button to="/products" className="!bg-black !text-white !px-12 py-4 hover:!bg-amber-800 transition-all duration-300">
                 Explore Our Collection
               </Button>
             </div>
@@ -174,8 +174,6 @@ function About() {
           <h2 className="text-4xl font-serif">Begin Your Olfactory Journey</h2>
           <p className="text-gray-500 font-light">Experience the essence of Élan. Visit our boutique or explore our collection online.</p>
           <div className="flex justify-center gap-6">
-            <Button className="!bg-black !text-white !px-10">Shop Collection</Button>
-            <Button className="!glass-button !text-black !border-black/20">Find a Boutique</Button>
           </div>
         </div>
       </section>

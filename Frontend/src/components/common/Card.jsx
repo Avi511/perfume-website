@@ -1,6 +1,15 @@
 import { Link } from 'react-router-dom';
+import { useCart } from '../../context/CartContext';
 
 const Card = ({ image, name, price, rating, category, id }) => {
+    const { addToCart } = useCart();
+
+    const handleAddToCart = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addToCart({ _id: id, name, price, image }, 1);
+    };
+
     return (
         <div className="group relative w-full rounded-xl overflow-hidden bg-white shadow-lg transition-all duration-300 hover:shadow-2xl">
             <div className="relative h-96 w-full overflow-hidden">
@@ -17,14 +26,17 @@ const Card = ({ image, name, price, rating, category, id }) => {
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white">{category}</span>
                 </div>
 
-                <button className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:text-red-500 hover:bg-white transition-all duration-300 group/heart">
+                <button 
+                    onClick={handleAddToCart}
+                    className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/20 backdrop-blur-md text-white hover:text-amber-500 hover:bg-white transition-all duration-300 group/cart"
+                >
                     <svg
-                        className="w-5 h-5 transition-transform duration-300 group-hover/heart:scale-110"
+                        className="w-5 h-5 transition-transform duration-300 group-hover/cart:scale-110"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                 </button>
             </div>

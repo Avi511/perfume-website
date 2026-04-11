@@ -221,21 +221,7 @@ function Products() {
         </div>
       </div>
 
-      <section className="py-24 bg-zinc-900/30 overflow-hidden relative border-t border-zinc-900">
-        <div className="max-w-7xl mx-auto text-center px-4 relative z-10">
-          <h2 className="text-4xl font-serif mb-6 uppercase tracking-widest text-white/90">Experience the Essence</h2>
-          <p className="text-gray-500 mb-10 max-w-lg mx-auto font-light leading-relaxed">Join our inner circle for exclusive access to private collections and olfactory masterclasses.</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="ENTER YOUR EMAIL"
-              className="bg-black/40 border border-white/10 px-8 py-5 rounded-full text-[10px] tracking-widest outline-none focus:border-amber-600/50 transition-all flex-1 text-white placeholder:text-zinc-700"
-            />
-            <button className="bg-amber-600 hover:bg-amber-700 text-black px-10 py-5 rounded-full text-[10px] font-bold tracking-[0.2em] transition-all uppercase shadow-xl shadow-black/40">
-              Subscribe
-            </button>
-          </div>
-        </div>
+      <section className="py-40 bg-zinc-900/30 overflow-hidden relative border-t border-zinc-900">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-serif text-white/[0.01] whitespace-nowrap pointer-events-none uppercase tracking-tighter select-none">
           Élan Fragrance
         </div>
