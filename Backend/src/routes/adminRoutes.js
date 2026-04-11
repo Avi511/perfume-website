@@ -1,5 +1,15 @@
 import express from "express";
-import { getDashboardStats, registerSeller, getAllUsers, getAllProducts, updateProduct, deleteProduct, updateUser, deleteUser } from "../controllers/adminController.js";
+import { 
+    getDashboardStats, 
+    registerSeller, 
+    getAllUsers, 
+    getAllProducts, 
+    updateProduct, 
+    deleteProduct, 
+    updateUser, 
+    deleteUser,
+    getAllOrders
+} from "../controllers/adminController.js";
 import { authMiddleware as protect, admin } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -12,5 +22,6 @@ router.get("/products", protect, admin, getAllProducts);
 router.put("/products/:id", protect, admin, updateProduct);
 router.delete("/products/:id", protect, admin, deleteProduct);
 router.post("/register-seller", protect, admin, registerSeller);
+router.get("/orders", protect, admin, getAllOrders);
 
 export default router;

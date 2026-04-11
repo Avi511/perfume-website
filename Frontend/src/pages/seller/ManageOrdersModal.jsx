@@ -16,7 +16,7 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
             setOrders(data);
         } catch (error) {
             console.error("Failed to fetch orders:", error);
-            toast.error("Cloud synchronisation failed");
+            toast.error("Failed to load orders");
         } finally {
             setLoading(false);
         }
@@ -28,24 +28,25 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
 
     const handleStatusUpdate = async (orderId, newStatus) => {
         setUpdatingEntry(orderId);
-        const loadToast = toast.loading("Updating protocol...");
+        const loadToast = toast.loading("Updating status...");
         try {
             await api.put(`/orders/${orderId}`, { status: newStatus });
-            toast.success(`Protocol updated to ${newStatus}`, { id: loadToast });
+            toast.success(`Status updated to ${newStatus}`, { id: loadToast });
             fetchOrders();
         } catch (error) {
-            toast.error("Operation authority failed", { id: loadToast });
+            toast.error("Update failed", { id: loadToast });
         } finally {
             setUpdatingEntry(null);
         }
     };
 
     const statusColors = {
-        Pending: "text-amber-500 bg-amber-500/5 border-amber-500/20",
-        Processing: "text-blue-500 bg-blue-500/5 border-blue-500/20",
-        Shipped: "text-purple-500 bg-purple-500/5 border-purple-500/20",
-        Delivered: "text-emerald-500 bg-emerald-500/5 border-emerald-500/20",
-        Cancelled: "text-rose-500 bg-rose-500/5 border-rose-500/20"
+        Pending: "text-amber-500 bg-amber-500/10",
+        Complete: "text-emerald-500 bg-emerald-500/10",
+        Processing: "text-blue-500 bg-blue-500/10",
+        Shipped: "text-purple-500 bg-purple-500/10",
+        Delivered: "text-emerald-500 bg-emerald-500/20",
+        Cancelled: "text-rose-500 bg-rose-500/10"
     };
 
     if (!isOpen) return null;
@@ -70,8 +71,8 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                     {/* Header */}
                     <div className="p-8 border-b border-zinc-900 flex items-center justify-between bg-zinc-950/50 backdrop-blur-md sticky top-0 z-10">
                         <div>
-                            <h2 className="text-2xl font-serif text-white mb-1">Fulfillment Protocol</h2>
-                            <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em]">Oversee your olfactory logistics</p>
+                            <h2 className="text-2xl font-serif text-white mb-1">Order Management</h2>
+                            <p className="text-zinc-500 text-[10px] font-black uppercase tracking-[0.3em]">Manage your orders</p>
                         </div>
                         <button
                             onClick={onClose}
@@ -86,19 +87,20 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                         {loading ? (
                             <div className="flex flex-col items-center justify-center h-64 gap-6">
                                 <div className="w-12 h-12 border-2 border-amber-500/20 border-t-amber-500 rounded-full animate-spin" />
-                                <p className="text-zinc-600 text-[10px] font-bold uppercase tracking-widest animate-pulse">Accessing Archive...</p>
+                                <p className="text-zinc-600 text-[10px] font-bold uppercase tracking-widest animate-pulse">Loading orders...</p>
                             </div>
                         ) : orders.length === 0 ? (
                             <div className="flex flex-col items-center justify-center h-64 text-zinc-600 space-y-4 border border-zinc-900/50 border-dashed rounded-[32px]">
                                 <Package size={48} className="opacity-10" />
-                                <p className="text-[10px] uppercase tracking-[0.4em] font-black opacity-40">No Logistical Data Found</p>
+                                <p className="text-[10px] uppercase tracking-[0.4em] font-black opacity-40">No orders found</p>
                             </div>
                         ) : (
                             <div className="grid grid-cols-1 gap-6">
                                 {orders.map((order) => (
                                     <div key={order._id} className="bg-white/[0.01] border border-white/[0.05] p-8 rounded-[40px] group hover:border-amber-500/20 transition-all duration-700">
                                         <div className="flex flex-col lg:flex-row justify-between gap-12">
-                                            {/* Order Identity & Items */}
+
+                                            {/* Order Info */}
                                             <div className="flex-1 space-y-10">
                                                 <div className="flex flex-wrap items-center gap-6">
                                                     <div className="px-4 py-2 bg-zinc-900 rounded-xl border border-zinc-800">
@@ -129,17 +131,19 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                                             </div>
                                                             <div className="min-w-0">
                                                                 <p className="text-sm font-serif truncate text-white mb-1">{item.productName}</p>
-                                                                <p className="text-[9px] text-zinc-400 uppercase font-black tracking-widest">Qty: {item.productQuantity} · Rs. {item.productPrice?.toLocaleString()}</p>
+                                                                <p className="text-[9px] text-zinc-400 uppercase font-black tracking-widest">
+                                                                    Qty: {item.productQuantity} · Rs. {item.productPrice?.toLocaleString()}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     ))}
                                                 </div>
                                             </div>
 
-                                            {/* Client Manifest */}
+                                            {/* Customer Details */}
                                             <div className="lg:w-72 space-y-8 bg-zinc-900/40 p-8 rounded-[32px] border border-white/[0.05]">
                                                 <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3">
-                                                    <div className="w-1 h-1 bg-zinc-500 rounded-full" /> Client Manifest
+                                                    <div className="w-1 h-1 bg-zinc-500 rounded-full" /> Customer Details
                                                 </h4>
                                                 <div className="space-y-6">
                                                     <div className="flex items-start gap-4">
@@ -147,7 +151,7 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                                             <MapPin size={12} className="text-zinc-500" />
                                                         </div>
                                                         <div className="space-y-1">
-                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Destination</p>
+                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Address</p>
                                                             <p className="text-xs text-zinc-400 leading-relaxed font-light">{order.address}</p>
                                                         </div>
                                                     </div>
@@ -156,36 +160,38 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                                             <Phone size={12} className="text-zinc-500" />
                                                         </div>
                                                         <div className="space-y-1">
-                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Protocol Link</p>
+                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Phone Number</p>
                                                             <p className="text-xs text-zinc-400 font-light">{order.phone}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            {/* Action Control */}
+                                            {/* Update Status */}
                                             <div className="lg:w-80 space-y-8 bg-amber-500/[0.02] p-8 rounded-[32px] border border-amber-500/10">
                                                 <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-amber-500/50 flex items-center gap-3">
-                                                    <div className="w-1 h-1 bg-amber-500/50 rounded-full" /> Modify Protocol
+                                                    <div className="w-1 h-1 bg-amber-500/50 rounded-full" /> Update Status
                                                 </h4>
                                                 <div className="relative group/select">
                                                     <select
-                                                        disabled={updatingEntry === order._id}
+                                                        disabled={updatingEntry === order._id || order.status !== "Pending"}
                                                         value={order.status}
                                                         onChange={(e) => handleStatusUpdate(order._id, e.target.value)}
-                                                        className="w-full bg-zinc-950 border border-zinc-900 rounded-2xl px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-white focus:border-amber-500/50 outline-none appearance-none cursor-pointer disabled:opacity-50 transition-all font-sans"
+                                                        className="w-full bg-zinc-950 border border-zinc-900 rounded-2xl px-6 py-5 text-[10px] font-black uppercase tracking-[0.2em] text-white outline-none"
                                                     >
-                                                        {["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].map(s => (
-                                                            <option key={s} value={s} className="bg-zinc-950">{s}</option>
-                                                        ))}
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Complete">Complete</option>
                                                     </select>
-                                                    <ChevronDown size={14} className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none group-hover/select:text-amber-500 transition-colors" />
+                                                    <ChevronDown size={14} className="absolute right-6 top-1/2 -translate-y-1/2 text-zinc-500" />
                                                 </div>
                                                 <div className="flex items-center gap-3 justify-center opacity-40">
                                                     <CheckCircle size={10} className="text-amber-500" />
-                                                    <p className="text-[8px] text-zinc-300 uppercase font-black tracking-[0.1em]">Updates Client Archives</p>
+                                                    <p className="text-[8px] text-zinc-300 uppercase font-black tracking-[0.1em]">
+                                                        Updates order status
+                                                    </p>
                                                 </div>
                                             </div>
+
                                         </div>
                                     </div>
                                 ))}

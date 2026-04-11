@@ -197,12 +197,28 @@ export async function updateOrderStatus(req, res) {
             return res.status(403).json({ error: "You are not authorized to update this order" });
         }
 
-        const validStatuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"];
-        if (req.body.status && !validStatuses.includes(req.body.status)) {
+        const validStatuses = ["Pending", "Processing", "Shipped", "Delivered", "Cancelled", "Complete"];
+        const newStatus = req.body.status;
+
+        if (newStatus && !validStatuses.includes(newStatus)) {
             return res.status(400).json({ error: "Invalid status value provided" });
         }
 
-        order.status = req.body.status || order.status;
+        // Logical enforcement based on roles
+        if (isSeller && !isAdmin) {
+            if (order.status !== "Pending") {
+                return res.status(403).json({ error: "Selection authority restricted. Only Pending orders can be modified by sellers." });
+            }
+            if (newStatus !== "Complete") {
+                return res.status(400).json({ error: "Sellers can only mark orders as Complete." });
+            }
+        } else if (isAdmin) {
+            // Admin can change status if it is Complete or Pending
+            // Admin has master control but typically acts after seller marks Complete
+        }
+
+        order.status = newStatus || order.status;
+        order.updatedAt = Date.now();
         await order.save();
         return res.status(200).json(order);
     } catch (error) {

@@ -174,7 +174,7 @@ const AdminDashboard = () => {
 
                             {/* Operational Grid */}
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                                <div className="lg:col-span-2 space-y-6">
+                                <div className="lg:col-span-3 space-y-6">
                                     <h2 className="text-xl font-serif text-white/90 flex items-center gap-3 mb-8">
                                         <LayoutDashboard className="w-5 h-5 text-amber-500" />
                                         Products and Users Management
@@ -198,28 +198,30 @@ const AdminDashboard = () => {
                                             </div>
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/[0.02] rounded-full blur-3xl group-hover:bg-blue-500/[0.05] transition-all"></div>
                                         </Link>
+                                        
+                                        <Link to="/admin/orders" className="bg-zinc-950 border border-zinc-900 p-10 rounded-[32px] hover:border-emerald-500/20 transition-all group overflow-hidden relative md:col-span-2">
+                                            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+                                                <div>
+                                                    <ShoppingBag size={32} className="text-emerald-500/30 group-hover:text-emerald-500 mb-8 transition-all" />
+                                                    <h3 className="text-2xl font-serif mb-2">Order Management</h3>
+                                                    <p className="text-zinc-500 text-sm leading-relaxed">Global logistics command. Authorize status overrides and track global fulfillment.</p>
+                                                </div>
+                                                <div className="flex items-center gap-6">
+                                                    <div className="text-center">
+                                                        <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mb-1">Live Queue</p>
+                                                        <p className="text-2xl font-serif text-emerald-500">{statsData.pendingOrders}</p>
+                                                    </div>
+                                                    <div className="w-px h-12 bg-zinc-900"></div>
+                                                    <div className="text-center">
+                                                        <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mb-1">Total volume</p>
+                                                        <p className="text-2xl font-serif text-white">{statsData.totalOrders}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/[0.02] rounded-full blur-3xl group-hover:bg-emerald-500/[0.05] transition-all"></div>
+                                        </Link>
                                     </div>
                                 </div>
-
-                                <aside className="bg-zinc-950/40 border border-zinc-900 p-8 rounded-[40px] space-y-8">
-                                    <div className="flex items-center justify-between border-b border-zinc-900 pb-6">
-                                        <h3 className="text-lg font-serif">System Core</h3>
-                                        <div className="px-3 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-[8px] font-black uppercase tracking-widest animate-pulse">Running</div>
-                                    </div>
-
-                                    <div className="space-y-6">
-                                        {[
-                                            { label: "Cloud Engine", value: "Primary Cluster" },
-                                            { label: "Audit Logging", value: "Secure-Active" },
-                                            { label: "Database Sync", value: "Real-time" }
-                                        ].map((item, i) => (
-                                            <div key={i}>
-                                                <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-widest mb-1">{item.label}</p>
-                                                <p className="text-sm font-medium">{item.value}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </aside>
                             </div>
                         </motion.div>
                     ) : (

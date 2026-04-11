@@ -145,3 +145,12 @@ export const updateProduct = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
+export const getAllOrders = async (req, res) => {
+    try {
+        const orders = await Order.find().sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};

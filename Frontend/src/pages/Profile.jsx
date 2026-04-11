@@ -110,9 +110,10 @@ function Profile() {
 
     const statusColors = {
         Pending: "text-amber-500 bg-amber-500/10",
+        Complete: "text-emerald-500 bg-emerald-500/10",
         Processing: "text-blue-500 bg-blue-500/10",
         Shipped: "text-purple-500 bg-purple-500/10",
-        Delivered: "text-emerald-500 bg-emerald-500/10",
+        Delivered: "text-emerald-500 bg-emerald-500/20",
         Cancelled: "text-rose-500 bg-rose-500/10"
     };
 

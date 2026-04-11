@@ -12,6 +12,7 @@ import NotFound from "../pages/NotFound";
 import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminProducts from "../pages/admin/AdminProducts";
 import AdminUsers from "../pages/admin/AdminUsers";
+import AdminOrders from "../pages/admin/AdminOrders";
 import AdminRoute from "../pages/admin/AdminRoute";
 import Profile from "../pages/Profile";
 import SellerRouter from "../pages/seller/SellerRouter";
@@ -65,6 +66,14 @@ function AppRoutes() {
         element={
           <AdminRoute>
             <AdminUsers />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/orders"
+        element={
+          <AdminRoute>
+            <AdminOrders />
           </AdminRoute>
         }
       />
