@@ -26,11 +26,10 @@ function Cart() {
   return (
     <div className="min-h-screen bg-black text-white pt-32 pb-24 px-4 sm:px-8 lg:px-12">
       <div className="max-w-7xl mx-auto">
-        
-        {/* Breadcrumbs / Page Header */}
+
         <div className="mb-12 flex items-center justify-between">
           <div>
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl md:text-5xl font-serif tracking-tight mb-2"
@@ -58,8 +57,8 @@ function Cart() {
               </div>
               <h2 className="text-2xl font-serif mb-4 text-zinc-400">The collection is currently empty.</h2>
               <p className="text-zinc-600 text-sm mb-12 max-w-sm text-center leading-relaxed">Your curation of scents has not yet begun. Discover olfactory masterworks from our signature collection.</p>
-              <Link 
-                to="/products" 
+              <Link
+                to="/products"
                 className="px-12 py-5 bg-white text-black text-[11px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-amber-600 hover:text-white transition-all transform active:scale-95 shadow-xl shadow-white/5"
               >
                 Begin Journey
@@ -67,8 +66,7 @@ function Cart() {
             </motion.div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-              
-              {/* Cart Items List */}
+
               <div className="lg:col-span-8 space-y-6">
                 <div className="hidden md:grid grid-cols-12 px-8 pb-4 border-b border-zinc-900 text-[10px] font-black uppercase tracking-[0.3em] text-zinc-600">
                   <div className="col-span-6">Olfactory Masterwork</div>
@@ -88,18 +86,18 @@ function Cart() {
                       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
                         <div className="col-span-12 md:col-span-6 flex items-center gap-8">
                           <div className="w-24 h-32 md:w-28 md:h-36 rounded-2xl overflow-hidden bg-zinc-900 flex-shrink-0 border border-white/5">
-                            <img 
+                            <img
                               src={typeof item.image === 'string' && (item.image.startsWith('http') || item.image.startsWith('data:'))
                                 ? item.image
                                 : (typeof item.image === 'string' && item.image ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.image}` : "/images/sample.jpg")}
-                              alt={item.name} 
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                              alt={item.name}
+                              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                             />
                           </div>
                           <div>
                             <p className="text-[10px] text-amber-600 font-black uppercase tracking-widest mb-1">{item.brand || "Selection"}</p>
                             <h3 className="text-xl font-serif mb-2">{item.name}</h3>
-                            <button 
+                            <button
                               onClick={() => removeFromCart(item._id)}
                               className="flex items-center gap-2 text-zinc-700 hover:text-rose-500 transition-all text-[9px] font-bold uppercase tracking-widest mt-4"
                             >
@@ -110,16 +108,17 @@ function Cart() {
 
                         <div className="col-span-12 md:col-span-3 flex justify-center md:justify-center">
                           <div className="flex items-center gap-4 bg-zinc-900/50 p-2 rounded-2xl border border-zinc-900">
-                            <button 
+                            <button
                               onClick={() => updateQty(item._id, item.qty - 1)}
                               className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center hover:bg-white hover:text-black transition-all"
                             >
                               <Minus size={14} />
                             </button>
                             <span className="w-10 text-center font-bold text-sm">{item.qty}</span>
-                            <button 
+                            <button
                               onClick={() => updateQty(item._id, item.qty + 1)}
-                              className="w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center hover:bg-white hover:text-black transition-all"
+                              disabled={item.qty >= (item.productQuantity || 999)}
+                              className={`w-10 h-10 rounded-xl bg-zinc-950 flex items-center justify-center transition-all ${item.qty >= (item.productQuantity || 999) ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white hover:text-black'}`}
                             >
                               <Plus size={14} />
                             </button>
@@ -127,7 +126,7 @@ function Cart() {
                         </div>
 
                         <div className="col-span-12 md:col-span-3 text-right">
-                          <p className="text-xl font-serif">Rs. {( (item.price || 0) * item.qty).toLocaleString()}</p>
+                          <p className="text-xl font-serif">Rs. {((item.price || 0) * item.qty).toLocaleString()}</p>
                           <p className="text-[10px] text-zinc-600 mt-1">Rs. {(item.price || 0).toLocaleString()} per unit</p>
                         </div>
                       </div>
@@ -136,11 +135,10 @@ function Cart() {
                 </div>
               </div>
 
-              {/* Order Summary Summary */}
               <div className="lg:col-span-4 lg:sticky lg:top-32">
                 <div className="bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 p-10 rounded-[40px] shadow-2xl relative overflow-hidden">
                   <h2 className="text-2xl font-serif mb-8">Summary of Curation</h2>
-                  
+
                   <div className="space-y-6">
                     <div className="flex justify-between items-center text-sm">
                       <span className="text-zinc-500 font-bold uppercase tracking-widest text-[9px]">Inventory Value</span>
@@ -165,7 +163,7 @@ function Cart() {
                     </div>
 
                     <div className="pt-10">
-                      <button 
+                      <button
                         onClick={handleCheckout}
                         className="w-full py-6 bg-white text-black text-[11px] font-black uppercase tracking-[0.4em] rounded-2xl hover:bg-amber-600 hover:text-white transition-all transform active:scale-95 flex items-center justify-center gap-3 shadow-2xl shadow-white/5 group"
                       >
@@ -180,7 +178,6 @@ function Cart() {
                     </div>
                   </div>
 
-                  {/* Aesthetic Background Detail */}
                   <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-amber-500/[0.03] rounded-full blur-3xl pointer-events-none"></div>
                 </div>
 
@@ -199,27 +196,25 @@ function Cart() {
         </AnimatePresence>
       </div>
 
-      {/* Login Prompt Modal */}
       <AnimatePresence>
         {showLoginModal && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowLoginModal(false)}
               className="absolute inset-0 bg-black/80 backdrop-blur-sm"
             />
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 20 }}
               className="relative bg-zinc-950 border border-zinc-900 w-full max-w-sm p-10 rounded-[40px] shadow-2xl text-center overflow-hidden"
             >
-              {/* Decorative detail */}
               <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
-              
-              <button 
+
+              <button
                 onClick={() => setShowLoginModal(false)}
                 className="absolute top-6 right-6 text-zinc-700 hover:text-white transition-colors"
               >
@@ -229,20 +224,20 @@ function Cart() {
               <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mx-auto mb-8 border border-zinc-800">
                 <LogIn className="text-amber-500" size={24} />
               </div>
-              
+
               <h3 className="text-2xl font-serif mb-4">Authentication Required</h3>
               <p className="text-zinc-500 text-[11px] font-bold uppercase tracking-[0.2em] mb-10 leading-relaxed">
                 To finalize your luxury curation, we require you to authorize your identity.
               </p>
 
               <div className="flex flex-col gap-3">
-                <button 
+                <button
                   onClick={() => navigate("/login", { state: { from: "/cart" } })}
                   className="w-full py-4 bg-white text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:bg-amber-600 hover:text-white transition-all transform active:scale-95 shadow-xl"
                 >
                   Yes, Authorize Login
                 </button>
-                <button 
+                <button
                   onClick={() => setShowLoginModal(false)}
                   className="w-full py-4 bg-zinc-900 text-zinc-400 text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-zinc-800 hover:text-white transition-all transform active:scale-95"
                 >

@@ -107,8 +107,8 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                                     <span className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border transition-all duration-500 ${statusColors[order.status]}`}>
                                                         {order.status}
                                                     </span>
-                                                    <div className="flex items-center gap-3 text-zinc-500">
-                                                        <Calendar size={14} className="opacity-40" />
+                                                    <div className="flex items-center gap-3 text-zinc-400">
+                                                        <Calendar size={14} className="opacity-60" />
                                                         <span className="text-[10px] font-bold uppercase tracking-widest">
                                                             {new Date(order.createdAt).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}
                                                         </span>
@@ -118,18 +118,18 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                     {order.product.filter(p => p.belongsToSeller).map((item, idx) => (
                                                         <div key={idx} className="flex items-center gap-5 p-4 bg-zinc-900/40 rounded-3xl border border-white/[0.02] group/item hover:bg-zinc-900/60 transition-all">
-                                                            <div className="w-16 h-16 rounded-2xl overflow-hidden bg-black border border-white/5 flex-shrink-0">
+                                                            <div className="w-16 h-16 rounded-2xl overflow-hidden bg-black border border-white/10 flex-shrink-0">
                                                                 <img
                                                                     src={item.productImage && (item.productImage.startsWith('http') || item.productImage.startsWith('data:'))
                                                                         ? item.productImage
                                                                         : (item.productImage ? `${import.meta.env.VITE_API_URL.replace('/api', '')}${item.productImage}` : "/images/sample.jpg")}
                                                                     alt=""
-                                                                    className="w-full h-full object-cover grayscale opacity-40 group-hover/item:grayscale-0 group-hover/item:opacity-100 transition-all duration-700"
+                                                                    className="w-full h-full object-cover grayscale-[0.5] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700"
                                                                 />
                                                             </div>
                                                             <div className="min-w-0">
-                                                                <p className="text-sm font-serif truncate text-white/90 mb-1">{item.productName}</p>
-                                                                <p className="text-[9px] text-zinc-600 uppercase font-black tracking-widest">Qty: {item.productQuantity} · Rs. {item.productPrice?.toLocaleString()}</p>
+                                                                <p className="text-sm font-serif truncate text-white mb-1">{item.productName}</p>
+                                                                <p className="text-[9px] text-zinc-400 uppercase font-black tracking-widest">Qty: {item.productQuantity} · Rs. {item.productPrice?.toLocaleString()}</p>
                                                             </div>
                                                         </div>
                                                     ))}
@@ -137,27 +137,27 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                             </div>
 
                                             {/* Client Manifest */}
-                                            <div className="lg:w-72 space-y-8 bg-zinc-900/20 p-8 rounded-[32px] border border-white/[0.02]">
-                                                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-700 flex items-center gap-3">
-                                                    <div className="w-1 h-1 bg-zinc-700 rounded-full" /> Client Manifest
+                                            <div className="lg:w-72 space-y-8 bg-zinc-900/40 p-8 rounded-[32px] border border-white/[0.05]">
+                                                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-3">
+                                                    <div className="w-1 h-1 bg-zinc-500 rounded-full" /> Client Manifest
                                                 </h4>
                                                 <div className="space-y-6">
                                                     <div className="flex items-start gap-4">
-                                                        <div className="w-8 h-8 rounded-xl bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
-                                                            <MapPin size={12} className="text-zinc-600" />
+                                                        <div className="w-8 h-8 rounded-xl bg-zinc-950 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                                                            <MapPin size={12} className="text-zinc-500" />
                                                         </div>
                                                         <div className="space-y-1">
-                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-800">Destination</p>
-                                                            <p className="text-xs text-zinc-500 leading-relaxed font-light">{order.address}</p>
+                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Destination</p>
+                                                            <p className="text-xs text-zinc-400 leading-relaxed font-light">{order.address}</p>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-4">
-                                                        <div className="w-8 h-8 rounded-xl bg-zinc-900 flex items-center justify-center flex-shrink-0 border border-zinc-800">
-                                                            <Phone size={12} className="text-zinc-600" />
+                                                        <div className="w-8 h-8 rounded-xl bg-zinc-950 flex items-center justify-center flex-shrink-0 border border-zinc-800">
+                                                            <Phone size={12} className="text-zinc-500" />
                                                         </div>
                                                         <div className="space-y-1">
-                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-800">Protocol Link</p>
-                                                            <p className="text-xs text-zinc-500 font-light">{order.phone}</p>
+                                                            <p className="text-[8px] font-black uppercase tracking-widest text-zinc-600">Protocol Link</p>
+                                                            <p className="text-xs text-zinc-400 font-light">{order.phone}</p>
                                                         </div>
                                                     </div>
                                                 </div>

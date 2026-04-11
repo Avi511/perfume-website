@@ -58,17 +58,34 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = (product, qty) => {
     const itemExists = cartItems.find((x) => x._id === product._id);
+    // Explicitly check for productQuantity
+    const maxQty = product.productQuantity !== undefined ? product.productQuantity : (product.available || 99);
 
     if (itemExists) {
+      const newQty = itemExists.qty + qty;
+      if (newQty > maxQty) {
+          toast.error(`Inventory Limit: Only ${maxQty} units of ${product.name} available.`, {
+            style: { borderRadius: '20px', background: '#000', color: '#d4af37' }
+          });
+          return;
+      }
       setCartItems(
         cartItems.map((x) =>
-          x._id === product._id ? { ...x, qty: x.qty + qty } : x
+          x._id === product._id ? { ...x, qty: newQty } : x
         )
       );
     } else {
+      if (qty > maxQty) {
+          toast.error(`Only ${maxQty} units available.`, {
+            style: { borderRadius: '20px', background: '#000', color: '#d4af37' }
+          });
+          return;
+      }
       setCartItems([...cartItems, { ...product, qty }]);
     }
-    toast.success(`${product.name} added to cart`);
+    toast.success(`${product.name} added to selection`, {
+      style: { borderRadius: '20px', background: '#000', color: '#d4af37' }
+    });
   };
 
   const removeFromCart = (id) => {
@@ -80,10 +97,21 @@ export const CartProvider = ({ children }) => {
       removeFromCart(id);
       return;
     }
+    
     setCartItems(
-      cartItems.map((x) =>
-        x._id === id ? { ...x, qty } : x
-      )
+      cartItems.map((x) => {
+        if (x._id === id) {
+          const maxQty = x.productQuantity !== undefined ? x.productQuantity : (x.available || 99);
+          if (qty > maxQty) {
+              toast.error(`Maximum luxury inventory reached for this item (${maxQty})`, {
+                style: { borderRadius: '20px', background: '#000', color: '#d4af37' }
+              });
+              return { ...x, qty: maxQty };
+          }
+          return { ...x, qty: qty };
+        }
+        return x;
+      })
     );
   };
 
