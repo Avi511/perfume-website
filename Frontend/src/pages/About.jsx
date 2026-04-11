@@ -2,38 +2,39 @@ import Button from '../components/common/Button';
 import perfumeVideo from '../assets/video_02.mp4';
 import aboutImg from '../assets/philosophy_luxury.png';
 import labImg from '../assets/perfume_lab_luxury.png';
+import about_cover from '../assets/about_cover.jpg'
 
 function About() {
   return (
     <div className="bg-white text-gray-900 selection:bg-amber-100">
-      {/* Cinematic Hero Section */}
-      <section className="relative h-[100vh] flex flex-col items-center justify-center bg-black overflow-hidden">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-50 contrast-125"
-        >
-          <source src={perfumeVideo} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-
+      <section className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden">
+        <img
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+          src={about_cover}
+          alt="Élan Fragrance cover"
+        />
+        <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 text-center px-4 max-w-4xl">
           <div className="space-y-6 animate-fade-in">
-            <span className="text-xs font-black uppercase tracking-[0.6em] text-amber-500/80">Since 2026</span>
+            <span className="text-xs font-black uppercase tracking-[0.6em] text-amber-500/80">
+              Since 2026
+            </span>
             <h1 className="text-6xl md:text-8xl font-serif text-white tracking-tighter leading-none">
-              A Legacy in <br /> <span className="italic font-light">Every Breath</span>
+              A Legacy in <br />
+              <span className="italic font-light">Every Breath</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-300 max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
-              Élan Fragrance was founded on a simple yet profound belief: that scent is the most intimate form of memory.
+              Élan Fragrance was founded on a simple yet profound belief: that scent is
+              the most intimate form of memory.
             </p>
           </div>
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-white">Discover More</span>
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30 z-10">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-white">
+            Discover More
+          </span>
           <div className="w-px h-12 bg-gradient-to-b from-white to-transparent" />
         </div>
       </section>
@@ -177,7 +178,7 @@ function About() {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   );
 }
 
