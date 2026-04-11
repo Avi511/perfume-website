@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
 import toast from "react-hot-toast";
+import ConfirmationModal from "../../components/common/ConfirmationModal";
 
 const AdminUsers = () => {
     const navigate = useNavigate();
@@ -15,6 +16,8 @@ const AdminUsers = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [editingUser, setEditingUser] = useState(null);
     const [editForm, setEditForm] = useState({ firstName: "", lastName: "", isSeller: false, isAdmin: false });
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [userToDelete, setUserToDelete] = useState(null);
 
     useEffect(() => {
         fetchUsers();
@@ -33,15 +36,25 @@ const AdminUsers = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm("Are you certain you wish to revoke this member's access?")) return;
+    const handleDelete = (id) => {
+        setUserToDelete(id);
+        setIsDeleteModalOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!userToDelete) return;
+
         const loadToast = toast.loading("Revoking access...");
+        setIsDeleteModalOpen(false);
+
         try {
-            await api.delete(`/admin/users/${id}`);
+            await api.delete(`/admin/users/${userToDelete}`);
             toast.success("Member record purged from ecosystem.", { id: loadToast });
-            setUsers(users.filter(u => u._id !== id));
+            setUsers(users.filter(u => u._id !== userToDelete));
         } catch (error) {
             toast.error(error.response?.data?.error || "Revocation failed.", { id: loadToast });
+        } finally {
+            setUserToDelete(null);
         }
     };
 
@@ -86,7 +99,7 @@ const AdminUsers = () => {
                             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> Back to Dashboard
                         </Link>
                         <h1 className="text-5xl font-serif leading-tight">Member Manifest</h1>
-                        <p className="text-zinc-500 text-sm mt-4 italic opacity-70">Overseeing the global Élan signature network.</p>
+                        <p className="text-zinc-400 text-sm mt-4 font-medium opacity-90">Overseeing the global Élan signature network.</p>
                     </div>
 
                     <div className="flex items-center gap-4">
@@ -112,7 +125,7 @@ const AdminUsers = () => {
                         { label: "Network Active", value: "Primary" }
                     ].map((s, i) => (
                         <div key={i} className="bg-zinc-950 border border-zinc-900 p-8 rounded-[40px] text-center group hover:border-zinc-700/50 transition-all duration-500 relative overflow-hidden">
-                            <p className="text-[10px] text-zinc-600 font-bold uppercase tracking-[0.3em] mb-1 relative z-10">{s.label}</p>
+                            <p className="text-xs text-zinc-400 font-bold uppercase tracking-[0.3em] mb-1 relative z-10">{s.label}</p>
                             <p className="text-3xl font-serif text-white relative z-10">{s.value}</p>
                             <div className="absolute top-0 right-0 w-24 h-24 bg-white/[0.01] rounded-full blur-2xl group-hover:bg-white/[0.03] transition-all duration-700"></div>
                         </div>
@@ -124,12 +137,12 @@ const AdminUsers = () => {
                     <div className="overflow-x-auto">
                         <table className="w-full text-left">
                             <thead>
-                                <tr className="border-b border-zinc-900 text-[10px] text-zinc-600 font-black uppercase tracking-[0.4em]">
-                                    <th className="px-10 py-10">Identifier</th>
-                                    <th className="px-10 py-10">Member Signature</th>
-                                    <th className="px-10 py-10">Verification Tier</th>
-                                    <th className="px-10 py-10">Registry Date</th>
-                                    <th className="px-10 py-10 text-right">Protocol Actions</th>
+                                <tr className="border-b border-zinc-900 text-xs text-zinc-400 font-black uppercase tracking-[0.1em]">
+                                    <th className="px-10 py-10">User ID</th>
+                                    <th className="px-10 py-10">Name</th>
+                                    <th className="px-10 py-10">Role</th>
+                                    <th className="px-10 py-10">Register Date</th>
+                                    <th className="px-10 py-10 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-zinc-900/50">
@@ -148,39 +161,39 @@ const AdminUsers = () => {
                                             exit={{ opacity: 0 }}
                                             className="group hover:bg-white/[0.02] transition-colors"
                                         >
-                                            <td className="px-10 py-8 text-[10px] font-black text-zinc-600 font-mono tracking-widest">{u.userId}</td>
+                                            <td className="px-10 py-8 text-xs font-black text-zinc-400 font-mono tracking-widest">{u.userId}</td>
                                             <td className="px-10 py-8">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-12 h-12 bg-gradient-to-br from-zinc-800 to-zinc-950 rounded-2xl flex items-center justify-center text-zinc-400 group-hover:text-amber-500 transition-all border border-white/5 relative overflow-hidden group/avatar">
+                                                    <div className="w-12 h-12 bg-gradient-to-br from-zinc-800 to-zinc-950 rounded-2xl flex items-center justify-center text-zinc-300 group-hover:text-amber-500 transition-all border border-white/5 relative overflow-hidden group/avatar">
                                                         <span className="text-sm font-serif relative z-10">{u.firstName[0]}{u.lastName[0]}</span>
                                                         <div className="absolute inset-0 bg-amber-500/0 group-hover/avatar:bg-amber-500/10 transition-all"></div>
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-medium text-white/90">{u.firstName} {u.lastName}</p>
-                                                        <p className="text-[10px] text-zinc-500 tracking-widest">{u.email}</p>
+                                                        <p className="text-xs text-zinc-400 tracking-widest">{u.email}</p>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <div className="flex items-center gap-3">
                                                     {u.isAdmin ? (
-                                                        <span className="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5 shadow-xl shadow-amber-500/5">
-                                                            <ShieldCheck size={10} /> Administrative Core
+                                                        <span className="bg-amber-500/10 text-amber-500 border border-amber-500/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5 shadow-xl shadow-amber-500/5">
+                                                            <ShieldCheck size={10} /> Admin
                                                         </span>
                                                     ) : u.isSeller ? (
-                                                        <span className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5 shadow-xl shadow-emerald-500/5">
-                                                            Verified Atelier Partner
+                                                        <span className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] flex items-center gap-1.5 shadow-xl shadow-emerald-500/5">
+                                                            Verified Partner
                                                         </span>
                                                     ) : (
-                                                        <span className="bg-zinc-900 text-zinc-500 border border-zinc-800 px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.2em]">Verified Signature</span>
+                                                        <span className="bg-zinc-900 text-zinc-300 border border-zinc-800 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.1em]">User</span>
                                                     )}
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-8 text-[11px] font-medium text-zinc-500">{new Date(u.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</td>
+                                            <td className="px-10 py-8 text-[11px] font-medium text-zinc-400">{new Date(u.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</td>
                                             <td className="px-10 py-8 text-right">
                                                 <div className="flex items-center justify-end gap-3 transition-opacity">
                                                     <button
-                                                        className="p-3 bg-zinc-900 hover:bg-emerald-600 hover:text-white rounded-xl transition-all shadow-xl active:scale-95"
+                                                        className="p-3 bg-zinc-800 hover:bg-emerald-600 hover:text-white rounded-xl transition-all shadow-xl active:scale-95"
                                                         title="Update Permissions"
                                                         onClick={() => handleEdit(u)}
                                                     >
@@ -188,7 +201,7 @@ const AdminUsers = () => {
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(u._id)}
-                                                        className="p-3 bg-zinc-900 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-xl active:scale-95"
+                                                        className="p-3 bg-zinc-800 hover:bg-red-600 hover:text-white rounded-xl transition-all shadow-xl active:scale-95"
                                                         title="Revoke Signature"
                                                     >
                                                         <UserX size={14} />
@@ -260,6 +273,16 @@ const AdminUsers = () => {
                     <p>&copy; Élan Administrative Protocol &middot; Signature Ledger v4.0</p>
                     <p>Encrypted Payload: Yes</p>
                 </div>
+
+                <ConfirmationModal
+                    isOpen={isDeleteModalOpen}
+                    onClose={() => setIsDeleteModalOpen(false)}
+                    onConfirm={confirmDelete}
+                    title="Remove User"
+                    message="Are you sure you want to remove this user?"
+                    confirmText="Remove User"
+                    cancelText="Cancel"
+                />
             </div>
         </div>
     );

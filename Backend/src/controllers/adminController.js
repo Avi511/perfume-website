@@ -125,3 +125,23 @@ export const deleteUser = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+export const updateProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findById(id);
+
+        if (!product) {
+            return res.status(404).json({ error: "Product not found" });
+        }
+
+        Object.assign(product, req.body);
+        product.productTotal = (product.productPrice || 0) * (product.productQuantity || 0);
+        product.updatedAt = Date.now();
+
+        await product.save();
+        res.json({ message: "Product updated successfully", product: transformProduct(product) });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};

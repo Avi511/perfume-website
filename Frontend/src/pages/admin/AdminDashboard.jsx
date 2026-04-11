@@ -177,7 +177,7 @@ const AdminDashboard = () => {
                                 <div className="lg:col-span-2 space-y-6">
                                     <h2 className="text-xl font-serif text-white/90 flex items-center gap-3 mb-8">
                                         <LayoutDashboard className="w-5 h-5 text-amber-500" />
-                                        Operational Framework
+                                        Products and Users Management
                                     </h2>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
