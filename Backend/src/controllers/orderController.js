@@ -57,6 +57,7 @@ export const createOrder = async (req, res) => {
 
             fullyPopulatedProducts.push({
                 productId: transformedProduct.productId,
+                sellerId: productDoc.seller,
                 productName: transformedProduct.productName,
                 productImage: transformedProduct.productImage,
                 productPrice: transformedProduct.productPrice,
@@ -100,6 +101,23 @@ export const getOrder = async (req, res) => {
     }
 }
 
+export const getSellerOrders = async (req, res) => {
+    try {
+        if (!req.user || (!req.user.isSeller && !req.user.isAdmin)) {
+            return res.status(403).json({ error: "Only sellers can see their orders" });
+        }
+
+        const orders = await Order.find({
+            "product.sellerId": req.user._id
+        }).sort({ createdAt: -1 });
+
+        return res.status(200).json(orders);
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Error getting seller orders" });
+    }
+}
+
 export const getOrderById = async (req, res) => {
     try {
         if (!req.user) {
@@ -138,7 +156,11 @@ export async function updateOrderStatus(req, res) {
         }
 
         const userId = req.user.userId || "unknown";
-        if (order.userId !== userId) {
+        const isOwner = order.userId === userId;
+        const isSeller = req.user.isSeller && order.product.some(p => p.sellerId.toString() === (req.user._id || req.user.userId).toString());
+        const isAdmin = req.user.isAdmin;
+
+        if (!isOwner && !isSeller && !isAdmin) {
             return res.status(403).json({ error: "You are not authorized to update this order" });
         }
 
