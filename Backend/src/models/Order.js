@@ -35,7 +35,7 @@ const orderSchema = new mongoose.Schema({
             sellerId: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
-                required: true
+                required: false // Changed to false to support legacy orders
             },
             productName: {
                 type: String,

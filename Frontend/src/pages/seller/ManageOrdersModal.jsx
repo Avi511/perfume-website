@@ -116,10 +116,7 @@ const ManageOrdersModal = ({ isOpen, onClose }) => {
                                                 </div>
 
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                    {order.product.filter(p => p.sellerId.toString() === (order.targetSellerId || "")).map((item, idx) => (
-                                                        null
-                                                    ))}
-                                                    {order.product.map((item, idx) => (
+                                                    {order.product.filter(p => p.belongsToSeller).map((item, idx) => (
                                                         <div key={idx} className="flex items-center gap-5 p-4 bg-zinc-900/40 rounded-3xl border border-white/[0.02] group/item hover:bg-zinc-900/60 transition-all">
                                                             <div className="w-16 h-16 rounded-2xl overflow-hidden bg-black border border-white/5 flex-shrink-0">
                                                                 <img

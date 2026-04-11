@@ -57,7 +57,7 @@ export const createOrder = async (req, res) => {
 
             fullyPopulatedProducts.push({
                 productId: transformedProduct.productId,
-                sellerId: productDoc.seller,
+                sellerId: productDoc.seller || req.user._id,
                 productName: transformedProduct.productName,
                 productImage: transformedProduct.productImage,
                 productPrice: transformedProduct.productPrice,
@@ -107,11 +107,29 @@ export const getSellerOrders = async (req, res) => {
             return res.status(403).json({ error: "Only sellers can see their orders" });
         }
 
+        const sellerId = req.user._id;
+        const sellerProducts = await Product.find({ seller: sellerId }).select('productId');
+        const sellerProductIds = sellerProducts.map(p => p.productId);
+
         const orders = await Order.find({
-            "product.sellerId": req.user._id
+            $or: [
+                { "product.sellerId": sellerId },
+                { "product.productId": { $in: sellerProductIds } }
+            ]
         }).sort({ createdAt: -1 });
 
-        return res.status(200).json(orders);
+        const modifiedOrders = orders.map(order => {
+            const orderObj = order.toObject();
+            orderObj.targetSellerId = sellerId.toString();
+            orderObj.product = orderObj.product.map(p => ({
+                ...p,
+                belongsToSeller: (p.sellerId && p.sellerId.toString() === sellerId.toString()) ||
+                    sellerProductIds.includes(p.productId)
+            }));
+            return orderObj;
+        });
+
+        return res.status(200).json(modifiedOrders);
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: "Error getting seller orders" });
@@ -147,8 +165,9 @@ export async function updateOrderStatus(req, res) {
             return res.status(403).json({ error: "Only logged in users can update orders" });
         }
 
+        const { id } = req.params;
         const order = await Order.findOne({
-            $or: [{ orderId: req.params.id }, { _id: req.params.id }]
+            $or: [{ orderId: id }, { _id: id }]
         }).catch(() => null);
 
         if (!order) {
@@ -157,8 +176,22 @@ export async function updateOrderStatus(req, res) {
 
         const userId = req.user.userId || "unknown";
         const isOwner = order.userId === userId;
-        const isSeller = req.user.isSeller && order.product.some(p => p.sellerId.toString() === (req.user._id || req.user.userId).toString());
         const isAdmin = req.user.isAdmin;
+        let isSeller = false;
+
+        if (req.user.isSeller) {
+            try {
+                const sellerProducts = await Product.find({ seller: req.user._id }).select('productId');
+                const sellerProductIds = sellerProducts.map(p => p.productId);
+
+                isSeller = order.product && Array.isArray(order.product) && order.product.some(p =>
+                    (p.sellerId && req.user._id && p.sellerId.toString() === req.user._id.toString()) ||
+                    (p.productId && sellerProductIds.includes(p.productId))
+                );
+            } catch (err) {
+                console.error("Seller authority check failed:", err);
+            }
+        }
 
         if (!isOwner && !isSeller && !isAdmin) {
             return res.status(403).json({ error: "You are not authorized to update this order" });
@@ -173,8 +206,8 @@ export async function updateOrderStatus(req, res) {
         await order.save();
         return res.status(200).json(order);
     } catch (error) {
-        console.error(error);
-        return res.status(500).json({ error: "Error updating order" });
+        console.error("Internal Server Error in updateOrderStatus:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 }
 
