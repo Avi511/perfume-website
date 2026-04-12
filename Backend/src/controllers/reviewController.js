@@ -87,11 +87,11 @@ export const deleteReview = async (req, res) => {
             return res.status(404).json({ error: "Review not found" });
         }
 
-        if (review.user.toString() !== req.user._id.toString()) {
+        if (review.user.toString() !== req.user._id.toString() && !req.user.isAdmin) {
             return res.status(401).json({ error: "Not authorized to delete this review" });
         }
 
-        await review.remove();
+        await Review.findByIdAndDelete(req.params.id);
         res.json({ message: "Review removed" });
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -100,9 +100,9 @@ export const deleteReview = async (req, res) => {
 
 export const getAllReviews = async (req, res) => {
     try {
-        const reviews = await Review.find({ product: null })
+        const reviews = await Review.find()
             .populate("user", "firstName lastName email")
-            .populate("product", "name");
+            .populate("product", "productName productId");
         res.json(reviews);
     } catch (error) {
         res.status(500).json({ error: error.message });

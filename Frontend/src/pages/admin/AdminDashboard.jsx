@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
     Package, Users, ShoppingBag, PlusCircle,
     ArrowUpRight, LayoutDashboard, Search, LogOut,
-    DollarSign, Activity, TrendingUp, UserPlus, ShieldCheck, Mail, Lock, Phone, MapPin
+    DollarSign, Activity, TrendingUp, UserPlus, ShieldCheck, Mail, Lock, Phone, MapPin, MessageSquare
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -197,6 +197,24 @@ const AdminDashboard = () => {
                                                 <p className="text-zinc-500 text-sm leading-relaxed">Oversee client privileges and audit the platform signature system.</p>
                                             </div>
                                             <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/[0.02] rounded-full blur-3xl group-hover:bg-blue-500/[0.05] transition-all"></div>
+                                        </Link>
+
+                                        <Link to="/admin/reviews" className="bg-zinc-950 border border-zinc-900 p-10 rounded-[32px] hover:border-amber-500/20 transition-all group overflow-hidden relative">
+                                            <div className="relative z-10">
+                                                <MessageSquare size={32} className="text-amber-500/30 group-hover:text-amber-500 mb-8 transition-all" />
+                                                <h3 className="text-2xl font-serif mb-2">Sentiment Manifest</h3>
+                                                <p className="text-zinc-500 text-sm leading-relaxed">Audit customer feedback and manage the platform's public reputation.</p>
+                                            </div>
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/[0.02] rounded-full blur-3xl group-hover:bg-amber-500/[0.05] transition-all"></div>
+                                        </Link>
+
+                                        <Link to="/admin/contacts" className="bg-zinc-950 border border-zinc-900 p-10 rounded-[32px] hover:border-emerald-500/20 transition-all group overflow-hidden relative">
+                                            <div className="relative z-10">
+                                                <Mail size={32} className="text-emerald-500/30 group-hover:text-emerald-500 mb-8 transition-all" />
+                                                <h3 className="text-2xl font-serif mb-2">Inquiry Archive</h3>
+                                                <p className="text-zinc-500 text-sm leading-relaxed">Respond to global inquiries and manage concierge communications.</p>
+                                            </div>
+                                            <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/[0.02] rounded-full blur-3xl group-hover:bg-emerald-500/[0.05] transition-all"></div>
                                         </Link>
                                         
                                         <Link to="/admin/orders" className="bg-zinc-950 border border-zinc-900 p-10 rounded-[32px] hover:border-emerald-500/20 transition-all group overflow-hidden relative md:col-span-2">

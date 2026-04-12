@@ -3,8 +3,46 @@ import contactImg from '../assets/contact_luxury.png';
 import boutiqueImg from '../assets/paris_boutique.png';
 import contactHero from '../assets/contact_hero_dark.png';
 import contactHeroLight from '../assets/contact_hero.png';
+import { useState } from 'react';
+import api from '../services/api';
+import toast from 'react-hot-toast';
 
 function Contact() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await api.post('/contact', formData);
+      toast.success("Message sent successfully. Expect a reply soon.");
+      setFormData({ name: '', email: '', message: '' });
+    } catch (err) {
+      console.error("Submission error:", err);
+      toast.error("Delivery failure. Please try another method.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="bg-white text-gray-900 selection:bg-amber-100">
       {/* Dynamic Header / Hero with Dark Background Image */}
@@ -78,8 +116,7 @@ function Contact() {
 
             {/* Premium Form */}
             <form
-              action="https://formsubmit.io/send/fragranceelan@gmail.com"
-              method="POST"
+              onSubmit={handleContactSubmit}
               className="flex flex-col gap-10 bg-zinc-50/50 p-8 md:p-12 rounded-3xl border border-zinc-100 shadow-sm relative z-10 group"
             >
               <div className="space-y-2">
@@ -94,6 +131,8 @@ function Contact() {
                     type="text"
                     name="name"
                     required
+                    value={formData.name}
+                    onChange={handleInputChange}
                     placeholder="E.g. Gabriel Blanc"
                     className="bg-transparent border-b border-zinc-200 py-3 outline-none text-sm placeholder:text-zinc-300 focus:border-amber-600 transition-all font-light"
                   />
@@ -104,6 +143,8 @@ function Contact() {
                     type="email"
                     name="email"
                     required
+                    value={formData.email}
+                    onChange={handleInputChange}
                     placeholder="hello@example.com"
                     className="bg-transparent border-b border-zinc-200 py-3 outline-none text-sm placeholder:text-zinc-300 focus:border-amber-600 transition-all font-light"
                   />
@@ -115,6 +156,8 @@ function Contact() {
                 <textarea
                   name="message"
                   required
+                  value={formData.message}
+                  onChange={handleInputChange}
                   placeholder="How can we assist you today?"
                   rows="4"
                   className="bg-transparent border-b border-zinc-200 py-3 outline-none text-sm placeholder:text-zinc-300 focus:border-amber-600 transition-all resize-none font-light"
@@ -122,8 +165,8 @@ function Contact() {
               </div>
 
               <div className="pt-4 overflow-hidden rounded-full self-start group/btn">
-                <Button type="submit" className="!bg-black !text-white !px-16 py-5 !rounded-full relative overflow-hidden">
-                  Send Message
+                <Button type="submit" disabled={isSubmitting} className="!bg-black !text-white !px-16 py-5 !rounded-full relative overflow-hidden">
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </Button>
               </div>
             </form>

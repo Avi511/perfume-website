@@ -2,6 +2,7 @@ import Product from "../models/Product.js";
 import User from "../models/User.js";
 import Order from "../models/Order.js";
 import ContactDetails from "../models/ContactDetails.js";
+import Review from "../models/Review.js";
 import { registerUserService } from "../services/authService.js";
 import { transformProduct } from "../services/productService.js";
 
@@ -14,6 +15,7 @@ export const getDashboardStats = async (req, res) => {
         const totalOrders = await Order.countDocuments();
         const totalMessages = await ContactDetails.countDocuments();
         const unseenMessages = await ContactDetails.countDocuments({ status: "unseen" });
+        const totalReviews = await Review.countDocuments();
 
         const orders = await Order.find();
         const totalRevenue = orders.reduce((acc, order) => acc + order.totalAmount, 0);
@@ -28,7 +30,8 @@ export const getDashboardStats = async (req, res) => {
                 totalOrders,
                 totalRevenue,
                 totalMessages,
-                unseenMessages
+                unseenMessages,
+                totalReviews
             }
         });
     } catch (error) {

@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+
 import Card from '../components/common/Card';
 import Button from '../components/common/Button';
 import perfumeVideo from '../assets/video_01.mp4';
@@ -10,6 +12,40 @@ function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id.toLowerCase()]: value
+    }));
+  };
+
+  const handleContactSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name || !formData.email || !formData.message) {
+      toast.error("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await api.post('/contact', formData);
+      toast.success("Your message has been received. We will contact you shortly.");
+      setFormData({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error("Submission error:", err);
+      toast.error("Message delivery failed. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   useEffect(() => {
     const fetchFeaturedProducts = async () => {
@@ -161,22 +197,48 @@ function Home() {
             </div>
 
             {/* Contact Form */}
-            <form className="flex flex-col gap-8">
+            <form className="flex flex-col gap-8" onSubmit={handleContactSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-2 border-b border-gray-200 py-2 focus-within:border-amber-600 transition-colors">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Name</label>
-                  <input type="text" placeholder="YOUR NAME" className="bg-transparent border-none outline-none text-sm placeholder:text-gray-300 focus:ring-0" />
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleInputChange}
+                    placeholder="YOUR NAME"
+                    className="bg-transparent border-none outline-none text-sm placeholder:text-gray-300 focus:ring-0"
+                    required
+                  />
                 </div>
                 <div className="flex flex-col gap-2 border-b border-gray-200 py-2 focus-within:border-amber-600 transition-colors">
                   <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Email</label>
-                  <input type="email" placeholder="EMAIL ADDRESS" className="bg-transparent border-none outline-none text-sm placeholder:text-gray-300 focus:ring-0" />
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    placeholder="EMAIL ADDRESS"
+                    className="bg-transparent border-none outline-none text-sm placeholder:text-gray-300 focus:ring-0"
+                    required
+                  />
                 </div>
               </div>
               <div className="flex flex-col gap-2 border-b border-gray-200 py-2 focus-within:border-amber-600 transition-colors">
                 <label className="text-[10px] uppercase tracking-widest font-bold text-gray-400">Message</label>
-                <textarea placeholder="HOW CAN WE HELP?" rows="3" className="bg-transparent border-none outline-none text-sm placeholder:text-gray-300 focus:ring-0 resize-none"></textarea>
+                <textarea
+                  id="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  placeholder="HOW CAN WE HELP?"
+                  rows="3"
+                  className="bg-transparent border-none outline-none text-sm placeholder:text-gray-300 focus:ring-0 resize-none"
+                  required
+                ></textarea>
               </div>
-              <Button className="!bg-black !text-white !w-full md:!w-max !px-12 py-4">Send Message</Button>
+              <Button type="submit" disabled={isSubmitting} className="!bg-black !text-white !w-full md:!w-max !px-12 py-4">
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </Button>
             </form>
 
             {/* Direct Contact Info */}

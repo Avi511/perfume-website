@@ -16,4 +16,6 @@ export const getContactDetailByIdService = async (id) => {
 export const deleteContactDetailsService = async (id) => {
     return await ContactDetails.findByIdAndDelete(id);
 };
-
+export const updateContactStatusService = async (id, status) => {
+    return await ContactDetails.findByIdAndUpdate(id, { status }, { new: true });
+};

@@ -13,6 +13,8 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminProducts from "../pages/admin/AdminProducts";
 import AdminUsers from "../pages/admin/AdminUsers";
 import AdminOrders from "../pages/admin/AdminOrders";
+import AdminReviews from "../pages/admin/AdminReviews";
+import AdminContacts from "../pages/admin/AdminContacts";
 import AdminRoute from "../pages/admin/AdminRoute";
 import Profile from "../pages/Profile";
 import SellerRouter from "../pages/seller/SellerRouter";
@@ -74,6 +76,22 @@ function AppRoutes() {
         element={
           <AdminRoute>
             <AdminOrders />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/reviews"
+        element={
+          <AdminRoute>
+            <AdminReviews />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/contacts"
+        element={
+          <AdminRoute>
+            <AdminContacts />
           </AdminRoute>
         }
       />
