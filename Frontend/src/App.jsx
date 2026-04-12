@@ -14,13 +14,13 @@ function Layout() {
 
   return (
     <>
-      <Toaster 
+      <Toaster
         position="top-right"
         reverseOrder={false}
         gutter={12}
         toastOptions={{
           className: "liquid-glass-toast",
-          duration: 4000,
+          duration: 1500,
           success: {
             iconTheme: {
               primary: "rgba(0, 0, 0, 0.7)",
