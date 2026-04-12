@@ -21,6 +21,9 @@ router.post("/start", async (req, res) => {
 
         const merchant_id = process.env.PAYHERE_MERCHANT_ID?.trim();
         const merchant_secret = process.env.PAYHERE_MERCHANT_SECRET?.trim();
+        const frontend_url = process.env.FRONTEND_URL || "http://localhost:5173";
+        const backend_url = process.env.BACKEND_URL || "http://localhost:5000";
+        const isSandbox = process.env.PAYHERE_SANDBOX === "true";
 
         if (!merchant_id || !merchant_secret) {
             return res.status(500).json({ message: "PayHere configuration missing" });
@@ -50,11 +53,11 @@ router.post("/start", async (req, res) => {
             amount: amountFormatted,
             currency,
             payment: {
-                sandbox: true,
+                sandbox: isSandbox,
                 merchant_id,
-                return_url: "http://localhost:5173/payment-success",
-                cancel_url: "http://localhost:5173/payment-cancel",
-                notify_url: "http://localhost:5000/api/payhere/notify",
+                return_url: `${frontend_url}/payment-success`,
+                cancel_url: `${frontend_url}/payment-cancel`,
+                notify_url: `${backend_url}/api/payhere/notify`,
                 order_id,
                 items,
                 amount: amountFormatted,
