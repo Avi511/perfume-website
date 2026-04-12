@@ -121,7 +121,7 @@ export const CartProvider = ({ children }) => {
   };
 
   const cartTotal = cartItems.reduce((acc, item) => acc + (item.price || 0) * item.qty, 0);
-  const cartCount = cartItems.reduce((acc, item) => acc + (item.qty || 0), 0);
+  const cartCount = cartItems.length;
 
   return (
     <CartContext.Provider
