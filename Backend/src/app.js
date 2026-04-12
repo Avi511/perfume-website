@@ -11,6 +11,8 @@ import reviewRoutes from "./routes/reviewRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import payhereRoutes from "./routes/payhereRoutes.js";
+import contactDetailsRoutes from "./routes/contactDetailsRoutes.js";
+
 
 import { notFound, errorHandler } from "./middlewares/errorMiddleware.js";
 
@@ -38,6 +40,8 @@ app.use("/api/reviews", reviewRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/payhere", payhereRoutes);
+app.use("/api/contact", contactDetailsRoutes);
+
 
 const dirname = path.resolve();
 app.use("/src/uploads", express.static(path.join(dirname, "/src/uploads")));

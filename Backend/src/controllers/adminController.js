@@ -1,6 +1,7 @@
 import Product from "../models/Product.js";
 import User from "../models/User.js";
 import Order from "../models/Order.js";
+import ContactDetails from "../models/ContactDetails.js";
 import { registerUserService } from "../services/authService.js";
 import { transformProduct } from "../services/productService.js";
 
@@ -11,6 +12,8 @@ export const getDashboardStats = async (req, res) => {
         const totalSellers = await User.countDocuments({ isSeller: true });
         const pendingOrders = await Order.countDocuments({ status: "Pending" });
         const totalOrders = await Order.countDocuments();
+        const totalMessages = await ContactDetails.countDocuments();
+        const unseenMessages = await ContactDetails.countDocuments({ status: "unseen" });
 
         const orders = await Order.find();
         const totalRevenue = orders.reduce((acc, order) => acc + order.totalAmount, 0);
@@ -23,7 +26,9 @@ export const getDashboardStats = async (req, res) => {
                 totalSellers,
                 pendingOrders,
                 totalOrders,
-                totalRevenue
+                totalRevenue,
+                totalMessages,
+                unseenMessages
             }
         });
     } catch (error) {
@@ -91,14 +96,14 @@ export const updateUser = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await User.findById(id);
-        
+
         if (!user) {
             return res.status(404).json({ error: "Member not found in current manifest" });
         }
 
         Object.assign(user, req.body);
         user.updatedAt = Date.now();
-        
+
         await user.save();
         res.json({ message: "Signature updated successfully", user });
     } catch (error) {
@@ -110,7 +115,7 @@ export const deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
         const user = await User.findById(id);
-        
+
         if (!user) {
             return res.status(404).json({ error: "Member not found" });
         }
