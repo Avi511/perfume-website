@@ -24,8 +24,8 @@ const AdminContacts = () => {
             const { data } = await api.get("/contact");
             setContacts(data);
         } catch (error) {
-            console.error("Failed to fetch inquiries:", error);
-            toast.error("Archive resonance failure: Could not retrieve inquiries.");
+            console.error("Failed to fetch messages:", error);
+            toast.error("Failed to load messages.");
         } finally {
             setLoading(false);
         }
@@ -45,10 +45,10 @@ const AdminContacts = () => {
         if (!contactToDelete) return;
         try {
             await api.delete(`/contact/${contactToDelete}`);
-            toast.success("Inquiry deleted successfully");
+            toast.success("Message deleted successfully");
             setContacts(contacts.filter(c => c._id !== contactToDelete));
         } catch (error) {
-            toast.error("Inquiry deletion failure. Security override required.");
+            toast.error("Failed to delete message.");
         } finally {
             setIsDeleteModalOpen(false);
             setContactToDelete(null);
@@ -60,12 +60,9 @@ const AdminContacts = () => {
         try {
             await api.put(`/contact/${id}/status`, { status });
             setContacts(contacts.map(c => c._id === id ? { ...c, status } : c));
-            if (status === 'replied') {
-                toast.success("Inquiry marked as resolved");
-            }
         } catch (error) {
             console.error("Status update error:", error);
-            toast.error("Signal state update failed.");
+            toast.error("Failed to update status.");
         }
     };
 
@@ -90,10 +87,9 @@ const AdminContacts = () => {
                 <div>
                     <Link to="/admin/dashboard" className="flex items-center gap-2 text-zinc-500 hover:text-emerald-500 transition-colors mb-6 group w-fit">
                         <ChevronLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Return to Console</span>
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Back to Dashboard</span>
                     </Link>
-                    <h2 className="text-emerald-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2">Archive Records</h2>
-                    <h1 className="text-4xl md:text-5xl font-serif">Inquiry Nexus</h1>
+                    <h2 className="text-emerald-500 font-bold uppercase tracking-[0.4em] text-[10px] mb-2">Messages</h2>
                 </div>
 
                 <div className="flex items-center gap-4">
@@ -101,7 +97,7 @@ const AdminContacts = () => {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-800 group-focus-within:text-emerald-500 transition-colors" />
                         <input
                             type="text"
-                            placeholder="Filter archive..."
+                            placeholder="Search messages..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                             className="w-full bg-zinc-950 border border-zinc-900 rounded-2xl pl-12 pr-4 py-3 text-sm focus:border-emerald-500/50 outline-none transition-all placeholder:text-zinc-800 font-light"
@@ -110,7 +106,7 @@ const AdminContacts = () => {
                     <button
                         onClick={fetchContacts}
                         className="p-3 bg-zinc-950 border border-zinc-900 rounded-2xl hover:bg-zinc-900 transition-all text-zinc-600 hover:text-white"
-                        title="Refresh Archive"
+                        title="Refresh"
                     >
                         <RefreshCw size={18} className={loading ? "animate-spin" : ""} />
                     </button>
@@ -167,7 +163,7 @@ const AdminContacts = () => {
                                                 <button
                                                     onClick={(e) => handleDelete(contact._id, e)}
                                                     className="p-3 text-zinc-700 hover:text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
-                                                    title="Delete Inquiry"
+                                                    title="Delete"
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>
@@ -186,8 +182,8 @@ const AdminContacts = () => {
                                             >
                                                 <div className="p-12 bg-black/20">
                                                     <div className="max-w-3xl">
-                                                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500 mb-6 block">Transmission Content</span>
-                                                        <p className="text-lg text-zinc-300 font-light leading-relaxed mb-12 italic">
+                                                        <span className="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-500 mb-6 block">Message content</span>
+                                                        <p className="text-lg text-zinc-300 font-light leading-relaxed mb-1 italic">
                                                             "{contact.message}"
                                                         </p>
                                                     </div>
@@ -202,7 +198,7 @@ const AdminContacts = () => {
                 ) : (
                     <div className="text-center py-32 bg-zinc-950/50 rounded-[48px] border border-dashed border-zinc-900">
                         <AlertCircle className="w-12 h-12 text-zinc-800 mx-auto mb-4" />
-                        <h3 className="text-xl font-serif text-zinc-500">No transmissions in archive</h3>
+                        <h3 className="text-xl font-serif text-zinc-500">No messages found</h3>
                     </div>
                 )}
             </div>
@@ -211,10 +207,10 @@ const AdminContacts = () => {
                 isOpen={isDeleteModalOpen}
                 onClose={() => setIsDeleteModalOpen(false)}
                 onConfirm={confirmDelete}
-                title="Delete Inquiry"
-                message="Are you sure you want to permanently remove this inquiry from the archive? This action cannot be undone."
-                confirmText="Delete Inquiry"
-                cancelText="Keep Record"
+                title="Delete Message"
+                message="Are you sure you want to delete this message? This cannot be undone."
+                confirmText="Delete"
+                cancelText="Cancel"
             />
         </div>
     );
