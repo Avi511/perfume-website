@@ -8,7 +8,6 @@
 ### 💎 Premium User Experience
 - **Cinematic Design**: A high-end "dark mode" aesthetic with elegant typography and black gradients.
 - **Fluid Animations**: Smooth transitions and micro-interactions powered by Framer Motion.
-- **Responsive Layout**: Optimized for all devices, from desktop to mobile.
 
 ### 🛍️ Shopping & Discovery
 - **Dynamic Catalog**: Browse a wide collection of perfumes with real-time filtering and sorting.
