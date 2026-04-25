@@ -53,11 +53,11 @@ export const forgotPassword = async (req, res) => {
         await forgotPasswordService(email);
         res.status(200).json({ message: 'Email sent' });
     } catch (error) {
-        console.error("Forgot Password Error:", error);
+        console.error("Forgot Password Error details:", error);
         if (error.message === 'There is no user with that email') {
             return res.status(404).json({ error: error.message });
         }
-        res.status(500).json({ error: "Email could not be sent. Please try again later." });
+        res.status(500).json({ error: "Email could not be sent. Please check your SMTP settings." });
     }
 };
 
