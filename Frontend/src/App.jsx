@@ -10,7 +10,7 @@ import { CartProvider } from "./context/CartContext";
 
 function Layout() {
   const location = useLocation();
-  const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
+  const isAuthPage = location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/forgot-password" || location.pathname.startsWith("/reset-password/");
 
   return (
     <>

@@ -1,4 +1,4 @@
-import { registerUserService, loginUserService } from "../services/authService.js";
+import { registerUserService, loginUserService, forgotPasswordService, resetPasswordService } from "../services/authService.js";
 import { validateEmail } from "../utils/validators.js";
 
 export const registerUser = async (req, res) => {
@@ -45,4 +45,26 @@ export const loginUser = async (req, res) => {
 
 export const logoutUser = async (req, res) => {
     res.json({ message: "User logged out successfully. Please discard the token on client side." });
+};
+
+export const forgotPassword = async (req, res) => {
+    try {
+        const { email } = req.body;
+        await forgotPasswordService(email);
+        res.status(200).json({ message: 'Email sent' });
+    } catch (error) {
+        console.error("Forgot Password Error:", error);
+        res.status(404).json({ error: error.message });
+    }
+};
+
+export const resetPassword = async (req, res) => {
+    try {
+        const { password } = req.body;
+        const userData = await resetPasswordService(req.params.token, password);
+        res.status(200).json(userData);
+    } catch (error) {
+        console.error("Reset Password Error:", error);
+        res.status(400).json({ error: error.message });
+    }
 };
