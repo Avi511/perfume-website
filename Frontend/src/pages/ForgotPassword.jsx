@@ -26,7 +26,7 @@ function ForgotPassword() {
       toast.success("Reset link sent to your email.");
       setSubmitted(true);
     } catch (error) {
-      const message = error.response?.data?.message || "Something went wrong. Please try again.";
+      const message = error.response?.data?.error || error.response?.data?.message || "Something went wrong. Please try again.";
       toast.error(message);
     } finally {
       setLoading(false);
