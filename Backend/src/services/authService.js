@@ -74,16 +74,13 @@ export const forgotPasswordService = async (email) => {
         throw new Error('There is no user with that email');
     }
 
-    const resetToken = crypto.randomBytes(20).toString('hex');
+    const resetToken = Math.floor(100000 + Math.random() * 900000).toString();
     user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
     user.resetPasswordExpires = Date.now() + 10 * 60 * 1000; // 10 minutes
 
     await user.save();
 
-    const frontendUrl = process.env.FRONTEND_URL.replace(/\/$/, "");
-    const resetUrl = `${frontendUrl}/reset-password/${resetToken}`;
-
-    const message = `You are receiving this email because you (or someone else) have requested the reset of a password. Please make a PUT request to: \n\n ${resetUrl}`;
+    const message = `Your password reset code is: ${resetToken}\n\nThis code will expire in 10 minutes.`;
 
     try {
         await sendEmail({
