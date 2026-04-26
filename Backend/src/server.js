@@ -4,7 +4,7 @@ import connectDB from "./config/db.js";
 
 dotenv.config();
 
-connectDB();
+connectDB().catch(err => console.error("Failed to connect to database on startup:", err.message));
 
 const PORT = process.env.PORT || 5000;
 

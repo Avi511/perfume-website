@@ -9,7 +9,7 @@ export const registerUser = async (req, res) => {
         if (!req.body.password) {
             return res.status(400).json({ error: "Please provide a password" });
         }
-        
+
         const userData = await registerUserService(req.body);
         if (userData) {
             res.status(201).json(userData);
@@ -57,7 +57,7 @@ export const forgotPassword = async (req, res) => {
         if (error.message === 'There is no user with that email') {
             return res.status(404).json({ error: error.message });
         }
-        res.status(500).json({ error: "Email could not be sent. Please check your SMTP settings." });
+        res.status(500).json({ error: "Email could not be sent." });
     }
 };
 
