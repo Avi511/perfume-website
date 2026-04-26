@@ -1,5 +1,6 @@
 import { registerUserService, loginUserService, forgotPasswordService, resetPasswordService } from "../services/authService.js";
 import { validateEmail } from "../utils/validators.js";
+import sendEmail from "../utils/sendEmail.js";
 
 export const registerUser = async (req, res) => {
     try {
@@ -69,5 +70,19 @@ export const resetPassword = async (req, res) => {
     } catch (error) {
         console.error("Reset Password Error:", error);
         res.status(400).json({ error: error.message });
+    }
+};
+
+export const testEmail = async (req, res) => {
+    try {
+        await sendEmail({
+            email: process.env.EMAIL_USER,
+            subject: 'Vercel Deployment Test',
+            message: 'If you are receiving this, your Vercel email configuration is working perfectly!',
+        });
+        res.status(200).json({ message: "Test email sent successfully! Check your inbox." });
+    } catch (error) {
+        console.error("Test Email Error:", error);
+        res.status(500).json({ error: "Failed to send email. Error details: " + error.message });
     }
 };
