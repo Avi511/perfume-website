@@ -6,8 +6,13 @@ let isConnected = false;
 
 const handler = async (req, res) => {
   if (!isConnected) {
-    await connectDB();
-    isConnected = true;
+    try {
+      await connectDB();
+      isConnected = true;
+    } catch (dbError) {
+      console.error("Vercel DB Connection Error:", dbError);
+      return res.status(500).json({ error: "Database connection failed on Vercel. Please check MONGO_URI environment variable." });
+    }
   }
   return app(req, res);
 };
